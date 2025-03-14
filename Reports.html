@@ -534,4 +534,272 @@
         afterData.push(weekData.totalAfter / weekData.count);
       });
       
-      const ctx = document.getElementById('distress-reduction-chart').get
+      const ctx = document.getElementById('distress-reduction-chart').getContext('2d');
+      
+      distressReductionChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: sortedWeeks.map(week => formatShortDate(new Date(week))),
+          datasets: [
+            {
+              label: 'Average Distress Before',
+              data: beforeData,
+              borderColor: '#ff4d4f',
+              backgroundColor: 'rgba(255, 77, 79, 0.1)',
+              fill: true
+            },
+            {
+              label: 'Average Distress After',
+              data: afterData,
+              borderColor: '#52c41a',
+              backgroundColor: 'rgba(82, 196, 26, 0.1)',
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              min: 0,
+              max: 100,
+              title: {
+                display: true,
+                text: 'Distress Level (0-100)'
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    function createFrequencyChart(logs) {
+      // Count practice frequency by day of week
+      const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayCounts = [0, 0, 0, 0, 0, 0, 0];
+      
+      logs.forEach(log => {
+        const dayOfWeek = log.timestamp.getDay();
+        dayCounts[dayOfWeek]++;
+      });
+      
+      const ctx = document.getElementById('frequency-chart').getContext('2d');
+      
+      frequencyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: daysOfWeek,
+          datasets: [{
+            label: 'Number of Practices',
+            data: dayCounts,
+            backgroundColor: '#722ed1'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                precision: 0
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    function createCrisisSurvivalCharts(logs) {
+      // Usage chart for crisis survival skills
+      const skillCounts = {};
+      logs.forEach(log => {
+        skillCounts[log.skillName] = (skillCounts[log.skillName] || 0) + 1;
+      });
+      
+      const ctx1 = document.getElementById('crisis-survival-usage-chart').getContext('2d');
+      crisisSurvivalUsageChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(skillCounts),
+          datasets: [{
+            data: Object.values(skillCounts),
+            backgroundColor: [
+              '#1890ff', '#13c2c2', '#fa8c16', '#eb2f96', '#faad14', '#a0d911'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+      
+      // Effectiveness chart for crisis survival skills
+      const skillEffectiveness = {};
+      const skillCount = {};
+      
+      logs.forEach(log => {
+        if (!skillEffectiveness[log.skillName]) {
+          skillEffectiveness[log.skillName] = 0;
+          skillCount[log.skillName] = 0;
+        }
+        skillEffectiveness[log.skillName] += log.effectiveness;
+        skillCount[log.skillName]++;
+      });
+      
+      const avgEffectiveness = [];
+      for (const skill in skillEffectiveness) {
+        avgEffectiveness.push({
+          skill: skill,
+          effectiveness: skillEffectiveness[skill] / skillCount[skill]
+        });
+      }
+      
+      // Sort by effectiveness
+      avgEffectiveness.sort((a, b) => b.effectiveness - a.effectiveness);
+      
+      const ctx2 = document.getElementById('crisis-survival-effectiveness-chart').getContext('2d');
+      crisisSurvivalEffectivenessChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: avgEffectiveness.map(item => item.skill),
+          datasets: [{
+            label: 'Average Effectiveness (1-5)',
+            data: avgEffectiveness.map(item => item.effectiveness.toFixed(1)),
+            backgroundColor: '#1890ff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 5
+            }
+          }
+        }
+      });
+    }
+    
+    function createRealityAcceptanceCharts(logs) {
+      // Usage chart for reality acceptance skills
+      const skillCounts = {};
+      logs.forEach(log => {
+        skillCounts[log.skillName] = (skillCounts[log.skillName] || 0) + 1;
+      });
+      
+      const ctx1 = document.getElementById('reality-acceptance-usage-chart').getContext('2d');
+      realityAcceptanceUsageChart = new Chart(ctx1, {
+        type: 'pie',
+        data: {
+          labels: Object.keys(skillCounts),
+          datasets: [{
+            data: Object.values(skillCounts),
+            backgroundColor: [
+              '#52c41a', '#2f54eb', '#fa8c16', '#722ed1', '#f5222d'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+      
+      // Effectiveness chart for reality acceptance skills
+      const skillEffectiveness = {};
+      const skillCount = {};
+      
+      logs.forEach(log => {
+        if (!skillEffectiveness[log.skillName]) {
+          skillEffectiveness[log.skillName] = 0;
+          skillCount[log.skillName] = 0;
+        }
+        skillEffectiveness[log.skillName] += log.effectiveness;
+        skillCount[log.skillName]++;
+      });
+      
+      const avgEffectiveness = [];
+      for (const skill in skillEffectiveness) {
+        avgEffectiveness.push({
+          skill: skill,
+          effectiveness: skillEffectiveness[skill] / skillCount[skill]
+        });
+      }
+      
+      // Sort by effectiveness
+      avgEffectiveness.sort((a, b) => b.effectiveness - a.effectiveness);
+      
+      const ctx2 = document.getElementById('reality-acceptance-effectiveness-chart').getContext('2d');
+      realityAcceptanceEffectivenessChart = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: avgEffectiveness.map(item => item.skill),
+          datasets: [{
+            label: 'Average Effectiveness (1-5)',
+            data: avgEffectiveness.map(item => item.effectiveness.toFixed(1)),
+            backgroundColor: '#52c41a'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          indexAxis: 'y',
+          scales: {
+            x: {
+              beginAtZero: true,
+              max: 5
+            }
+          }
+        }
+      });
+    }
+    
+    function handleError(error) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('reports-content').innerHTML = `
+        <div class="alert alert-danger">
+          Error loading data: ${error.toString()}
+        </div>
+        <div class="text-center mt-4">
+          <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to Dashboard</button>
+        </div>
+      `;
+    }
+    
+    function exportToCSV() {
+      google.script.run
+        .withSuccessHandler(function(url) {
+          const link = document.createElement('a');
+          link.href = url;
+          link.target = '_blank';
+          link.click();
+        })
+        .withFailureHandler(function(error) {
+          alert('Error exporting data: ' + error.toString());
+        })
+        .exportLogsToCSV();
+    }
+    
+    // Helper functions
+    function formatDate(date) {
+      return new Date(date).toLocaleString();
+    }
+    
+    function formatShortDate(date) {
+      return `${date.getMonth() + 1}/${date.getDate()}`;
+    }
+    
+    function getWeekStart(date) {
+      const d = new Date(date);
+      const day = d.getDay();
+      const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Sunday
+      return new Date(d.setDate(diff));
+    }
+  </script>
+</body>
+</html>

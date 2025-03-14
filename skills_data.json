@@ -1,0 +1,274 @@
+{
+  "logs": [
+    {
+      "timestamp": "2025-02-12T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Mindfulness of Thoughts",
+      "distress_before": 67,
+      "distress_after": 29,
+      "effectiveness": 1,
+      "notes": "Sample data entry 1"
+    },
+    {
+      "timestamp": "2025-02-13T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "ACCEPTS",
+      "distress_before": 65,
+      "distress_after": 22,
+      "effectiveness": 2,
+      "notes": "Sample data entry 2"
+    },
+    {
+      "timestamp": "2025-02-14T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Half-Smiling",
+      "distress_before": 62,
+      "distress_after": 39,
+      "effectiveness": 1,
+      "notes": "Sample data entry 3"
+    },
+    {
+      "timestamp": "2025-02-15T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Willingness",
+      "distress_before": 83,
+      "distress_after": 66,
+      "effectiveness": 4,
+      "notes": "Sample data entry 4"
+    },
+    {
+      "timestamp": "2025-02-16T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Turning the Mind",
+      "distress_before": 55,
+      "distress_after": 38,
+      "effectiveness": 1,
+      "notes": "Sample data entry 5"
+    },
+    {
+      "timestamp": "2025-02-17T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Willingness",
+      "distress_before": 83,
+      "distress_after": 24,
+      "effectiveness": 3,
+      "notes": "Sample data entry 6"
+    },
+    {
+      "timestamp": "2025-02-18T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Mindfulness of Thoughts",
+      "distress_before": 86,
+      "distress_after": 50,
+      "effectiveness": 4,
+      "notes": "Sample data entry 7"
+    },
+    {
+      "timestamp": "2025-02-19T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "TIP",
+      "distress_before": 66,
+      "distress_after": 52,
+      "effectiveness": 1,
+      "notes": "Sample data entry 8"
+    },
+    {
+      "timestamp": "2025-02-20T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "ACCEPTS",
+      "distress_before": 88,
+      "distress_after": 75,
+      "effectiveness": 3,
+      "notes": "Sample data entry 9"
+    },
+    {
+      "timestamp": "2025-02-21T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "IMPROVE",
+      "distress_before": 63,
+      "distress_after": 44,
+      "effectiveness": 1,
+      "notes": "Sample data entry 10"
+    },
+    {
+      "timestamp": "2025-02-22T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Mindfulness of Thoughts",
+      "distress_before": 79,
+      "distress_after": 26,
+      "effectiveness": 5,
+      "notes": "Sample data entry 11"
+    },
+    {
+      "timestamp": "2025-02-23T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Mindfulness of Thoughts",
+      "distress_before": 79,
+      "distress_after": 27,
+      "effectiveness": 5,
+      "notes": "Sample data entry 12"
+    },
+    {
+      "timestamp": "2025-02-24T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "Pros and Cons",
+      "distress_before": 60,
+      "distress_after": 20,
+      "effectiveness": 1,
+      "notes": "Sample data entry 13"
+    },
+    {
+      "timestamp": "2025-02-25T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Willingness",
+      "distress_before": 78,
+      "distress_after": 23,
+      "effectiveness": 3,
+      "notes": "Sample data entry 14"
+    },
+    {
+      "timestamp": "2025-02-26T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Mindfulness of Thoughts",
+      "distress_before": 53,
+      "distress_after": 40,
+      "effectiveness": 4,
+      "notes": "Sample data entry 15"
+    },
+    {
+      "timestamp": "2025-02-27T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "Pros and Cons",
+      "distress_before": 64,
+      "distress_after": 32,
+      "effectiveness": 1,
+      "notes": "Sample data entry 16"
+    },
+    {
+      "timestamp": "2025-02-28T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Radical Acceptance",
+      "distress_before": 84,
+      "distress_after": 30,
+      "effectiveness": 5,
+      "notes": "Sample data entry 17"
+    },
+    {
+      "timestamp": "2025-03-01T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Radical Acceptance",
+      "distress_before": 62,
+      "distress_after": 49,
+      "effectiveness": 5,
+      "notes": "Sample data entry 18"
+    },
+    {
+      "timestamp": "2025-03-02T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Willingness",
+      "distress_before": 90,
+      "distress_after": 65,
+      "effectiveness": 4,
+      "notes": "Sample data entry 19"
+    },
+    {
+      "timestamp": "2025-03-03T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "TIP",
+      "distress_before": 90,
+      "distress_after": 61,
+      "effectiveness": 4,
+      "notes": "Sample data entry 20"
+    },
+    {
+      "timestamp": "2025-03-04T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "IMPROVE",
+      "distress_before": 67,
+      "distress_after": 27,
+      "effectiveness": 1,
+      "notes": "Sample data entry 21"
+    },
+    {
+      "timestamp": "2025-03-05T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Willingness",
+      "distress_before": 88,
+      "distress_after": 37,
+      "effectiveness": 1,
+      "notes": "Sample data entry 22"
+    },
+    {
+      "timestamp": "2025-03-06T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "IMPROVE",
+      "distress_before": 57,
+      "distress_after": 47,
+      "effectiveness": 2,
+      "notes": "Sample data entry 23"
+    },
+    {
+      "timestamp": "2025-03-07T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Willingness",
+      "distress_before": 60,
+      "distress_after": 45,
+      "effectiveness": 3,
+      "notes": "Sample data entry 24"
+    },
+    {
+      "timestamp": "2025-03-08T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "Self-Soothe",
+      "distress_before": 50,
+      "distress_after": 29,
+      "effectiveness": 3,
+      "notes": "Sample data entry 25"
+    },
+    {
+      "timestamp": "2025-03-09T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "STOP",
+      "distress_before": 81,
+      "distress_after": 70,
+      "effectiveness": 2,
+      "notes": "Sample data entry 26"
+    },
+    {
+      "timestamp": "2025-03-10T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "ACCEPTS",
+      "distress_before": 85,
+      "distress_after": 40,
+      "effectiveness": 4,
+      "notes": "Sample data entry 27"
+    },
+    {
+      "timestamp": "2025-03-11T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Radical Acceptance",
+      "distress_before": 52,
+      "distress_after": 23,
+      "effectiveness": 1,
+      "notes": "Sample data entry 28"
+    },
+    {
+      "timestamp": "2025-03-12T00:24:13.437125",
+      "skill_type": "Reality Acceptance",
+      "skill_name": "Mindfulness of Thoughts",
+      "distress_before": 51,
+      "distress_after": 24,
+      "effectiveness": 2,
+      "notes": "Sample data entry 29"
+    },
+    {
+      "timestamp": "2025-03-13T00:24:13.437125",
+      "skill_type": "Crisis Survival",
+      "skill_name": "TIP",
+      "distress_before": 57,
+      "distress_after": 43,
+      "effectiveness": 5,
+      "notes": "Sample data entry 30"
+    }
+  ]
+}

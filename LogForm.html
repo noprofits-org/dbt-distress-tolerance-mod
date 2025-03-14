@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <base target="_top">
   <meta charset="utf-8">
@@ -12,18 +13,22 @@
       font-family: Arial, sans-serif;
       padding: 20px;
     }
+
     .form-label {
       font-weight: 500;
     }
+
     .btn-submit {
       margin-top: 20px;
     }
+
     .rating-container {
       display: flex;
       justify-content: space-between;
       max-width: 300px;
       margin: 10px 0;
     }
+
     .rating-btn {
       width: 40px;
       height: 40px;
@@ -34,11 +39,13 @@
       cursor: pointer;
       border: 2px solid #ccc;
     }
+
     .rating-btn.selected {
       background-color: #007bff;
       color: white;
       border-color: #007bff;
     }
+
     .skill-details {
       margin-top: 15px;
       padding: 15px;
@@ -48,10 +55,11 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h2 class="mb-4">Log Skills Practice</h2>
-    
+
     <form id="skills-log-form">
       <div class="mb-3">
         <label for="skill-type" class="form-label">Skill Type</label>
@@ -61,14 +69,14 @@
           <option value="Reality Acceptance">Reality Acceptance Skills</option>
         </select>
       </div>
-      
+
       <div class="mb-3">
         <label for="skill-name" class="form-label">Skill Name</label>
         <select class="form-select" id="skill-name" required onchange="showSkillDetails()">
           <option value="" selected disabled>Select skill type first</option>
         </select>
       </div>
-      
+
       <div id="stop-details" class="skill-details">
         <h5>STOP Skill</h5>
         <p><strong>S</strong>top - Do not react. Freeze!</p>
@@ -76,7 +84,7 @@
         <p><strong>O</strong>bserve - Notice what's going on inside and outside.</p>
         <p><strong>P</strong>roceed mindfully - Act with awareness.</p>
       </div>
-      
+
       <div id="tip-details" class="skill-details">
         <h5>TIP Skills</h5>
         <p><strong>T</strong>emperature - Cold water on your face to calm down fast.</p>
@@ -84,13 +92,13 @@
         <p><strong>P</strong>aced breathing - Slow your breath to 5-6 breaths per minute.</p>
         <p><strong>P</strong>aired muscle relaxation - Tense and relax muscles with breathing.</p>
       </div>
-      
+
       <div id="pros-cons-details" class="skill-details">
         <h5>Pros and Cons</h5>
         <p>Evaluate pros and cons of acting on crisis urges versus resisting them.</p>
         <p>Remember both short-term and long-term consequences.</p>
       </div>
-      
+
       <div id="accepts-details" class="skill-details">
         <h5>Distract with ACCEPTS</h5>
         <p><strong>A</strong>ctivities - Focus attention on a task or hobby.</p>
@@ -101,7 +109,7 @@
         <p><strong>T</strong>houghts - Think about something else.</p>
         <p><strong>S</strong>ensations - Intense sensations like holding ice.</p>
       </div>
-      
+
       <div id="self-soothe-details" class="skill-details">
         <h5>Self-Soothe with Five Senses</h5>
         <p><strong>Vision</strong> - Look at something beautiful or pleasing.</p>
@@ -110,7 +118,7 @@
         <p><strong>Taste</strong> - Eat something mindfully and enjoy the taste.</p>
         <p><strong>Touch</strong> - Wear comfortable clothes, take a warm bath.</p>
       </div>
-      
+
       <div id="improve-details" class="skill-details">
         <h5>IMPROVE the Moment</h5>
         <p><strong>I</strong>magery - Imagine relaxing scenes or successful coping.</p>
@@ -121,38 +129,38 @@
         <p><strong>V</strong>acation - Give yourself a brief break from responsibilities.</p>
         <p><strong>E</strong>ncouragement - Cheer yourself on with supportive statements.</p>
       </div>
-      
+
       <div id="radical-acceptance-details" class="skill-details">
         <h5>Radical Acceptance</h5>
         <p>Complete and total acceptance of reality as it is, not as you want it to be.</p>
         <p>Accepting with your mind, heart, and body that you cannot change what has already occurred.</p>
       </div>
-      
+
       <div id="turning-mind-details" class="skill-details">
         <h5>Turning the Mind</h5>
         <p>Consciously choosing to accept reality over and over again when your mind drifts to rejection.</p>
         <p>Like being at a fork in the road - choosing acceptance rather than rejection each time.</p>
       </div>
-      
+
       <div id="willingness-details" class="skill-details">
         <h5>Willingness</h5>
         <p>Doing what's needed in each situation.</p>
         <p>Participating fully in life with awareness and without stubborn refusal.</p>
         <p>The opposite of willfulness (refusing to tolerate reality, refusing to make changes).</p>
       </div>
-      
+
       <div id="half-smiling-details" class="skill-details">
         <h5>Half-Smiling and Willing Hands</h5>
         <p>Accepting reality with your body by slightly turning up the corners of your mouth.</p>
         <p>Relaxing your hands with palms up or turned outward in an accepting position.</p>
       </div>
-      
+
       <div id="mindfulness-thoughts-details" class="skill-details">
         <h5>Mindfulness of Current Thoughts</h5>
         <p>Observe thoughts coming and going without judging, analyzing, or trying to change them.</p>
         <p>Remember: You are not your thoughts. Thoughts are mental events, not facts.</p>
       </div>
-      
+
       <div class="mb-3">
         <label class="form-label">Distress Level Before Practice (0-100)</label>
         <input type="range" class="form-range" min="0" max="100" step="5" id="distress-before" required>
@@ -165,7 +173,7 @@
           <span id="distress-before-value">50</span>
         </div>
       </div>
-      
+
       <div class="mb-3">
         <label class="form-label">Distress Level After Practice (0-100)</label>
         <input type="range" class="form-range" min="0" max="100" step="5" id="distress-after" required>
@@ -178,9 +186,223 @@
           <span id="distress-after-value">50</span>
         </div>
       </div>
-      
       <div class="mb-3">
         <label class="form-label">Effectiveness of the Skill (1-5)</label>
         <div class="rating-container">
           <div class="rating-btn" data-rating="1" onclick="selectRating(1)">1</div>
-          <div class="rating-btn" data-rating="2" onclick="selectRating(2)
+          <div class="rating-btn" data-rating="2" onclick="selectRating(2)">2</div>
+          <div class="rating-btn" data-rating="3" onclick="selectRating(3)">3</div>
+          <div class="rating-btn" data-rating="4" onclick="selectRating(4)">4</div>
+          <div class="rating-btn" data-rating="5" onclick="selectRating(5)">5</div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <span>Not effective</span>
+          <span>Very effective</span>
+        </div>
+        <input type="hidden" id="effectiveness" name="effectiveness" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="notes" class="form-label">Notes (What happened? What worked?)</label>
+        <textarea class="form-control" id="notes" rows="3"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-submit">Save Skills Log</button>
+      <button type="button" class="btn btn-secondary ms-2" onclick="google.script.run.openDashboard()">Cancel</button>
+    </form>
+
+    <div class="alert alert-success mt-3" id="success-message" style="display: none;">
+      Skills practice logged successfully!
+    </div>
+
+    <div class="alert alert-danger mt-3" id="error-message" style="display: none;">
+      Error saving skills log. Please try again.
+    </div>
+  </div>
+
+  <!-- Add Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    let selectedRating = 0;
+    
+    // Initialize form
+    document.addEventListener('DOMContentLoaded', function() {
+      // Set up range slider value displays
+      const distressBeforeSlider = document.getElementById('distress-before');
+      const distressAfterSlider = document.getElementById('distress-after');
+      
+      distressBeforeSlider.addEventListener('input', function() {
+        document.getElementById('distress-before-value').textContent = this.value;
+      });
+      
+      distressAfterSlider.addEventListener('input', function() {
+        document.getElementById('distress-after-value').textContent = this.value;
+      });
+      
+      // Set up form submission
+      document.getElementById('skills-log-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (validateForm()) {
+          saveSkillLog();
+        }
+      });
+    });
+    
+    function updateSkillOptions() {
+      const skillType = document.getElementById('skill-type').value;
+      const skillNameSelect = document.getElementById('skill-name');
+      
+      console.log("Updating skill options for type:", skillType);
+      
+      // Clear existing options
+      skillNameSelect.innerHTML = '<option value="" selected disabled>Select a skill</option>';
+      
+      // Hide all skill details
+      hideAllSkillDetails();
+      
+      // Populate based on skill type
+      if (skillType === 'Crisis Survival') {
+        addOption(skillNameSelect, 'STOP', 'STOP Skill');
+        addOption(skillNameSelect, 'TIP', 'TIP Skills');
+        addOption(skillNameSelect, 'Pros and Cons', 'Pros and Cons');
+        addOption(skillNameSelect, 'ACCEPTS', 'Distract with ACCEPTS');
+        addOption(skillNameSelect, 'Self-Soothe', 'Self-Soothe');
+        addOption(skillNameSelect, 'IMPROVE', 'IMPROVE the Moment');
+      } else if (skillType === 'Reality Acceptance') {
+        addOption(skillNameSelect, 'Radical Acceptance', 'Radical Acceptance');
+        addOption(skillNameSelect, 'Turning the Mind', 'Turning the Mind');
+        addOption(skillNameSelect, 'Willingness', 'Willingness');
+        addOption(skillNameSelect, 'Half-Smiling', 'Half-Smiling and Willing Hands');
+        addOption(skillNameSelect, 'Mindfulness of Thoughts', 'Mindfulness of Current Thoughts');
+      }
+    }
+    
+    function addOption(selectElement, value, text) {
+      const option = document.createElement('option');
+      option.value = value;
+      option.textContent = text;
+      selectElement.appendChild(option);
+    }
+    
+    function showSkillDetails() {
+      const skillName = document.getElementById('skill-name').value;
+      
+      // Hide all skill details first
+      hideAllSkillDetails();
+      
+      // Show the selected skill details
+      if (skillName === 'STOP') {
+        document.getElementById('stop-details').style.display = 'block';
+      } else if (skillName === 'TIP') {
+        document.getElementById('tip-details').style.display = 'block';
+      } else if (skillName === 'Pros and Cons') {
+        document.getElementById('pros-cons-details').style.display = 'block';
+      } else if (skillName === 'ACCEPTS') {
+        document.getElementById('accepts-details').style.display = 'block';
+      } else if (skillName === 'Self-Soothe') {
+        document.getElementById('self-soothe-details').style.display = 'block';
+      } else if (skillName === 'IMPROVE') {
+        document.getElementById('improve-details').style.display = 'block';
+      } else if (skillName === 'Radical Acceptance') {
+        document.getElementById('radical-acceptance-details').style.display = 'block';
+      } else if (skillName === 'Turning the Mind') {
+        document.getElementById('turning-mind-details').style.display = 'block';
+      } else if (skillName === 'Willingness') {
+        document.getElementById('willingness-details').style.display = 'block';
+      } else if (skillName === 'Half-Smiling') {
+        document.getElementById('half-smiling-details').style.display = 'block';
+      } else if (skillName === 'Mindfulness of Thoughts') {
+        document.getElementById('mindfulness-thoughts-details').style.display = 'block';
+      }
+    }
+    
+    function hideAllSkillDetails() {
+      const detailsDivs = document.querySelectorAll('.skill-details');
+      detailsDivs.forEach(div => {
+        div.style.display = 'none';
+      });
+    }
+    
+    function selectRating(rating) {
+      selectedRating = rating;
+      document.getElementById('effectiveness').value = rating;
+      
+      // Update UI to show selected rating
+      const ratingButtons = document.querySelectorAll('.rating-btn');
+      ratingButtons.forEach(btn => {
+        if (parseInt(btn.dataset.rating) === rating) {
+          btn.classList.add('selected');
+        } else {
+          btn.classList.remove('selected');
+        }
+      });
+    }
+    
+    function validateForm() {
+      const skillType = document.getElementById('skill-type').value;
+      const skillName = document.getElementById('skill-name').value;
+      const effectiveness = document.getElementById('effectiveness').value;
+      
+      if (!skillType || !skillName) {
+        alert('Please select both skill type and skill name.');
+        return false;
+      }
+      
+      if (!effectiveness) {
+        alert('Please rate the effectiveness of the skill.');
+        return false;
+      }
+      
+      return true;
+    }
+    
+    function saveSkillLog() {
+      const logData = {
+        skillType: document.getElementById('skill-type').value,
+        skillName: document.getElementById('skill-name').value,
+        distressBefore: document.getElementById('distress-before').value,
+        distressAfter: document.getElementById('distress-after').value,
+        effectiveness: selectedRating,
+        notes: document.getElementById('notes').value
+      };
+      
+      // Disable form while saving
+      const submitButton = document.querySelector('.btn-submit');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Saving...';
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Save Skills Log';
+          
+          if (result.success) {
+            document.getElementById('success-message').style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+            
+            // Reset form after successful submission
+            setTimeout(function() {
+              google.script.run.openDashboard();
+            }, 1500);
+          } else {
+            document.getElementById('error-message').textContent = result.message;
+            document.getElementById('error-message').style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+          }
+        })
+        .withFailureHandler(function(error) {
+          submitButton.disabled = false;
+          submitButton.textContent = 'Save Skills Log';
+          
+          document.getElementById('error-message').textContent = 'Error: ' + error.toString();
+          document.getElementById('error-message').style.display = 'block';
+          document.getElementById('success-message').style.display = 'none';
+        })
+        .saveSkillLog(logData);
+    }
+  </script>
+</body>
+
+</html>
