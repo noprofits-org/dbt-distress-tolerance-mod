@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skills Practice Reports</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .card-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+    .chart-container {
+      position: relative;
+      margin: auto;
+      height: 300px;
+      width: 100%;
+    }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 2s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .tab-content {
+      padding: 20px 0;
+    }
+    .nav-tabs .nav-link {
+      font-weight: 500;
+    }
+    .nav-tabs .nav-link.active {
+      background-color: #f8f9fa;
+      border-bottom-color: #f8f9fa;
+    }
+    .table-responsive {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4">Skills Practice Reports</h2>
+    
+    <div class="row" id="loading">
+      <div class="col-12 text-center">
+        <div class="loader"></div>
+        <p>Loading your data...</p>
+      </div>
+    </div>
+    
+    <div id="reports-content" style="display: none;">
+      <ul class="nav nav-tabs" id="reportTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="crisis-survival-tab" data-bs-toggle="tab" data-bs-target="#crisis-survival" type="button" role="tab" aria-controls="crisis-survival" aria-selected="false">Crisis Survival</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="reality-acceptance-tab" data-bs-toggle="tab" data-bs-target="#reality-acceptance" type="button" role="tab" aria-controls="reality-acceptance" aria-selected="false">Reality Acceptance</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="all-logs-tab" data-bs-toggle="tab" data-bs-target="#all-logs" type="button" role="tab" aria-controls="all-logs" aria-selected="false">All Logs</button>
+        </li>
+      </ul>
+      
+      <div class="tab-content" id="reportTabsContent">
+        <!-- Overview Tab -->
+        <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Skills Usage Distribution</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="skills-distribution-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Effectiveness By Skill Type</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="effectiveness-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Distress Reduction Over Time</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="distress-reduction-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Practice Frequency</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="frequency-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Crisis Survival Tab -->
+        <div class="tab-pane fade" id="crisis-survival" role="tabpanel" aria-labelledby="crisis-survival-tab">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Crisis Survival Skills Usage</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="crisis-survival-usage-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Crisis Survival Effectiveness</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="crisis-survival-effectiveness-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">Crisis Survival Skills Logs</div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped" id="crisis-survival-table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Skill</th>
+                          <th>Distress Before</th>
+                          <th>Distress After</th>
+                          <th>Change</th>
+                          <th>Effectiveness</th>
+                          <th>Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Will be populated with data -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Reality Acceptance Tab -->
+        <div class="tab-pane fade" id="reality-acceptance" role="tabpanel" aria-labelledby="reality-acceptance-tab">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Reality Acceptance Skills Usage</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="reality-acceptance-usage-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">Reality Acceptance Effectiveness</div>
+                <div class="card-body">
+                  <div class="chart-container">
+                    <canvas id="reality-acceptance-effectiveness-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mt-3">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-header">Reality Acceptance Skills Logs</div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped" id="reality-acceptance-table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Skill</th>
+                          <th>Distress Before</th>
+                          <th>Distress After</th>
+                          <th>Change</th>
+                          <th>Effectiveness</th>
+                          <th>Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- Will be populated with data -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- All Logs Tab -->
+        <div class="tab-pane fade" id="all-logs" role="tabpanel" aria-labelledby="all-logs-tab">
+          <div class="card">
+            <div class="card-header">
+              All Skills Practice Logs
+              <div class="float-end">
+                <button class="btn btn-sm btn-outline-secondary" onclick="exportToCSV()">Export to CSV</button>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped" id="all-logs-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Skill Type</th>
+                      <th>Skill</th>
+                      <th>Distress Before</th>
+                      <th>Distress After</th>
+                      <th>Change</th>
+                      <th>Effectiveness</th>
+                      <th>Notes</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Will be populated with data -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-4">
+        <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to Dashboard</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Bootstrap JS bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Chart instances
+    let skillsDistributionChart;
+    let effectivenessChart;
+    let distressReductionChart;
+    let frequencyChart;
+    let crisisSurvivalUsageChart;
+    let crisisSurvivalEffectivenessChart;
+    let realityAcceptanceUsageChart;
+    let realityAcceptanceEffectivenessChart;
+    
+    // When the page loads, get logs data
+    document.addEventListener('DOMContentLoaded', function() {
+      loadSkillsData();
+    });
+    
+    function loadSkillsData() {
+      google.script.run
+        .withSuccessHandler(processData)
+        .withFailureHandler(handleError)
+        .getSkillLogs();
+    }
+    
+    function processData(data) {
+      // Hide loading indicator and show content
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('reports-content').style.display = 'block';
+      
+      if (!data || data.length === 0) {
+        document.getElementById('reports-content').innerHTML = '<div class="alert alert-info">No skills practice data available yet. Start logging your skills practice to see reports.</div>';
+        return;
+      }
+      
+      // Process data for charts and tables
+      const allLogs = data.map(log => {
+        return {
+          timestamp: new Date(log[0]),
+          skillType: log[1],
+          skillName: log[2],
+          distressBefore: log[3],
+          distressAfter: log[4],
+          effectiveness: log[5],
+          notes: log[6] || ''
+        };
+      });
+      
+      // Sort logs by date (newest first)
+      allLogs.sort((a, b) => b.timestamp - a.timestamp);
+      
+      // Filter logs by skill type
+      const crisisSurvivalLogs = allLogs.filter(log => log.skillType === 'Crisis Survival');
+      const realityAcceptanceLogs = allLogs.filter(log => log.skillType === 'Reality Acceptance');
+      
+      // Populate tables
+      populateAllLogsTable(allLogs);
+      populateCrisisSurvivalTable(crisisSurvivalLogs);
+      populateRealityAcceptanceTable(realityAcceptanceLogs);
+      
+      // Create charts
+      createSkillsDistributionChart(allLogs);
+      createEffectivenessChart(allLogs);
+      createDistressReductionChart(allLogs);
+      createFrequencyChart(allLogs);
+      createCrisisSurvivalCharts(crisisSurvivalLogs);
+      createRealityAcceptanceCharts(realityAcceptanceLogs);
+    }
+    
+    function populateAllLogsTable(logs) {
+      const tbody = document.querySelector('#all-logs-table tbody');
+      tbody.innerHTML = '';
+      
+      logs.forEach(log => {
+        const row = document.createElement('tr');
+        const distressChange = log.distressBefore - log.distressAfter;
+        
+        row.innerHTML = `
+          <td>${formatDate(log.timestamp)}</td>
+          <td>${log.skillType}</td>
+          <td>${log.skillName}</td>
+          <td>${log.distressBefore}</td>
+          <td>${log.distressAfter}</td>
+          <td>${distressChange > 0 ? '-' + distressChange : distressChange}</td>
+          <td>${log.effectiveness}/5</td>
+          <td>${log.notes}</td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+    }
+    
+    function populateCrisisSurvivalTable(logs) {
+      const tbody = document.querySelector('#crisis-survival-table tbody');
+      tbody.innerHTML = '';
+      
+      logs.forEach(log => {
+        const row = document.createElement('tr');
+        const distressChange = log.distressBefore - log.distressAfter;
+        
+        row.innerHTML = `
+          <td>${formatDate(log.timestamp)}</td>
+          <td>${log.skillName}</td>
+          <td>${log.distressBefore}</td>
+          <td>${log.distressAfter}</td>
+          <td>${distressChange > 0 ? '-' + distressChange : distressChange}</td>
+          <td>${log.effectiveness}/5</td>
+          <td>${log.notes}</td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+    }
+    
+    function populateRealityAcceptanceTable(logs) {
+      const tbody = document.querySelector('#reality-acceptance-table tbody');
+      tbody.innerHTML = '';
+      
+      logs.forEach(log => {
+        const row = document.createElement('tr');
+        const distressChange = log.distressBefore - log.distressAfter;
+        
+        row.innerHTML = `
+          <td>${formatDate(log.timestamp)}</td>
+          <td>${log.skillName}</td>
+          <td>${log.distressBefore}</td>
+          <td>${log.distressAfter}</td>
+          <td>${distressChange > 0 ? '-' + distressChange : distressChange}</td>
+          <td>${log.effectiveness}/5</td>
+          <td>${log.notes}</td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+    }
+    
+    function createSkillsDistributionChart(logs) {
+      // Count occurrences of each skill
+      const skillCounts = {};
+      logs.forEach(log => {
+        skillCounts[log.skillName] = (skillCounts[log.skillName] || 0) + 1;
+      });
+      
+      const ctx = document.getElementById('skills-distribution-chart').getContext('2d');
+      
+      skillsDistributionChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: Object.keys(skillCounts),
+          datasets: [{
+            data: Object.values(skillCounts),
+            backgroundColor: [
+              '#1890ff', '#52c41a', '#fa8c16', '#722ed1', '#eb2f96',
+              '#13c2c2', '#faad14', '#a0d911', '#f5222d', '#2f54eb'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: {
+                boxWidth: 12
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    function createEffectivenessChart(logs) {
+      // Calculate average effectiveness by skill type
+      const crisisSurvivalLogs = logs.filter(log => log.skillType === 'Crisis Survival');
+      const realityAcceptanceLogs = logs.filter(log => log.skillType === 'Reality Acceptance');
+      
+      const crisisEffectiveness = crisisSurvivalLogs.length > 0 
+        ? crisisSurvivalLogs.reduce((sum, log) => sum + log.effectiveness, 0) / crisisSurvivalLogs.length 
+        : 0;
+        
+      const realityEffectiveness = realityAcceptanceLogs.length > 0 
+        ? realityAcceptanceLogs.reduce((sum, log) => sum + log.effectiveness, 0) / realityAcceptanceLogs.length 
+        : 0;
+      
+      const ctx = document.getElementById('effectiveness-chart').getContext('2d');
+      
+      effectivenessChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Crisis Survival', 'Reality Acceptance'],
+          datasets: [{
+            label: 'Average Effectiveness (1-5)',
+            data: [crisisEffectiveness.toFixed(1), realityEffectiveness.toFixed(1)],
+            backgroundColor: ['#1890ff', '#52c41a']
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 5,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    }
+    
+    function createDistressReductionChart(logs) {
+      // Group logs by week for timeline
+      const weeklyData = {};
+      
+      logs.forEach(log => {
+        const weekStart = getWeekStart(log.timestamp);
+        const weekKey = weekStart.toISOString().split('T')[0];
+        
+        if (!weeklyData[weekKey]) {
+          weeklyData[weekKey] = {
+            totalBefore: 0,
+            totalAfter: 0,
+            count: 0
+          };
+        }
+        
+        weeklyData[weekKey].totalBefore += log.distressBefore;
+        weeklyData[weekKey].totalAfter += log.distressAfter;
+        weeklyData[weekKey].count += 1;
+      });
+      
+      // Sort weeks chronologically
+      const sortedWeeks = Object.keys(weeklyData).sort();
+      
+      // Calculate average distress before and after for each week
+      const beforeData = [];
+      const afterData = [];
+      
+      sortedWeeks.forEach(week => {
+        const weekData = weeklyData[week];
+        beforeData.push(weekData.totalBefore / weekData.count);
+        afterData.push(weekData.totalAfter / weekData.count);
+      });
+      
+      const ctx = document.getElementById('distress-reduction-chart').get

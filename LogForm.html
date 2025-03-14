@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log Skills Practice</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    .btn-submit {
+      margin-top: 20px;
+    }
+    .rating-container {
+      display: flex;
+      justify-content: space-between;
+      max-width: 300px;
+      margin: 10px 0;
+    }
+    .rating-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 2px solid #ccc;
+    }
+    .rating-btn.selected {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    .skill-details {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4">Log Skills Practice</h2>
+    
+    <form id="skills-log-form">
+      <div class="mb-3">
+        <label for="skill-type" class="form-label">Skill Type</label>
+        <select class="form-select" id="skill-type" required onchange="updateSkillOptions()">
+          <option value="" selected disabled>Select skill type</option>
+          <option value="Crisis Survival">Crisis Survival Skills</option>
+          <option value="Reality Acceptance">Reality Acceptance Skills</option>
+        </select>
+      </div>
+      
+      <div class="mb-3">
+        <label for="skill-name" class="form-label">Skill Name</label>
+        <select class="form-select" id="skill-name" required onchange="showSkillDetails()">
+          <option value="" selected disabled>Select skill type first</option>
+        </select>
+      </div>
+      
+      <div id="stop-details" class="skill-details">
+        <h5>STOP Skill</h5>
+        <p><strong>S</strong>top - Do not react. Freeze!</p>
+        <p><strong>T</strong>ake a step back - Take a break, breathe deeply.</p>
+        <p><strong>O</strong>bserve - Notice what's going on inside and outside.</p>
+        <p><strong>P</strong>roceed mindfully - Act with awareness.</p>
+      </div>
+      
+      <div id="tip-details" class="skill-details">
+        <h5>TIP Skills</h5>
+        <p><strong>T</strong>emperature - Cold water on your face to calm down fast.</p>
+        <p><strong>I</strong>ntense exercise - Engage in physical activity to expend energy.</p>
+        <p><strong>P</strong>aced breathing - Slow your breath to 5-6 breaths per minute.</p>
+        <p><strong>P</strong>aired muscle relaxation - Tense and relax muscles with breathing.</p>
+      </div>
+      
+      <div id="pros-cons-details" class="skill-details">
+        <h5>Pros and Cons</h5>
+        <p>Evaluate pros and cons of acting on crisis urges versus resisting them.</p>
+        <p>Remember both short-term and long-term consequences.</p>
+      </div>
+      
+      <div id="accepts-details" class="skill-details">
+        <h5>Distract with ACCEPTS</h5>
+        <p><strong>A</strong>ctivities - Focus attention on a task or hobby.</p>
+        <p><strong>C</strong>ontributing - Help others, volunteer, do something nice.</p>
+        <p><strong>C</strong>omparisons - Compare yourself to those less fortunate.</p>
+        <p><strong>E</strong>motions - Generate different emotions.</p>
+        <p><strong>P</strong>ushing away - Temporarily leave the situation mentally.</p>
+        <p><strong>T</strong>houghts - Think about something else.</p>
+        <p><strong>S</strong>ensations - Intense sensations like holding ice.</p>
+      </div>
+      
+      <div id="self-soothe-details" class="skill-details">
+        <h5>Self-Soothe with Five Senses</h5>
+        <p><strong>Vision</strong> - Look at something beautiful or pleasing.</p>
+        <p><strong>Hearing</strong> - Listen to soothing music or nature sounds.</p>
+        <p><strong>Smell</strong> - Use pleasing scents, perfumes, or candles.</p>
+        <p><strong>Taste</strong> - Eat something mindfully and enjoy the taste.</p>
+        <p><strong>Touch</strong> - Wear comfortable clothes, take a warm bath.</p>
+      </div>
+      
+      <div id="improve-details" class="skill-details">
+        <h5>IMPROVE the Moment</h5>
+        <p><strong>I</strong>magery - Imagine relaxing scenes or successful coping.</p>
+        <p><strong>M</strong>eaning - Find purpose in difficult experiences.</p>
+        <p><strong>P</strong>rayer - Connect with something greater than yourself.</p>
+        <p><strong>R</strong>elaxation - Relax your body to reduce tension.</p>
+        <p><strong>O</strong>ne thing in the moment - Focus your attention on just what you're doing.</p>
+        <p><strong>V</strong>acation - Give yourself a brief break from responsibilities.</p>
+        <p><strong>E</strong>ncouragement - Cheer yourself on with supportive statements.</p>
+      </div>
+      
+      <div id="radical-acceptance-details" class="skill-details">
+        <h5>Radical Acceptance</h5>
+        <p>Complete and total acceptance of reality as it is, not as you want it to be.</p>
+        <p>Accepting with your mind, heart, and body that you cannot change what has already occurred.</p>
+      </div>
+      
+      <div id="turning-mind-details" class="skill-details">
+        <h5>Turning the Mind</h5>
+        <p>Consciously choosing to accept reality over and over again when your mind drifts to rejection.</p>
+        <p>Like being at a fork in the road - choosing acceptance rather than rejection each time.</p>
+      </div>
+      
+      <div id="willingness-details" class="skill-details">
+        <h5>Willingness</h5>
+        <p>Doing what's needed in each situation.</p>
+        <p>Participating fully in life with awareness and without stubborn refusal.</p>
+        <p>The opposite of willfulness (refusing to tolerate reality, refusing to make changes).</p>
+      </div>
+      
+      <div id="half-smiling-details" class="skill-details">
+        <h5>Half-Smiling and Willing Hands</h5>
+        <p>Accepting reality with your body by slightly turning up the corners of your mouth.</p>
+        <p>Relaxing your hands with palms up or turned outward in an accepting position.</p>
+      </div>
+      
+      <div id="mindfulness-thoughts-details" class="skill-details">
+        <h5>Mindfulness of Current Thoughts</h5>
+        <p>Observe thoughts coming and going without judging, analyzing, or trying to change them.</p>
+        <p>Remember: You are not your thoughts. Thoughts are mental events, not facts.</p>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Distress Level Before Practice (0-100)</label>
+        <input type="range" class="form-range" min="0" max="100" step="5" id="distress-before" required>
+        <div class="d-flex justify-content-between">
+          <span>0 (None)</span>
+          <span>50 (Moderate)</span>
+          <span>100 (Extreme)</span>
+        </div>
+        <div class="text-center">
+          <span id="distress-before-value">50</span>
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Distress Level After Practice (0-100)</label>
+        <input type="range" class="form-range" min="0" max="100" step="5" id="distress-after" required>
+        <div class="d-flex justify-content-between">
+          <span>0 (None)</span>
+          <span>50 (Moderate)</span>
+          <span>100 (Extreme)</span>
+        </div>
+        <div class="text-center">
+          <span id="distress-after-value">50</span>
+        </div>
+      </div>
+      
+      <div class="mb-3">
+        <label class="form-label">Effectiveness of the Skill (1-5)</label>
+        <div class="rating-container">
+          <div class="rating-btn" data-rating="1" onclick="selectRating(1)">1</div>
+          <div class="rating-btn" data-rating="2" onclick="selectRating(2)
