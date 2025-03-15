@@ -89,14 +89,14 @@ function saveSkillLog(logData) {
 }
 
 /**
- * Logs a skill practice with time tracking.
+ * Logs a skill practice with time tracking and quiz score.
  */
 function logSkillWithTime(logData) {
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
 
-    // Format: [timestamp, skillType, skillName, distressBefore, distressAfter, effectiveness, timeSpent, notes]
+    // Format: [timestamp, skillType, skillName, distressBefore, distressAfter, effectiveness, timeSpent, quizScore, notes]
     const row = [
       new Date(),
       logData.skillType,
@@ -104,7 +104,8 @@ function logSkillWithTime(logData) {
       parseInt(logData.distressBefore, 10) || 0,
       parseInt(logData.distressAfter, 10) || 0,
       parseInt(logData.effectiveness, 10) || 3,
-      parseFloat(logData.timeSpent) || 0,
+      parseFloat(logData.timeSpent) || 0,  // Time spent in minutes
+      logData.quizScore !== undefined ? logData.quizScore : "",  // Quiz score (empty if not applicable)
       logData.notes || ''
     ];
 
@@ -200,7 +201,8 @@ function initializeSpreadsheet() {
       'DistressBefore',
       'DistressAfter',
       'Effectiveness',
-      'TimeSpent',
+      'TimeSpent / min',
+      'QuizScore',
       'Notes'
     ]);
   }
@@ -241,6 +243,8 @@ function openSkillGuide(skillName) {
   // Get the HTML file name for the skill
   const htmlFile = skillGuideMap[skillName] || 'Dashboard.html';
 
+  // Create and display the HTML output with templating
+  const template = HtmlService.createTemplateFromFile(htmlFile + '.html');
   // Create and display the HTML output
   const html = HtmlService.createHtmlOutputFromFile(htmlFile)
     .setWidth(800)
@@ -248,6 +252,10 @@ function openSkillGuide(skillName) {
   SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
 }
 
+// Helper function to include other HTML files
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
 /**
  * Tracks when a skill guide is viewed by the user.
  * @param {string} skillName - The name of the skill guide being viewed
