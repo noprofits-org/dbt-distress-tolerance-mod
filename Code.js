@@ -200,6 +200,7 @@ function initializeSpreadsheet() {
       'DistressBefore',
       'DistressAfter',
       'Effectiveness',
+      'TimeSpent',
       'Notes'
     ]);
   }

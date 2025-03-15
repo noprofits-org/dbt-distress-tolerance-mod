@@ -234,224 +234,334 @@
                         Later, he treats himself to an extra-large coffee for handling a difficult situation with skill.
                     </p>
                 </div>
-
+                <!-- Add this in place of your existing interactive section in STOP.html -->
                 <div class="interactive-section">
-                    <h3 class="mb-3">Practice Scenarios</h3>
-                    <p>Click on each scenario to see how you might apply the STOP skill:</p>
+                    <h3 class="mb-3">Practice Scenarios Quiz</h3>
+                    <p>Test your understanding of how to apply the STOP skill in different situations:</p>
 
-                    <div class="scenario-card" onclick="toggleResponse('scenario1')">
-                        <h5>Scenario 1: The Text Message</h5>
-                        <p>You see your partner texting someone and briefly glimpse a heart emoji. You immediately feel
-                            jealous and are about to grab their phone.</p>
-                    </div>
-                    <div id="scenario1" class="response-card">
-                        <h6>STOP Skill Application:</h6>
-                        <p><strong>S - Stop:</strong> Freeze before reaching for the phone.</p>
-                        <p><strong>T - Take a step back:</strong> Take a deep breath and remind yourself that context
-                            matters.</p>
-                        <p><strong>O - Observe:</strong> Notice your jealousy, but also observe that your partner has
-                            many friends and family they care about.</p>
-                        <p><strong>P - Proceed mindfully:</strong> Choose to either wait until you're calmer to have a
-                            conversation or ask non-accusingly, "Who are you texting with such enthusiasm?"</p>
+                    <div class="score-tracker mb-3">
+                        Current score: <span id="quiz-score">0 / 0</span>
                     </div>
 
-                    <div class="scenario-card" onclick="toggleResponse('scenario2')">
-                        <h5>Scenario 2: The Email Reply</h5>
-                        <p>You receive a critical email from your boss that feels unfair. You immediately start typing
-                            an angry response.</p>
-                    </div>
-                    <div id="scenario2" class="response-card">
-                        <h6>STOP Skill Application:</h6>
-                        <p><strong>S - Stop:</strong> Remove your hands from the keyboard.</p>
-                        <p><strong>T - Take a step back:</strong> Get up and take a brief walk, or at least look away
-                            from the screen.</p>
-                        <p><strong>O - Observe:</strong> Notice your defensive feelings and the urge to justify
-                            yourself. Also observe the actual content of the criticism.</p>
-                        <p><strong>P - Proceed mindfully:</strong> Wait at least an hour before responding. Then draft a
-                            professional response that addresses the substantive points without emotional reactivity.
-                        </p>
+                    <!-- Question 1 -->
+                    <div class="card mb-4">
+                        <div class="card-header">Scenario 1: The Text Message</div>
+                        <div class="card-body">
+                            <p>You see your partner texting someone and briefly glimpse a heart emoji. You immediately
+                                feel jealous and are about to grab their phone. What's the best application of the STOP
+                                skill?</p>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-1" id="scenario-1-option-1"
+                                    value="1" onclick="checkAnswer(1, 1, 3)">
+                                <label class="form-check-label" for="scenario-1-option-1">
+                                    Ask them directly who they're texting and why they're using heart emojis
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-1" id="scenario-1-option-2"
+                                    value="2" onclick="checkAnswer(1, 2, 3)">
+                                <label class="form-check-label" for="scenario-1-option-2">
+                                    Grab the phone quickly so they don't have time to hide anything
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-1" id="scenario-1-option-3"
+                                    value="3" onclick="checkAnswer(1, 3, 3)">
+                                <label class="form-check-label" for="scenario-1-option-3">
+                                    Pause, take a deep breath, and observe your jealousy before deciding what to do
+                                </label>
+                            </div>
+
+                            <div id="feedback-1" class="mt-3"></div>
+
+                            <div id="response-1" class="response-card mt-3" style="display: none;">
+                                <h6>STOP Skill Application:</h6>
+                                <p><strong>S - Stop:</strong> Freeze before reaching for the phone.</p>
+                                <p><strong>T - Take a step back:</strong> Take a deep breath and remind yourself that
+                                    context matters.</p>
+                                <p><strong>O - Observe:</strong> Notice your jealousy, but also observe that your
+                                    partner has many friends and family they care about.</p>
+                                <p><strong>P - Proceed mindfully:</strong> Choose to either wait until you're calmer to
+                                    have a conversation or ask non-accusingly, "Who are you texting with such
+                                    enthusiasm?"</p>
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="scenario-card" onclick="toggleResponse('scenario3')">
-                        <h5>Scenario 3: The Empty Refrigerator</h5>
-                        <p>You open the fridge to find your roommate ate the leftovers you were saving for dinner.
-                            You're starving and about to go confront them aggressively.</p>
+                    <!-- Question 2 -->
+                    <div class="card mb-4">
+                        <div class="card-header">Scenario 2: The Email Reply</div>
+                        <div class="card-body">
+                            <p>You receive a critical email from your boss that feels unfair. You immediately start
+                                typing an angry response. What's the best first step using the STOP skill?</p>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-2" id="scenario-2-option-1"
+                                    value="1" onclick="checkAnswer(2, 1, 1)">
+                                <label class="form-check-label" for="scenario-2-option-1">
+                                    Stop typing and remove your hands from the keyboard
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-2" id="scenario-2-option-2"
+                                    value="2" onclick="checkAnswer(2, 2, 1)">
+                                <label class="form-check-label" for="scenario-2-option-2">
+                                    Finish writing your email but save it as a draft to review later
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-2" id="scenario-2-option-3"
+                                    value="3" onclick="checkAnswer(2, 3, 1)">
+                                <label class="form-check-label" for="scenario-2-option-3">
+                                    Forward the email to a coworker to get their perspective
+                                </label>
+                            </div>
+
+                            <div id="feedback-2" class="mt-3"></div>
+
+                            <div id="response-2" class="response-card mt-3" style="display: none;">
+                                <h6>STOP Skill Application:</h6>
+                                <p><strong>S - Stop:</strong> Remove your hands from the keyboard immediately.</p>
+                                <p><strong>T - Take a step back:</strong> Get up and take a brief walk, or at least look
+                                    away from the screen.</p>
+                                <p><strong>O - Observe:</strong> Notice your defensive feelings and the urge to justify
+                                    yourself. Also observe the actual content of the criticism.</p>
+                                <p><strong>P - Proceed mindfully:</strong> Wait at least an hour before responding. Then
+                                    draft a professional response that addresses the substantive points without
+                                    emotional reactivity.</p>
+                            </div>
+                        </div>
                     </div>
-                    <div id="scenario3" class="response-card">
-                        <h6>STOP Skill Application:</h6>
-                        <p><strong>S - Stop:</strong> Pause before storming off to your roommate's room.</p>
-                        <p><strong>T - Take a step back:</strong> Close the fridge and take a few deep breaths.</p>
-                        <p><strong>O - Observe:</strong> Notice your hunger and frustration. Also observe that there
-                            might have been a miscommunication about the leftovers.</p>
-                        <p><strong>P - Proceed mindfully:</strong> Find something else to eat first, then when you're
-                            not "hangry," have a calm conversation about labeling food in the future.</p>
+
+                    <!-- Question 3 -->
+                    <div class="card mb-4">
+                        <div class="card-header">Scenario 3: The Empty Refrigerator</div>
+                        <div class="card-body">
+                            <p>You open the fridge to find your roommate ate the leftovers you were saving for dinner.
+                                You're starving and about to go confront them aggressively. Which sequence correctly
+                                applies the STOP skill?</p>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-3" id="scenario-3-option-1"
+                                    value="1" onclick="checkAnswer(3, 1, 2)">
+                                <label class="form-check-label" for="scenario-3-option-1">
+                                    Observe your hunger, Stop your reaction, Take a step back, Proceed to talk calmly
+                                    </ <div class="mt-4 mb-5">
+                                    <h3>When to Use the STOP Skill</h3>
+                                    <ul>
+                                        <li>When you're in a highly emotional state (anger, fear, jealousy, etc.)</li>
+                                        <li>When you feel an urge to engage in impulsive or harmful behavior</li>
+                                        <li>Before responding to provocative or upsetting communications</li>
+                                        <li>When you're in conflict with someone and about to say something you might
+                                            regret</li>
+                                        <li>When you notice your emotions are driving your behavior</li>
+                                    </ul>
+                            </div>
+
+                            <div id="log-container" class="text-center mt-5 mb-4">
+                                <button class="btn btn-primary me-2 btn-log-practice" onclick="logSkillPractice()">
+                                    Log STOP Skill Practice
+                                </button>
+                                <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back
+                                    to
+                                    Dashboard</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div class="mt-4 mb-5">
-                    <h3>When to Use the STOP Skill</h3>
-                    <ul>
-                        <li>When you're in a highly emotional state (anger, fear, jealousy, etc.)</li>
-                        <li>When you feel an urge to engage in impulsive or harmful behavior</li>
-                        <li>Before responding to provocative or upsetting communications</li>
-                        <li>When you're in conflict with someone and about to say something you might regret</li>
-                        <li>When you notice your emotions are driving your behavior</li>
-                    </ul>
-                </div>
-
-                <div id="log-container" class="text-center mt-5 mb-4">
-                    <button class="btn btn-primary me-2 btn-log-practice" onclick="logSkillPractice()">
-                        Log STOP Skill Practice
+                <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
+                    <h4>Practice Logged Successfully!</h4>
+                    <p>Your STOP skill practice has been recorded.</p>
+                    <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
+                        Return to Dashboard
                     </button>
-                    <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to
-                        Dashboard</a>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
-        <h4>Practice Logged Successfully!</h4>
-        <p>Your STOP skill practice has been recorded.</p>
-        <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
-            Return to Dashboard
-        </button>
-    </div>
+                <div id="return-after-quiz" style="display: none;" class="mt-3">
+                    <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">
+                      Return to Dashboard
+                    </button>
+                  </div>
 
-    <!-- Add Bootstrap JS bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                <!-- Add Bootstrap JS bundle -->
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
-        let startTime;
-        let timeSpent = 0;
-        let timerInterval;
+                <script>
+                    let startTime;
+                    let timeSpent = 0;
+                    let timerInterval;
 
-        let quizScore = 0;
-        let questionsAnswered = 0;
-        const totalQuestions = 3; // Update this if you add more questions
+                    let quizScore = 0;
+                    let questionsAnswered = 0;
+                    const totalQuestions = 3; // Update this if you add more questions
 
-        // Function to check an answer and update score
-        function checkAnswer(scenarioId, selectedOption, correctOption) {
-            const responseDiv = document.getElementById(`response-${scenarioId}`);
-            const feedbackDiv = document.getElementById(`feedback-${scenarioId}`);
+                    let quizCompleted = false;
 
-            // Mark as answered
-            questionsAnswered++;
+                    // Function to check an answer and update score
+                    function checkAnswer(scenarioId, selectedOption, correctOption) {
+                        const responseDiv = document.getElementById(`response-${scenarioId}`);
+                        const feedbackDiv = document.getElementById(`feedback-${scenarioId}`);
 
-            // Check if answer is correct
-            if (selectedOption === correctOption) {
-                quizScore++;
-                feedbackDiv.innerHTML = '<div class="alert alert-success">Correct! Great application of the STOP skill.</div>';
-            } else {
-                feedbackDiv.innerHTML = '<div class="alert alert-danger">Not quite. Review the correct application above.</div>';
-            }
+                        // Mark as answered
+                        questionsAnswered++;
 
-            // Show the detailed response
-            responseDiv.style.display = 'block';
+                        // Check if answer is correct
+                        if (selectedOption === correctOption) {
+                            quizScore++;
+                            feedbackDiv.innerHTML = '<div class="alert alert-success">Correct! Great application of the STOP skill.</div>';
+                        } else {
+                            feedbackDiv.innerHTML = '<div class="alert alert-danger">Not quite. Review the correct application above.</div>';
+                        }
 
-            // Update the overall score
-            updateQuizScore();
+                        // Show the detailed response
+                        responseDiv.style.display = 'block';
 
-            // Disable all options for this question
-            const options = document.querySelectorAll(`input[name="scenario-${scenarioId}"]`);
-            options.forEach(option => {
-                option.disabled = true;
-            });
-        }
-        
-        // Function to update overall quiz score
-        function updateQuizScore() {
-            const scoreDisplay = document.getElementById('quiz-score');
-            scoreDisplay.textContent = `${quizScore} / ${questionsAnswered}`;
+                        // Update the overall score
+                        updateQuizScore();
 
-            // If all questions answered, show final score section
-            if (questionsAnswered === totalQuestions) {
-                document.getElementById('final-score-section').style.display = 'block';
-                document.getElementById('final-score').textContent = `${quizScore} / ${totalQuestions}`;
+                        // Disable all options for this question
+                        const options = document.querySelectorAll(`input[name="scenario-${scenarioId}"]`);
+                        options.forEach(option => {
+                            option.disabled = true;
+                        });
+                    }
 
-                // Update log data with quiz score
-                quizCompleted = true;
-            }
-        }
+                    // Function to update overall quiz score
+                    function updateQuizScore() {
+                        const scoreDisplay = document.getElementById('quiz-score');
+                        scoreDisplay.textContent = `${quizScore} / ${questionsAnswered}`;
 
-        // Function to start the timer when the page loads
-        function startTimer() {
-            startTime = new Date();
-            timerInterval = setInterval(updateTimer, 1000);
-        }
+                        // If all questions answered, show final score section
+                        if (questionsAnswered === totalQuestions) {
+                            document.getElementById('final-score-section').style.display = 'block';
+                            document.getElementById('final-score').textContent = `${quizScore} / ${totalQuestions}`;
 
-        // Function to update the timer display
-        function updateTimer() {
-            const currentTime = new Date();
-            timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
+                            // Update log data with quiz score
+                            quizCompleted = true;
+                        }
+                    }
 
-            const minutes = Math.floor(timeSpent / 60);
-            const seconds = timeSpent % 60;
+                    // Function to start the timer when the page loads
+                    function startTimer() {
+                        startTime = new Date();
+                        timerInterval = setInterval(updateTimer, 1000);
+                    }
 
-            document.getElementById('timer-display').textContent =
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
+                    // Function to update the timer display
+                    function updateTimer() {
+                        const currentTime = new Date();
+                        timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
 
-        // Update the logSkillPractice function
-        function logSkillPractice() {
-            // Stop the timer
-            clearInterval(timerInterval);
+                        const minutes = Math.floor(timeSpent / 60);
+                        const seconds = timeSpent % 60;
 
-            // Show a loading indicator
-            const logButton = document.querySelector('.btn-log-practice');
-            logButton.disabled = true;
-            logButton.textContent = "Logging...";
+                        document.getElementById('timer-display').textContent =
+                            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    }
 
-            // Prepare log data with time spent (convert to minutes)
-            const logData = {
-                skillType: 'Crisis Survival',
-                skillName: 'STOP',
-                distressBefore: 0, // You might want to prompt for this
-                distressAfter: 0,  // You might want to prompt for this
-                effectiveness: 3,   // You might want to prompt for this
-                timeSpent: timeSpent / 60, // Convert seconds to minutes
-                notes: `Spent ${Math.floor(timeSpent / 60)} min ${timeSpent % 60} sec reading the STOP skill guide`
-            };
+                    // Update the logSkillPractice function
+                    function logSkillPractice() {
+                        // Stop the timer
+                        clearInterval(timerInterval);
 
-            // Call the server-side function to log the practice
-            google.script.run
-                .withSuccessHandler(function (result) {
-                    // Hide the log button and show confirmation
-                    document.getElementById('log-container').style.display = 'none';
-                    document.getElementById('confirmation-message').style.display = 'block';
+                        // Show a loading indicator
+                        const logButton = document.querySelector('.btn-log-practice');
+                        logButton.disabled = true;
+                        logButton.textContent = "Logging...";
 
-                    // Update the confirmation message with time spent
-                    document.getElementById('time-spent').textContent =
-                        `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
-                })
-                .withFailureHandler(function (error) {
-                    // Show error and re-enable button
-                    alert('Error logging skill practice: ' + error);
-                    logButton.disabled = false;
-                    logButton.textContent = "Log STOP Skill Practice";
-                })
-                .logSkillWithTime(logData);
-        }
+                        // Prepare log data with time spent (convert to minutes)
+                        const logData = {
+                            skillType: 'Crisis Survival',
+                            skillName: 'STOP',
+                            distressBefore: 0, // You might want to prompt for this
+                            distressAfter: 0,  // You might want to prompt for this
+                            effectiveness: 3,   // You might want to prompt for this
+                            timeSpent: timeSpent / 60, // Convert seconds to minutes
+                            notes: `Spent ${Math.floor(timeSpent / 60)} min ${timeSpent % 60} sec reading the STOP skill guide`
+                        };
 
-        // Call startTimer when the page loads
-        document.addEventListener('DOMContentLoaded', function () {
-            startTimer();
-            google.script.run.trackSkillGuideView('STOP');
-        });
+                        // Call the server-side function to log the practice
+                        google.script.run
+                            .withSuccessHandler(function (result) {
+                                // Hide the log button and show confirmation
+                                document.getElementById('log-container').style.display = 'none';
+                                document.getElementById('confirmation-message').style.display = 'block';
 
-        function toggleResponse(id) {
-            const element = document.getElementById(id);
-            if (element.style.display === "block") {
-                element.style.display = "none";
-            } else {
-                element.style.display = "block";
-            }
-        }
+                                // Update the confirmation message with time spent
+                                document.getElementById('time-spent').textContent =
+                                    `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+                            })
+                            .withFailureHandler(function (error) {
+                                // Show error and re-enable button
+                                alert('Error logging skill practice: ' + error);
+                                logButton.disabled = false;
+                                logButton.textContent = "Log STOP Skill Practice";
+                            })
+                            .logSkillWithTime(logData);
+                    }
 
-        // Add tracking for when this skill guide is viewed
-        document.addEventListener('DOMContentLoaded', function () {
-            google.script.run.trackSkillGuideView('STOP');
-        });
-    </script>
+                    function logQuizResults() {
+                        // Disable the button
+                        const logButton = document.querySelector('.btn-log-quiz');
+                        logButton.disabled = true;
+                        logButton.textContent = "Logging...";
+
+                        // Stop the timer
+                        clearInterval(timerInterval);
+
+                        // Prepare log data
+                        const logData = {
+                            skillType: 'Crisis Survival',
+                            skillName: 'STOP',
+                            distressBefore: 0,
+                            distressAfter: 0,
+                            effectiveness: Math.min(5, Math.ceil((quizScore / totalQuestions) * 5)), // Convert score to 1-5 scale
+                            timeSpent: timeSpent / 60, // Convert seconds to minutes
+                            notes: `STOP Skill Quiz: Score ${quizScore}/${totalQuestions}. Time spent: ${Math.floor(timeSpent / 60)}m ${timeSpent % 60}s`
+                        };
+
+                        // Call the server-side function to log the practice
+                        google.script.run
+                            .withSuccessHandler(function (result) {
+                                // Update the button
+                                logButton.textContent = "Logged Successfully!";
+
+                                // Show a return to dashboard button
+                                document.getElementById('return-after-quiz').style.display = 'block';
+                            })
+                            .withFailureHandler(function (error) {
+                                // Show error and re-enable button
+                                alert('Error logging quiz results: ' + error);
+                                logButton.disabled = false;
+                                logButton.textContent = "Log Quiz Results";
+                            })
+                            .logSkillWithTime(logData);
+                    }
+
+                    // Call startTimer when the page loads
+                    document.addEventListener('DOMContentLoaded', function () {
+                        startTimer();
+                        google.script.run.trackSkillGuideView('STOP');
+                    });
+
+                    function toggleResponse(id) {
+                        const element = document.getElementById(id);
+                        if (element.style.display === "block") {
+                            element.style.display = "none";
+                        } else {
+                            element.style.display = "block";
+                        }
+                    }
+
+                    // Add tracking for when this skill guide is viewed
+                    document.addEventListener('DOMContentLoaded', function () {
+                        google.script.run.trackSkillGuideView('STOP');
+                    });
+                </script>
 </body>
 
 </html>
