@@ -1,45 +1,103 @@
-# DBT Skills Tracker Project Roadmap
+Updated DBT Skills Tracker Development Roadmap
+Immediate Next Steps
 
-## Completed
-- ✅ Basic functionality for logging skills practice
-- ✅ Dashboard with summary statistics
-- ✅ Skills practice log form
-- ✅ Reports page with data visualization
-- ✅ Export functionality for skills logs
-- ✅ Skill guide pages for all skills
+Create Modular Files
 
-## Current Phase: Enhanced Learning Features
-- 🔄 Improve skill guide content with more examples and scenarios
-- 🔄 Add user customization options for skill guides
-- 🔄 Develop interactive elements in skill guides
-- 🔄 Add progress tracking for skill mastery
-- 🔄 Implement skill difficulty ratings
+Create dbt-skills-styles.html for shared CSS
+Create dbt-skills-scripts.html for shared JavaScript functions
+Update Code.js to support HTML templates and inclusion
 
-## Future Plans
-### Short-term (1-2 months)
-- Integration with Google Calendar for scheduling practice
-- Email notifications and reminders
-- Mobile-friendly UI improvements
-- User preference settings
-- Practice streak tracking
 
-### Medium-term (3-6 months)
-- Guided practice sessions
-- Skill recommendation engine based on user patterns
-- Advanced data visualization and insights
-- Integration with other DBT modules (emotion regulation, etc.)
-- User community features for sharing experiences
+Refactor STOP Skill Guide
 
-### Long-term (6+ months)
-- Integration with wearable devices for physiological data
-- AI-assisted skill suggestions based on distress patterns
-- Customizable practice plans
-- Therapist dashboard for monitoring client practice
-- Research data collection and analysis tools
+Convert STOP.html to use the modular approach
+Test to ensure all functionality works properly
+Fix any remaining bugs in quiz or logging functionality
 
-## Technical Improvements
-- Code refactoring for better maintainability
-- Performance optimization for larger datasets
-- Enhanced security features
-- Automated testing implementation
-- Documentation improvement
+
+Develop Additional Skill Guides
+
+Crisis Survival Skills
+
+TIP Skills (Temperature, Intense exercise, Paced breathing, Paired muscle relaxation)
+Pros and Cons
+ACCEPTS (Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations)
+Self-Soothe
+IMPROVE (Imagery, Meaning, Prayer, Relaxation, One thing, Vacation, Encouragement)
+
+
+Reality Acceptance Skills
+
+Radical Acceptance
+Turning the Mind
+Willingness
+Half-Smiling and Willing Hands
+Mindfulness of Current Thoughts
+
+
+
+
+Dashboard Improvements
+
+Add visualization of quiz scores
+Display total time spent on each skill
+Create progress indicators for skill mastery
+
+
+
+Medium-term Goals
+
+Enhanced User Experience
+
+Add difficulty ratings for skill practice scenarios
+Implement a "Skill of the Week" feature
+Create practice reminders and scheduling
+Add user preference settings
+
+
+Data Analysis Features
+
+Develop trends analysis for skill effectiveness
+Create reports showing progress over time
+Add export options for sharing with therapists
+
+
+Mobile Optimization
+
+Ensure all components work well on mobile devices
+Optimize layouts for different screen sizes
+
+
+
+Long-term Goals
+
+Interactive Learning Features
+
+Add interactive demonstrations for each skill
+Implement guided practice sessions
+Create "skill challenges" for applying skills in daily life
+
+
+Integration Capabilities
+
+Calendar integration for scheduling practice
+Email notifications and reminders
+API for therapist dashboard access
+
+
+Community Features
+
+Anonymous skill practice sharing
+Success stories and tips from other users
+Resources section with additional learning materials
+
+
+
+Development Approach
+For each skill guide, follow this workflow:
+
+Start with the modular template
+Add skill-specific content (explanation, examples)
+Create skill-specific quiz scenarios
+Test functionality thoroughly
+Deploy and add to the main dashboard
