@@ -1,263 +1,457 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <base target="_top">
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>STOP Skill Guide</title>
-  <!-- Add Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #f8f9fa;
-    }
-    .header-section {
-      background-color: #e6f7ff;
-      border-left: 4px solid #1890ff;
-      padding: 20px;
-      border-radius: 5px;
-      margin-bottom: 30px;
-    }
-    .skill-letter {
-      font-size: 36px;
-      font-weight: bold;
-      color: #1890ff;
-      margin-right: 10px;
-      display: inline-block;
-      width: 50px;
-      height: 50px;
-      text-align: center;
-      line-height: 50px;
-      border-radius: 50%;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .practice-card {
-      background-color: white;
-      border-radius: 5px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .example-section {
-      background-color: #fff8e6;
-      border-left: 4px solid #faad14;
-      padding: 20px;
-      border-radius: 5px;
-      margin: 20px 0;
-    }
-    .quote {
-      font-style: italic;
-      border-left: 4px solid #ddd;
-      padding-left: 15px;
-      margin: 20px 0;
-    }
-    .interactive-section {
-      background-color: #f6ffed;
-      border-left: 4px solid #52c41a;
-      padding: 20px;
-      border-radius: 5px;
-      margin: 20px 0;
-    }
-    .scenario-card {
-      background-color: white;
-      border: 1px solid #e8e8e8;
-      border-radius: 5px;
-      padding: 15px;
-      margin-bottom: 15px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .scenario-card:hover {
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .response-card {
-      background-color: #f0f8ff;
-      border-radius: 5px;
-      padding: 15px;
-      margin-top: 10px;
-      display: none;
-    }
-    .response-card.correct {
-      background-color: #d4edda;
-      border-color: #c3e6cb;
-    }
-    .response-card.incorrect {
-      background-color: #f8d7da;
-      border-color: #f5c6cb;
-    }
-  </style>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>STOP Skill Guide</title>
+    <!-- Add Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .header-section {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .skill-letter {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1890ff;
+            margin-right: 10px;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .practice-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-section {
+            background-color: #fff8e6;
+            border-left: 4px solid #faad14;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 4px solid #ddd;
+            padding-left: 15px;
+            margin: 20px 0;
+        }
+
+        .interactive-section {
+            background-color: #f6ffed;
+            border-left: 4px solid #52c41a;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .scenario-card {
+            background-color: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .scenario-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .response-card {
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .response-card.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .response-card.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="row mb-4">
-      <div class="col-md-8 offset-md-2">
-        <h1 class="text-center mb-4">The STOP Skill</h1>
-        
-        <div class="header-section">
-          <h3 class="mb-3">Overview</h3>
-          <p>The STOP skill is one of the key crisis survival strategies in DBT (Dialectical Behavior Therapy). It's designed to help you pause in moments of high emotion or crisis before reacting in ways that might make things worse.</p>
-          <p>STOP is an acronym that stands for:</p>
-          <ul>
-            <li><strong>S</strong>top</li>
-            <li><strong>T</strong>ake a step back</li>
-            <li><strong>O</strong>bserve</li>
-            <li><strong>P</strong>roceed mindfully</li>
-          </ul>
-          <p>This skill is especially useful when you're feeling overwhelmed or when your emotions are threatening to drive impulsive behaviors.</p>
-        </div>
-        
-        <div class="practice-card">
-          <h3 class="mb-3">How to Practice STOP</h3>
-          
-          <div class="mb-4">
-            <div class="d-flex align-items-center mb-2">
-              <span class="skill-letter">S</span>
-              <h4 class="mb-0">STOP</h4>
-            </div>
-            <p>Literally stop what you're doing. Freeze. Don't move a muscle! Don't act immediately on your urges, feelings, or impulses. Put the brakes on whatever you're about to say or do.</p>
-            <div class="quote">
-              "Emotions try to boss me around and tell me what to do. When I notice this happening, I need to remember that I can Stop."
-            </div>
-          </div>
-          
-          <div class="mb-4">
-            <div class="d-flex align-items-center mb-2">
-              <span class="skill-letter">T</span>
-              <h4 class="mb-0">Take a step back</h4>
-            </div>
-            <p>Take a step back from the situation. This could be physical (actually stepping away) or mental (detaching from your emotional response). Take a break. Take a deep breath. Count to 10.</p>
-            <div class="quote">
-              "When I'm about to react to my emotions, I need to Take a step back, creating space between my feelings and my actions."
-            </div>
-          </div>
-          
-          <div class="mb-4">
-            <div class="d-flex align-items-center mb-2">
-              <span class="skill-letter">O</span>
-              <h4 class="mb-0">Observe</h4>
-            </div>
-            <p>Notice what's going on inside and outside of you. What is the situation? What are your thoughts and feelings? What are others saying or doing? Try to observe without judgment.</p>
-            <div class="quote">
-              "I need to Observe what's actually happening rather than getting lost in my emotional interpretation of events."
-            </div>
-          </div>
-          
-          <div class="mb-4">
-            <div class="d-flex align-items-center mb-2">
-              <span class="skill-letter">P</span>
-              <h4 class="mb-0">Proceed mindfully</h4>
-            </div>
-            <p>Act with awareness, considering your goals and the facts of the situation. Ask yourself: What actions will make the situation better or worse? What is the most effective response here?</p>
-            <div class="quote">
-              "After I've created space and observed, I can Proceed mindfully, making a choice that serves my goals rather than my momentary emotions."
-            </div>
-          </div>
-        </div>
-        
-        <div class="example-section">
-          <h3 class="mb-3">A Humorous Example: The Team Meeting Meltdown</h3>
-          
-          <p><strong>The Situation:</strong> Dave is in a team meeting when his coworker Sarah takes credit for an idea he shared last week. Dave feels his blood pressure rising and his face getting hot. He's about to blurt out "That was MY idea, actually!" in front of the whole team.</p>
-          
-          <div class="mb-3">
-            <strong>S - Stop:</strong> Dave catches himself just before speaking. He feels his mouth open but clamps it shut. His brain is yelling "STOP RIGHT THERE!" like a traffic cop.
-          </div>
-          
-          <div class="mb-3">
-            <strong>T - Take a step back:</strong> Dave takes a deep breath and mentally steps back from his anger. He imagines his rage as a cartoon character jumping up and down beside him rather than controlling him. He thinks, "Well, hello there, Mr. Fury. I see you're visiting again."
-          </div>
-          
-          <div class="mb-3">
-            <strong>O - Observe:</strong> Dave notices his physical sensations: racing heart, sweaty palms, tight jaw. He observes his thoughts: "She's stealing my thunder! Everyone will think I never have good ideas!" He notices that the meeting is actually going well, and the boss seems pleased with the progress.
-          </div>
-          
-          <div class="mb-3">
-            <strong>P - Proceed mindfully:</strong> Dave considers his options. He could: 1) Call Sarah out and create tension, 2) Silently stew in resentment, or 3) Find a constructive way to acknowledge his contribution. He decides to wait for a natural pause and then say, "I'm glad we're developing that idea I brought up last week. I think Sarah's added some great points to it."
-          </div>
-          
-          <p><strong>The Result:</strong> Instead of creating workplace drama, Dave manages his emotions, maintains professional relationships, AND still gets appropriate credit for his contribution. Later, he treats himself to an extra-large coffee for handling a difficult situation with skill.</p>
-        </div>
-        
-        <div class="interactive-section">
-          <h3 class="mb-3">Practice Scenarios</h3>
-          <p>Click on each scenario to see how you might apply the STOP skill:</p>
-          
-          <div class="scenario-card" onclick="toggleResponse('scenario1')">
-            <h5>Scenario 1: The Text Message</h5>
-            <p>You see your partner texting someone and briefly glimpse a heart emoji. You immediately feel jealous and are about to grab their phone.</p>
-          </div>
-          <div id="scenario1" class="response-card">
-            <h6>STOP Skill Application:</h6>
-            <p><strong>S - Stop:</strong> Freeze before reaching for the phone.</p>
-            <p><strong>T - Take a step back:</strong> Take a deep breath and remind yourself that context matters.</p>
-            <p><strong>O - Observe:</strong> Notice your jealousy, but also observe that your partner has many friends and family they care about.</p>
-            <p><strong>P - Proceed mindfully:</strong> Choose to either wait until you're calmer to have a conversation or ask non-accusingly, "Who are you texting with such enthusiasm?"</p>
-          </div>
-          
-          <div class="scenario-card" onclick="toggleResponse('scenario2')">
-            <h5>Scenario 2: The Email Reply</h5>
-            <p>You receive a critical email from your boss that feels unfair. You immediately start typing an angry response.</p>
-          </div>
-          <div id="scenario2" class="response-card">
-            <h6>STOP Skill Application:</h6>
-            <p><strong>S - Stop:</strong> Remove your hands from the keyboard.</p>
-            <p><strong>T - Take a step back:</strong> Get up and take a brief walk, or at least look away from the screen.</p>
-            <p><strong>O - Observe:</strong> Notice your defensive feelings and the urge to justify yourself. Also observe the actual content of the criticism.</p>
-            <p><strong>P - Proceed mindfully:</strong> Wait at least an hour before responding. Then draft a professional response that addresses the substantive points without emotional reactivity.</p>
-          </div>
-          
-          <div class="scenario-card" onclick="toggleResponse('scenario3')">
-            <h5>Scenario 3: The Empty Refrigerator</h5>
-            <p>You open the fridge to find your roommate ate the leftovers you were saving for dinner. You're starving and about to go confront them aggressively.</p>
-          </div>
-          <div id="scenario3" class="response-card">
-            <h6>STOP Skill Application:</h6>
-            <p><strong>S - Stop:</strong> Pause before storming off to your roommate's room.</p>
-            <p><strong>T - Take a step back:</strong> Close the fridge and take a few deep breaths.</p>
-            <p><strong>O - Observe:</strong> Notice your hunger and frustration. Also observe that there might have been a miscommunication about the leftovers.</p>
-            <p><strong>P - Proceed mindfully:</strong> Find something else to eat first, then when you're not "hangry," have a calm conversation about labeling food in the future.</p>
-          </div>
-        </div>
-        
-        <div class="mt-4 mb-5">
-          <h3>When to Use the STOP Skill</h3>
-          <ul>
-            <li>When you're in a highly emotional state (anger, fear, jealousy, etc.)</li>
-            <li>When you feel an urge to engage in impulsive or harmful behavior</li>
-            <li>Before responding to provocative or upsetting communications</li>
-            <li>When you're in conflict with someone and about to say something you might regret</li>
-            <li>When you notice your emotions are driving your behavior</li>
-          </ul>
-        </div>
-        
-        <div class="text-center mt-5 mb-4">
-          <a href="#" class="btn btn-primary me-2" onclick="google.script.run.logSkill('Crisis Survival', 'STOP')">Log STOP Skill Practice</a>
-          <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to Dashboard</a>
-        </div>
-      </div>
+    <!-- Add this near the top of the body -->
+    <div class="float-end">
+        <small class="text-muted">Time spent: <span id="timer-display">00:00</span></small>
     </div>
-  </div>
-  
-  <!-- Add Bootstrap JS bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <script>
-    function toggleResponse(id) {
-      const element = document.getElementById(id);
-      if (element.style.display === "block") {
-        element.style.display = "none";
-      } else {
-        element.style.display = "block";
-      }
-    }
-    
-    // Add tracking for when this skill guide is viewed
-    document.addEventListener('DOMContentLoaded', function() {
-      google.script.run.trackSkillGuideView('STOP');
-    });
-  </script>
+
+    <!-- Update the confirmation message to include time spent -->
+    <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
+        <h4>Practice Logged Successfully!</h4>
+        <p>Your STOP skill practice has been recorded.</p>
+        <p>You spent <span id="time-spent"></span> learning this skill.</p>
+        <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
+            Return to Dashboard
+        </button>
+    </div>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-center mb-4">The STOP Skill</h1>
+
+                <div class="header-section">
+                    <h3 class="mb-3">Overview</h3>
+                    <p>The STOP skill is one of the key crisis survival strategies in DBT (Dialectical Behavior
+                        Therapy). It's designed to help you pause in moments of high emotion or crisis before reacting
+                        in ways that might make things worse.</p>
+                    <p>STOP is an acronym that stands for:</p>
+                    <ul>
+                        <li><strong>S</strong>top</li>
+                        <li><strong>T</strong>ake a step back</li>
+                        <li><strong>O</strong>bserve</li>
+                        <li><strong>P</strong>roceed mindfully</li>
+                    </ul>
+                    <p>This skill is especially useful when you're feeling overwhelmed or when your emotions are
+                        threatening to drive impulsive behaviors.</p>
+                </div>
+
+                <div class="practice-card">
+                    <h3 class="mb-3">How to Practice STOP</h3>
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">S</span>
+                            <h4 class="mb-0">STOP</h4>
+                        </div>
+                        <p>Literally stop what you're doing. Freeze. Don't move a muscle! Don't act immediately on your
+                            urges, feelings, or impulses. Put the brakes on whatever you're about to say or do.</p>
+                        <div class="quote">
+                            "Emotions try to boss me around and tell me what to do. When I notice this happening, I need
+                            to remember that I can Stop."
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">T</span>
+                            <h4 class="mb-0">Take a step back</h4>
+                        </div>
+                        <p>Take a step back from the situation. This could be physical (actually stepping away) or
+                            mental (detaching from your emotional response). Take a break. Take a deep breath. Count to
+                            10.</p>
+                        <div class="quote">
+                            "When I'm about to react to my emotions, I need to Take a step back, creating space between
+                            my feelings and my actions."
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">O</span>
+                            <h4 class="mb-0">Observe</h4>
+                        </div>
+                        <p>Notice what's going on inside and outside of you. What is the situation? What are your
+                            thoughts and feelings? What are others saying or doing? Try to observe without judgment.</p>
+                        <div class="quote">
+                            "I need to Observe what's actually happening rather than getting lost in my emotional
+                            interpretation of events."
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">P</span>
+                            <h4 class="mb-0">Proceed mindfully</h4>
+                        </div>
+                        <p>Act with awareness, considering your goals and the facts of the situation. Ask yourself: What
+                            actions will make the situation better or worse? What is the most effective response here?
+                        </p>
+                        <div class="quote">
+                            "After I've created space and observed, I can Proceed mindfully, making a choice that serves
+                            my goals rather than my momentary emotions."
+                        </div>
+                    </div>
+                </div>
+
+                <div class="example-section">
+                    <h3 class="mb-3">A Humorous Example: The Team Meeting Meltdown</h3>
+
+                    <p><strong>The Situation:</strong> Dave is in a team meeting when his coworker Sarah takes credit
+                        for an idea he shared last week. Dave feels his blood pressure rising and his face getting hot.
+                        He's about to blurt out "That was MY idea, actually!" in front of the whole team.</p>
+
+                    <div class="mb-3">
+                        <strong>S - Stop:</strong> Dave catches himself just before speaking. He feels his mouth open
+                        but clamps it shut. His brain is yelling "STOP RIGHT THERE!" like a traffic cop.
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>T - Take a step back:</strong> Dave takes a deep breath and mentally steps back from his
+                        anger. He imagines his rage as a cartoon character jumping up and down beside him rather than
+                        controlling him. He thinks, "Well, hello there, Mr. Fury. I see you're visiting again."
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>O - Observe:</strong> Dave notices his physical sensations: racing heart, sweaty palms,
+                        tight jaw. He observes his thoughts: "She's stealing my thunder! Everyone will think I never
+                        have good ideas!" He notices that the meeting is actually going well, and the boss seems pleased
+                        with the progress.
+                    </div>
+
+                    <div class="mb-3">
+                        <strong>P - Proceed mindfully:</strong> Dave considers his options. He could: 1) Call Sarah out
+                        and create tension, 2) Silently stew in resentment, or 3) Find a constructive way to acknowledge
+                        his contribution. He decides to wait for a natural pause and then say, "I'm glad we're
+                        developing that idea I brought up last week. I think Sarah's added some great points to it."
+                    </div>
+
+                    <p><strong>The Result:</strong> Instead of creating workplace drama, Dave manages his emotions,
+                        maintains professional relationships, AND still gets appropriate credit for his contribution.
+                        Later, he treats himself to an extra-large coffee for handling a difficult situation with skill.
+                    </p>
+                </div>
+
+                <div class="interactive-section">
+                    <h3 class="mb-3">Practice Scenarios</h3>
+                    <p>Click on each scenario to see how you might apply the STOP skill:</p>
+
+                    <div class="scenario-card" onclick="toggleResponse('scenario1')">
+                        <h5>Scenario 1: The Text Message</h5>
+                        <p>You see your partner texting someone and briefly glimpse a heart emoji. You immediately feel
+                            jealous and are about to grab their phone.</p>
+                    </div>
+                    <div id="scenario1" class="response-card">
+                        <h6>STOP Skill Application:</h6>
+                        <p><strong>S - Stop:</strong> Freeze before reaching for the phone.</p>
+                        <p><strong>T - Take a step back:</strong> Take a deep breath and remind yourself that context
+                            matters.</p>
+                        <p><strong>O - Observe:</strong> Notice your jealousy, but also observe that your partner has
+                            many friends and family they care about.</p>
+                        <p><strong>P - Proceed mindfully:</strong> Choose to either wait until you're calmer to have a
+                            conversation or ask non-accusingly, "Who are you texting with such enthusiasm?"</p>
+                    </div>
+
+                    <div class="scenario-card" onclick="toggleResponse('scenario2')">
+                        <h5>Scenario 2: The Email Reply</h5>
+                        <p>You receive a critical email from your boss that feels unfair. You immediately start typing
+                            an angry response.</p>
+                    </div>
+                    <div id="scenario2" class="response-card">
+                        <h6>STOP Skill Application:</h6>
+                        <p><strong>S - Stop:</strong> Remove your hands from the keyboard.</p>
+                        <p><strong>T - Take a step back:</strong> Get up and take a brief walk, or at least look away
+                            from the screen.</p>
+                        <p><strong>O - Observe:</strong> Notice your defensive feelings and the urge to justify
+                            yourself. Also observe the actual content of the criticism.</p>
+                        <p><strong>P - Proceed mindfully:</strong> Wait at least an hour before responding. Then draft a
+                            professional response that addresses the substantive points without emotional reactivity.
+                        </p>
+                    </div>
+
+                    <div class="scenario-card" onclick="toggleResponse('scenario3')">
+                        <h5>Scenario 3: The Empty Refrigerator</h5>
+                        <p>You open the fridge to find your roommate ate the leftovers you were saving for dinner.
+                            You're starving and about to go confront them aggressively.</p>
+                    </div>
+                    <div id="scenario3" class="response-card">
+                        <h6>STOP Skill Application:</h6>
+                        <p><strong>S - Stop:</strong> Pause before storming off to your roommate's room.</p>
+                        <p><strong>T - Take a step back:</strong> Close the fridge and take a few deep breaths.</p>
+                        <p><strong>O - Observe:</strong> Notice your hunger and frustration. Also observe that there
+                            might have been a miscommunication about the leftovers.</p>
+                        <p><strong>P - Proceed mindfully:</strong> Find something else to eat first, then when you're
+                            not "hangry," have a calm conversation about labeling food in the future.</p>
+                    </div>
+                </div>
+
+                <div class="mt-4 mb-5">
+                    <h3>When to Use the STOP Skill</h3>
+                    <ul>
+                        <li>When you're in a highly emotional state (anger, fear, jealousy, etc.)</li>
+                        <li>When you feel an urge to engage in impulsive or harmful behavior</li>
+                        <li>Before responding to provocative or upsetting communications</li>
+                        <li>When you're in conflict with someone and about to say something you might regret</li>
+                        <li>When you notice your emotions are driving your behavior</li>
+                    </ul>
+                </div>
+
+                <div id="log-container" class="text-center mt-5 mb-4">
+                    <button class="btn btn-primary me-2 btn-log-practice" onclick="logSkillPractice()">
+                        Log STOP Skill Practice
+                    </button>
+                    <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to
+                        Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
+        <h4>Practice Logged Successfully!</h4>
+        <p>Your STOP skill practice has been recorded.</p>
+        <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
+            Return to Dashboard
+        </button>
+    </div>
+
+    <!-- Add Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        let startTime;
+        let timeSpent = 0;
+        let timerInterval;
+
+        let quizScore = 0;
+        let questionsAnswered = 0;
+        const totalQuestions = 3; // Update this if you add more questions
+
+        // Function to check an answer and update score
+        function checkAnswer(scenarioId, selectedOption, correctOption) {
+            const responseDiv = document.getElementById(`response-${scenarioId}`);
+            const feedbackDiv = document.getElementById(`feedback-${scenarioId}`);
+
+            // Mark as answered
+            questionsAnswered++;
+
+            // Check if answer is correct
+            if (selectedOption === correctOption) {
+                quizScore++;
+                feedbackDiv.innerHTML = '<div class="alert alert-success">Correct! Great application of the STOP skill.</div>';
+            } else {
+                feedbackDiv.innerHTML = '<div class="alert alert-danger">Not quite. Review the correct application above.</div>';
+            }
+
+            // Show the detailed response
+            responseDiv.style.display = 'block';
+
+            // Update the overall score
+            updateQuizScore();
+
+            // Disable all options for this question
+            const options = document.querySelectorAll(`input[name="scenario-${scenarioId}"]`);
+            options.forEach(option => {
+                option.disabled = true;
+            });
+        }
+        
+        // Function to update overall quiz score
+        function updateQuizScore() {
+            const scoreDisplay = document.getElementById('quiz-score');
+            scoreDisplay.textContent = `${quizScore} / ${questionsAnswered}`;
+
+            // If all questions answered, show final score section
+            if (questionsAnswered === totalQuestions) {
+                document.getElementById('final-score-section').style.display = 'block';
+                document.getElementById('final-score').textContent = `${quizScore} / ${totalQuestions}`;
+
+                // Update log data with quiz score
+                quizCompleted = true;
+            }
+        }
+
+        // Function to start the timer when the page loads
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        // Function to update the timer display
+        function updateTimer() {
+            const currentTime = new Date();
+            timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
+
+            const minutes = Math.floor(timeSpent / 60);
+            const seconds = timeSpent % 60;
+
+            document.getElementById('timer-display').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update the logSkillPractice function
+        function logSkillPractice() {
+            // Stop the timer
+            clearInterval(timerInterval);
+
+            // Show a loading indicator
+            const logButton = document.querySelector('.btn-log-practice');
+            logButton.disabled = true;
+            logButton.textContent = "Logging...";
+
+            // Prepare log data with time spent (convert to minutes)
+            const logData = {
+                skillType: 'Crisis Survival',
+                skillName: 'STOP',
+                distressBefore: 0, // You might want to prompt for this
+                distressAfter: 0,  // You might want to prompt for this
+                effectiveness: 3,   // You might want to prompt for this
+                timeSpent: timeSpent / 60, // Convert seconds to minutes
+                notes: `Spent ${Math.floor(timeSpent / 60)} min ${timeSpent % 60} sec reading the STOP skill guide`
+            };
+
+            // Call the server-side function to log the practice
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    // Hide the log button and show confirmation
+                    document.getElementById('log-container').style.display = 'none';
+                    document.getElementById('confirmation-message').style.display = 'block';
+
+                    // Update the confirmation message with time spent
+                    document.getElementById('time-spent').textContent =
+                        `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+                })
+                .withFailureHandler(function (error) {
+                    // Show error and re-enable button
+                    alert('Error logging skill practice: ' + error);
+                    logButton.disabled = false;
+                    logButton.textContent = "Log STOP Skill Practice";
+                })
+                .logSkillWithTime(logData);
+        }
+
+        // Call startTimer when the page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            startTimer();
+            google.script.run.trackSkillGuideView('STOP');
+        });
+
+        function toggleResponse(id) {
+            const element = document.getElementById(id);
+            if (element.style.display === "block") {
+                element.style.display = "none";
+            } else {
+                element.style.display = "block";
+            }
+        }
+
+        // Add tracking for when this skill guide is viewed
+        document.addEventListener('DOMContentLoaded', function () {
+            google.script.run.trackSkillGuideView('STOP');
+        });
+    </script>
 </body>
+
 </html>

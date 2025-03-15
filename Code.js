@@ -89,6 +89,33 @@ function saveSkillLog(logData) {
 }
 
 /**
+ * Logs a skill practice with time tracking.
+ */
+function logSkillWithTime(logData) {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
+
+    // Format: [timestamp, skillType, skillName, distressBefore, distressAfter, effectiveness, timeSpent, notes]
+    const row = [
+      new Date(),
+      logData.skillType,
+      logData.skillName,
+      parseInt(logData.distressBefore, 10) || 0,
+      parseInt(logData.distressAfter, 10) || 0,
+      parseInt(logData.effectiveness, 10) || 3,
+      parseFloat(logData.timeSpent) || 0,
+      logData.notes || ''
+    ];
+
+    sheet.appendRow(row);
+    return { success: true, message: 'Skill practice logged successfully!' };
+  } catch (error) {
+    return { success: false, message: 'Error logging skill practice: ' + error.toString() };
+  }
+}
+
+/**
  * Gets data for the dashboard summary.
  */
 function getDashboardData() {
@@ -188,4 +215,58 @@ function doGet() {
 
 function manualInitialize() {
   initializeSpreadsheet();
+}
+
+/**
+ * Opens a skill guide HTML page.
+ * @param {string} skillName - The name of the skill (used to determine which guide to open)
+ */
+function openSkillGuide(skillName) {
+  // Map skill names to their corresponding HTML files
+  const skillGuideMap = {
+    'STOP': 'STOP.html',
+    'TIP': 'TIP.html',
+    'Pros and Cons': 'ProsAndCons.html',
+    'ACCEPTS': 'ACCEPTS.html',
+    'Self-Soothe': 'SelfSooth.html',
+    'IMPROVE': 'IMPROVE.html',
+    'Radical Acceptance': 'RadicalAcceptance.html',
+    'Turning the Mind': 'TurningTheMind.html',
+    'Willingness': 'Willingness.html',
+    'Half-Smiling': 'HalfSmiling.html',
+    'Mindfulness of Thoughts': 'MindfulnessOfThoughts.html'
+  };
+
+  // Get the HTML file name for the skill
+  const htmlFile = skillGuideMap[skillName] || 'Dashboard.html';
+
+  // Create and display the HTML output
+  const html = HtmlService.createHtmlOutputFromFile(htmlFile)
+    .setWidth(800)
+    .setHeight(600);
+  SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
+}
+
+/**
+ * Tracks when a skill guide is viewed by the user.
+ * @param {string} skillName - The name of the skill guide being viewed
+ */
+function trackSkillGuideView(skillName) {
+  try {
+    // Get the spreadsheet and create a Skills Guide Views sheet if it doesn't exist
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    let viewsSheet = ss.getSheetByName('SkillGuideViews');
+
+    if (!viewsSheet) {
+      viewsSheet = ss.insertSheet('SkillGuideViews');
+      viewsSheet.appendRow(['Timestamp', 'SkillName']);
+    }
+
+    // Log the view
+    viewsSheet.appendRow([new Date(), skillName]);
+    return { success: true };
+  } catch (error) {
+    Logger.log('Error tracking skill guide view: ' + error.toString());
+    return { success: false, error: error.toString() };
+  }
 }
