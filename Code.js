@@ -227,35 +227,48 @@ function manualInitialize() {
 function openSkillGuide(skillName) {
   // Map skill names to their corresponding HTML files
   const skillGuideMap = {
-    'STOP': 'STOP.html',
-    'TIP': 'TIP.html',
-    'Pros and Cons': 'ProsAndCons.html',
-    'ACCEPTS': 'ACCEPTS.html',
-    'Self-Soothe': 'SelfSooth.html',
-    'IMPROVE': 'IMPROVE.html',
-    'Radical Acceptance': 'RadicalAcceptance.html',
-    'Turning the Mind': 'TurningTheMind.html',
-    'Willingness': 'Willingness.html',
-    'Half-Smiling': 'HalfSmiling.html',
-    'Mindfulness of Thoughts': 'MindfulnessOfThoughts.html'
+    'STOP': 'STOP',
+    'TIP': 'TIP',
+    'Pros and Cons': 'ProsAndCons',
+    'ACCEPTS': 'ACCEPTS',
+    'Self-Soothe': 'SelfSooth',
+    'IMPROVE': 'IMPROVE',
+    'Radical Acceptance': 'RadicalAcceptance',
+    'Turning the Mind': 'TurningTheMind',
+    'Willingness': 'Willingness',
+    'Half-Smiling': 'HalfSmiling',
+    'Mindfulness of Thoughts': 'MindfulnessOfThoughts'
   };
 
   // Get the HTML file name for the skill
-  const htmlFile = skillGuideMap[skillName] || 'Dashboard.html';
+  const htmlFileName = skillGuideMap[skillName] || 'Dashboard';
 
-  // Create and display the HTML output with templating
-  const template = HtmlService.createTemplateFromFile(htmlFile + '.html');
-  // Create and display the HTML output
-  const html = HtmlService.createHtmlOutputFromFile(htmlFile)
-    .setWidth(800)
-    .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
+  try {
+    // Create and display the HTML output with templating
+    const template = HtmlService.createTemplateFromFile(htmlFileName);
+    
+    // Evaluate the template and display it
+    const html = template.evaluate()
+      .setWidth(800)
+      .setHeight(600);
+      
+    SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
+  } catch (error) {
+    // Fallback to direct HTML if template processing fails
+    Logger.log('Error loading template: ' + error.toString());
+    const html = HtmlService.createHtmlOutputFromFile(htmlFileName)
+      .setWidth(800)
+      .setHeight(600);
+      
+    SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
+  }
 }
 
-// Helper function to include other HTML files
+// Helper function to include other HTML files in templates
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
+
 /**
  * Tracks when a skill guide is viewed by the user.
  * @param {string} skillName - The name of the skill guide being viewed
