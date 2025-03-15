@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ACCEPTS Skill Guide</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS will be inserted here -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .header-section {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+
+        .skill-letter {
+            font-size: 36px;
+            font-weight: bold;
+            color: #1890ff;
+            margin-right: 10px;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            border-radius: 50%;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .practice-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .example-section {
+            background-color: #fff8e6;
+            border-left: 4px solid #faad14;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .quote {
+            font-style: italic;
+            border-left: 4px solid #ddd;
+            padding-left: 15px;
+            margin: 20px 0;
+        }
+
+        .interactive-section {
+            background-color: #f6ffed;
+            border-left: 4px solid #52c41a;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+
+        .scenario-card {
+            background-color: white;
+            border: 1px solid #e8e8e8;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .scenario-card:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .response-card {
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 10px;
+            display: none;
+        }
+
+        .response-card.correct {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .response-card.incorrect {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="float-end">
+        <small class="text-muted">Time spent: <span id="timer-display">00:00</span></small>
+    </div>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-center mb-4">The ACCEPTS Skill</h1>
+                <div class="header-section">
+                    <h3 class="mb-3">Overview</h3>
+                    <p>The ACCEPTS skill is a powerful distraction technique in DBT (Dialectical Behavior Therapy)
+                        designed to help you cope with overwhelming emotions and distress. ACCEPTS is an acronym that
+                        stands for different ways to distract yourself when emotions are threatening to overwhelm you.
+                    </p>
+                    <p>Each letter in ACCEPTS represents a different distraction strategy:</p>
+                    <ul>
+                        <li><strong>A</strong>ctivities</li>
+                        <li><strong>C</strong>ontributing</li>
+                        <li><strong>C</strong>omparisons</li>
+                        <li><strong>E</strong>motions (different ones)</li>
+                        <li><strong>P</strong>ushing away</li>
+                        <li><strong>T</strong>houghts (other)</li>
+                        <li><strong>S</strong>ensations</li>
+                    </ul>
+                    <p>This skill is especially useful when you need to tolerate distress without making the situation
+                        worse, giving you the mental space to respond effectively rather than react impulsively.</p>
+                </div>
+                <div class="practice-card">
+                    <h3 class="mb-3">How to Practice ACCEPTS</h3>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">A</span>
+                            <h4 class="mb-0">Activities</h4>
+                        </div>
+                        <p>Engage in activities that require concentration and focus, diverting attention away from
+                            distressing emotions. This could include cleaning, exercising, working on a project,
+                            reading, or any activity that captures your interest.</p>
+                        <div class="quote">"When I immerse myself in an engaging activity, my mind has less room to
+                            dwell on painful emotions."</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">C</span>
+                            <h4 class="mb-0">Contributing</h4>
+                        </div>
+                        <p>Do something to help others or contribute to a cause. Volunteer, assist a friend, donate
+                            items you don't need, or perform small acts of kindness. Contributing shifts focus from self
+                            to others and can create positive emotions.</p>
+                        <div class="quote">"When I focus on helping others, my own problems feel more manageable and
+                            less overwhelming."</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">C</span>
+                            <h4 class="mb-0">Comparisons</h4>
+                        </div>
+                        <p>Compare your current situation to times when things were worse or to others who may be facing
+                            greater challenges. This is not about minimizing your pain but gaining perspective on your
+                            current difficulties.</p>
+                        <div class="quote">"Remembering how I've overcome difficult situations in the past reminds me
+                            that I can handle this moment too."</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">E</span>
+                            <h4 class="mb-0">Emotions (different ones)</h4>
+                        </div>
+                        <p>Generate different emotions to replace the distressing ones. Watch a funny movie when sad,
+                            listen to calming music when anxious, or read inspiring stories when feeling hopeless.</p>
+                        <div class="quote">"I can't feel two intense emotions at the same time, so creating a different
+                            emotion helps displace the painful one."</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">P</span>
+                            <h4 class="mb-0">Pushing away</h4>
+                        </div>
+                        <p>Temporarily push distressing thoughts out of your mind. Imagine putting them in a box or on a
+                            shelf to deal with later when you're better equipped to handle them.</p>
+                        <div class="quote">"Some thoughts are too overwhelming to process in the moment. I can set them
+                            aside until I'm in a better mental state."</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">T</span>
+                            <h4 class="mb-0">Thoughts (other)</h4>
+                        </div>
+                        <p>Replace negative thoughts with different ones. Count objects, recite lyrics, solve puzzles,
+                            or focus on any mental activity that requires concentration.</p>
+                        <div class="quote">"My mind can only focus deeply on one thing at a time. By choosing what I
+                            think about, I regain control."</div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="d-flex align-items-center mb-2">
+                            <span class="skill-letter">S</span>
+                            <h4 class="mb-0">Sensations</h4>
+                        </div>
+                        <p>Use intense physical sensations to distract from emotional pain. Hold ice in your hand, take
+                            a hot or cold shower, listen to loud music, or taste something with a strong flavor like
+                            lemon or mint.</p>
+                        <div class="quote">"Physical sensations can be powerful anchors to the present moment, pulling
+                            my attention away from emotional distress."</div>
+                    </div>
+                </div>
+                <div class="example-section">
+                    <h3 class="mb-3">A Humorous Example: The Job Interview Jitters</h3>
+                    <p><strong>The Situation:</strong> Maya has a job interview tomorrow and is spiraling with anxiety.
+                        Her mind keeps imagining worst-case scenarios, and she's tempted to call and cancel. Instead,
+                        she decides to use ACCEPTS to get through the evening.</p>
+                    <div class="mb-3"><strong>A - Activities:</strong> Maya decides to reorganize her closet, a task
+                        she's been putting off for months. Sorting clothes requires enough focus that she can't
+                        simultaneously catastrophize about the interview.</div>
+                    <div class="mb-3"><strong>C - Contributing:</strong> She takes a break to call her grandmother, who
+                        loves receiving calls. Listening to her grandma's stories about "the good old days" gives Maya
+                        perspective and a sense of connection.</div>
+                    <div class="mb-3"><strong>C - Comparisons:</strong> Maya remembers her first college presentation
+                        when she was so nervous she forgot her own name. Yet she survived and even got a decent grade.
+                        "If I got through that mortifying experience, I can handle this interview!"</div>
+                    <div class="mb-3"><strong>E - Emotions (different ones):</strong> She watches 20 minutes of her
+                        favorite comedy show, finding herself laughing at the ridiculous situations. The laughter
+                        creates a different emotional state than anxiety.</div>
+                    <div class="mb-3"><strong>P - Pushing away:</strong> When interview worries creep back in, Maya
+                        visualizes putting them in a box labeled "For Tomorrow's Maya to Handle" and placing it on a
+                        high shelf.</div>
+                    <div class="mb-3"><strong>T - Thoughts (other):</strong> She challenges herself to name a country
+                        for each letter of the alphabet, then a city, then an animal. This mental game occupies her mind
+                        completely.</div>
+                    <div class="mb-3"><strong>S - Sensations:</strong> Before bed, Maya takes a hot shower followed by a
+                        blast of cold water. The intense sensation helps reset her nervous system and prepares her for
+                        sleep.</div>
+                    <p><strong>The Result:</strong> Maya gets a decent night's sleep and faces her interview with
+                        manageable nerves rather than overwhelming anxiety. She even makes a joke during the interview
+                        about her former closet chaos, which connects well with the interviewer who confesses to having
+                        the same problem.</p>
+                </div>
+                <div class="interactive-section">
+                    <h3 class="mb-3">Practice Scenarios Quiz</h3>
+                    <p>Test your understanding of how to apply the ACCEPTS skill in different situations:</p>
+                    <div class="score-tracker mb-3">Current score: <span id="quiz-score">0 / 0</span></div>
+                    <!-- Question 1 -->
+                    <div class="card mb-4">
+                        <div class="card-header">Scenario 1: The Social Media Trigger</div>
+                        <div class="card-body">
+                            <p>You see a post on social media showing your ex-partner with someone new. You immediately
+                                feel a rush of jealousy and sadness. Which ACCEPTS strategy would be most helpful in
+                                this immediate moment?</p>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-1" id="scenario-1-option-1"
+                                    value="1" onclick="checkAnswer(1, 1, 2)">
+                                <label class="form-check-label" for="scenario-1-option-1">Comparisons - Think about how
+                                    many people are going through breakups right now</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-1" id="scenario-1-option-2"
+                                    value="2" onclick="checkAnswer(1, 2, 2)">
+                                <label class="form-check-label" for="scenario-1-option-2">Pushing away - Close the app
+                                    and decide to deal with these feelings later</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-1" id="scenario-1-option-3"
+                                    value="3" onclick="checkAnswer(1, 3, 2)">
+                                <label class="form-check-label" for="scenario-1-option-3">Contributing - Immediately
+                                    message your ex to wish them well</label>
+                            </div>
+                            <div id="feedback-1" class="mt-3"></div>
+                            <div id="response-1" class="response-card mt-3" style="display: none;">
+                                <h6>ACCEPTS Skill Application:</h6>
+                                <p><strong>Correct Answer:</strong> Pushing away - Close the app and decide to deal with
+                                    these feelings later.</p>
+                                <p><strong>Explanation:</strong> In this highly emotional moment, the best immediate
+                                    strategy is to push away the trigger (the social media post) and give yourself time
+                                    to regulate your emotions before deciding how to respond. Messaging your ex while
+                                    emotional could lead to regrets, and comparisons might not be effective when
+                                    emotions are very raw.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Question 2 -->
+                    <div class="card mb-4">
+                        <div class="card-header">Scenario 2: The Work Stress</div>
+                        <div class="card-body">
+                            <p>You've had a terrible day at work with multiple urgent deadlines and a critical comment
+                                from your boss. You're feeling overwhelmed and inadequate. Which ACCEPTS strategy would
+                                provide the most comprehensive relief?</p>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-2" id="scenario-2-option-1"
+                                    value="1" onclick="checkAnswer(2, 1, 1)">
+                                <label class="form-check-label" for="scenario-2-option-1">Activities - Go for an intense
+                                    workout followed by a favorite hobby</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-2" id="scenario-2-option-2"
+                                    value="2" onclick="checkAnswer(2, 2, 1)">
+                                <label class="form-check-label" for="scenario-2-option-2">Thoughts - Make a detailed
+                                    list of everything you need to do tomorrow</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-2" id="scenario-2-option-3"
+                                    value="3" onclick="checkAnswer(2, 3, 1)">
+                                <label class="form-check-label" for="scenario-2-option-3">Emotions - Watch sad movies to
+                                    match your current mood</label>
+                            </div>
+                            <div id="feedback-2" class="mt-3"></div>
+                            <div id="response-2" class="response-card mt-3" style="display: none;">
+                                <h6>ACCEPTS Skill Application:</h6>
+                                <p><strong>Correct Answer:</strong> Activities - Go for an intense workout followed by a
+                                    favorite hobby.</p>
+                                <p><strong>Explanation:</strong> Physical activity helps release stress hormones and
+                                    creates endorphins, while the hobby provides positive engagement. Planning work
+                                    tasks (Thoughts) might keep you focused on the stressor, and watching sad content
+                                    (Emotions) could intensify negative feelings rather than create different ones.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Question 3 -->
+                    <div class="card mb-4">
+                        <div class="card-header">Scenario 3: The Family Conflict</div>
+                        <div class="card-body">
+                            <p>You've just had an argument with a family member who criticized your life choices. You're
+                                feeling angry and misunderstood. Which combination of ACCEPTS strategies would work well
+                                together?</p>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-3" id="scenario-3-option-1"
+                                    value="1" onclick="checkAnswer(3, 1, 2)">
+                                <label class="form-check-label" for="scenario-3-option-1">Sensations (cold shower) +
+                                    Thoughts (planning a rebuttal)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-3" id="scenario-3-option-2"
+                                    value="2" onclick="checkAnswer(3, 2, 2)">
+                                <label class="form-check-label" for="scenario-3-option-2">Contributing (helping someone
+                                    else) + Emotions (watching comedy)</label>
+                            </div>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-3" id="scenario-3-option-3"
+                                    value="3" onclick="checkAnswer(3, 3, 2)">
+                                <label class="form-check-label" for="scenario-3-option-3">Comparisons (finding people
+                                    with worse family issues) + Pushing away (refusing to think about it)</label>
+                            </div>
+                            <div id="feedback-3" class="mt-3"></div>
+                            <div id="response-3" class="response-card mt-3" style="display: none;">
+                                <h6>ACCEPTS Skill Application:</h6>
+                                <p><strong>Correct Answer:</strong> Contributing (helping someone else) + Emotions
+                                    (watching comedy).</p>
+                                <p><strong>Explanation:</strong> This combination works well because Contributing shifts
+                                    your focus away from your own problems to helping others, creating positive
+                                    feelings, while watching comedy generates different emotions that can replace anger.
+                                    Planning a rebuttal keeps you focused on the conflict, and making comparisons about
+                                    worse situations can sometimes minimize your valid feelings.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Final Score Section -->
+                    <div id="final-score-section" class="alert alert-info text-center" style="display: none;">
+                        <h4>Quiz Complete!</h4>
+                        <p>Your final score: <span id="final-score"></span></p>
+                        <p>Now that you've tested your understanding, try applying the ACCEPTS skill in real-life
+                            situations.</p>
+                        <div class="mb-3 mt-3">
+                            <label for="user-notes" class="form-label">Notes or Questions for Your Therapist
+                                (Optional)</label>
+                            <textarea class="form-control" id="user-notes" rows="3"
+                                placeholder="Enter any notes or questions about this skill..."></textarea>
+                        </div>
+                        <button class="btn btn-primary mt-2 btn-log-session" onclick="logSessionWithQuiz()">Complete
+                            Practice Session</button>
+                    </div>
+                    <h3>When to Use the ACCEPTS Skill</h3>
+                    <ul>
+                        <li>When you need immediate relief from overwhelming emotions</li>
+                        <li>When you're tempted to act impulsively in ways that might be harmful</li>
+                        <li>When you need to buy time to consider your options more carefully</li>
+                        <li>When you're ruminating or obsessing over thoughts that increase your distress</li>
+                        <li>When you need to get through a difficult situation that you can't immediately change</li>
+                    </ul>
+                    <p><strong>Remember:</strong> Distraction is a temporary strategy—not avoidance. The goal is to
+                        reduce your emotional intensity so you can later address the situation effectively.</p>
+                </div>
+                <div class="text-center mt-4 mb-4" id="dashboard-link">
+                    <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to
+                        Dashboard</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
+        <h4>Practice Logged Successfully!</h4>
+        <p>Your ACCEPTS skill practice has been recorded.</p>
+        <p>You spent <span id="time-spent"></span> learning this skill.</p>
+        <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">Return to Dashboard</button>
+    </div>
+    <div id="return-after-quiz" style="display: none;" class="mt-3">
+        <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">Return to Dashboard</button>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Common variables
+        let startTime;
+        let timeSpent = 0;
+        let timerInterval;
+        let quizScore = 0;
+        let questionsAnswered = 0;
+        let quizCompleted = false;
+
+        // Skill-specific variables
+        let totalQuestions = 3;
+        let skillInfo = {
+            name: 'ACCEPTS',
+            type: 'Crisis Survival',
+            totalQuestions: totalQuestions
+        };
+
+        // Start timer when page loads
+        document.addEventListener('DOMContentLoaded', function () {
+            startTimer();
+            google.script.run.trackSkillGuideView('ACCEPTS');
+        });
+
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const currentTime = new Date();
+            timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
+            const minutes = Math.floor(timeSpent / 60);
+            const seconds = timeSpent % 60;
+            document.getElementById('timer-display').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function checkAnswer(scenarioId, selectedOption, correctOption) {
+            const responseDiv = document.getElementById(`response-${scenarioId}`);
+            const feedbackDiv = document.getElementById(`feedback-${scenarioId}`);
+            questionsAnswered++;
+            if (selectedOption === correctOption) {
+                quizScore++;
+                feedbackDiv.innerHTML = '<div class="alert alert-success">Correct! Great application of the skill.</div>';
+            } else {
+                feedbackDiv.innerHTML = '<div class="alert alert-danger">Not quite. Review the correct application above.</div>';
+            }
+            responseDiv.style.display = 'block';
+            updateQuizScore();
+            const options = document.querySelectorAll(`input[name="scenario-${scenarioId}"]`);
+            options.forEach(option => option.disabled = true);
+        }
+
+        function updateQuizScore() {
+            const scoreDisplay = document.getElementById('quiz-score');
+            scoreDisplay.textContent = `${quizScore} / ${questionsAnswered}`;
+            if (questionsAnswered === totalQuestions) {
+                document.getElementById('final-score-section').style.display = 'block';
+                document.getElementById('final-score').textContent = `${quizScore} / ${totalQuestions}`;
+                quizCompleted = true;
+            }
+        }
+
+        function logSessionWithQuiz() {
+            clearInterval(timerInterval);
+            const logButton = document.querySelector('.btn-log-session');
+            logButton.disabled = true;
+            logButton.textContent = "Logging...";
+
+            const userNotes = document.getElementById('user-notes').value;
+            let notesText = `${skillInfo.name} Skill Quiz: Score ${quizScore}/${skillInfo.totalQuestions}. `;
+            if (userNotes) notesText += `User notes: ${userNotes}`;
+
+            const logData = {
+                skillType: skillInfo.type,
+                skillName: skillInfo.name,
+                distressBefore: 0,
+                distressAfter: 0,
+                effectiveness: Math.min(5, Math.ceil((quizScore / skillInfo.totalQuestions) * 5)),
+                timeSpent: timeSpent / 60, // Convert to minutes
+                quizScore: `${quizScore}/${skillInfo.totalQuestions}`,
+                notes: notesText
+            };
+
+            google.script.run
+                .withSuccessHandler(function (result) {
+                    logButton.textContent = "Logged Successfully!";
+                    document.getElementById('return-after-quiz').style.display = 'block';
+                    document.getElementById('confirmation-message').style.display = 'block';
+                    document.getElementById('time-spent').textContent = `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+                })
+                .withFailureHandler(function (error) {
+                    alert('Error logging session: ' + error);
+                    logButton.disabled = false;
+                    logButton.textContent = "Complete Practice Session";
+                })
+                .logSkillWithTime(logData);
+        }
+    </script>
+</body>
+
+</html>
