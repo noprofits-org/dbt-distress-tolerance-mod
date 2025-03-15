@@ -108,16 +108,6 @@
     <div class="float-end">
         <small class="text-muted">Time spent: <span id="timer-display">00:00</span></small>
     </div>
-
-    <!-- Update the confirmation message to include time spent -->
-    <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
-        <h4>Practice Logged Successfully!</h4>
-        <p>Your STOP skill practice has been recorded.</p>
-        <p>You spent <span id="time-spent"></span> learning this skill.</p>
-        <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
-            Return to Dashboard
-        </button>
-    </div>
     <div class="container">
         <div class="row mb-4">
             <div class="col-md-8 offset-md-2">
@@ -337,7 +327,6 @@
                             </div>
                         </div>
                     </div>
-
                     <!-- Question 3 -->
                     <div class="card mb-4">
                         <div class="card-header">Scenario 3: The Empty Refrigerator</div>
@@ -351,217 +340,256 @@
                                     value="1" onclick="checkAnswer(3, 1, 2)">
                                 <label class="form-check-label" for="scenario-3-option-1">
                                     Observe your hunger, Stop your reaction, Take a step back, Proceed to talk calmly
-                                    </ <div class="mt-4 mb-5">
-                                    <h3>When to Use the STOP Skill</h3>
-                                    <ul>
-                                        <li>When you're in a highly emotional state (anger, fear, jealousy, etc.)</li>
-                                        <li>When you feel an urge to engage in impulsive or harmful behavior</li>
-                                        <li>Before responding to provocative or upsetting communications</li>
-                                        <li>When you're in conflict with someone and about to say something you might
-                                            regret</li>
-                                        <li>When you notice your emotions are driving your behavior</li>
-                                    </ul>
+                                </label>
                             </div>
 
-                            <div id="log-container" class="text-center mt-5 mb-4">
-                                <button class="btn btn-primary me-2 btn-log-practice" onclick="logSkillPractice()">
-                                    Log STOP Skill Practice
-                                </button>
-                                <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back
-                                    to
-                                    Dashboard</a>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-3" id="scenario-3-option-2"
+                                    value="2" onclick="checkAnswer(3, 2, 2)">
+                                <label class="form-check-label" for="scenario-3-option-2">
+                                    Stop, Take a step back, Observe your feelings, Proceed mindfully
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="scenario-3" id="scenario-3-option-3"
+                                    value="3" onclick="checkAnswer(3, 3, 2)">
+                                <label class="form-check-label" for="scenario-3-option-3">
+                                    Proceed to eat something else, Stop your anger, Take note of your feelings, Observe
+                                    the situation
+                                </label>
+                            </div>
+
+                            <div id="feedback-3" class="mt-3"></div>
+
+                            <div id="response-3" class="response-card mt-3" style="display: none;">
+                                <h6>STOP Skill Application:</h6>
+                                <p><strong>S - Stop:</strong> Pause before storming off to your roommate's room.</p>
+                                <p><strong>T - Take a step back:</strong> Close the fridge and take a few deep breaths.
+                                </p>
+                                <p><strong>O - Observe:</strong> Notice your hunger and frustration. Also observe that
+                                    there might have been a miscommunication about the leftovers.</p>
+                                <p><strong>P - Proceed mindfully:</strong> Find something else to eat first, then when
+                                    you're not "hangry," have a calm conversation about labeling food in the future.</p>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Final Score Section -->
+                    <div id="final-score-section" class="alert alert-info text-center" style="display: none;">
+                        <h4>Quiz Complete!</h4>
+                        <p>Your final score: <span id="final-score"></span></p>
+                        <p>Now that you've tested your understanding, try applying the STOP skill in real-life
+                            situations.</p>
+                        <button class="btn btn-primary mt-2 btn-log-quiz" onclick="logQuizResults()">
+                            Log Quiz Results
+                        </button>
+                    </div>
+                    <div class="mt-4 mb-5">
+                        <h3>When to Use the STOP Skill</h3>
+                        <ul>
+                            <li>When you're in a highly emotional state (anger, fear, jealousy, etc.)</li>
+                            <li>When you feel an urge to engage in impulsive or harmful behavior</li>
+                            <li>Before responding to provocative or upsetting communications</li>
+                            <li>When you're in conflict with someone and about to say something you might regret</li>
+                            <li>When you notice your emotions are driving your behavior</li>
+                        </ul>
+                    </div>
+
+                    <div id="log-container" class="text-center mt-5 mb-4">
+                        <button class="btn btn-primary me-2 btn-log-practice" onclick="logSkillPractice()">
+                            Log STOP Skill Practice
+                        </button>
+                        <a href="#" class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to
+                            Dashboard</a>
+                    </div>
                 </div>
-                <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
-                    <h4>Practice Logged Successfully!</h4>
-                    <p>Your STOP skill practice has been recorded.</p>
-                    <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
-                        Return to Dashboard
-                    </button>
-                </div>
-                <div id="return-after-quiz" style="display: none;" class="mt-3">
-                    <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">
-                      Return to Dashboard
-                    </button>
-                  </div>
+            </div>
+        </div>
+        <div id="confirmation-message" class="alert alert-success text-center mt-5" style="display: none;">
+            <h4>Practice Logged Successfully!</h4>
+            <p>Your STOP skill practice has been recorded.</p>
+            <p>You spent <span id="time-spent"></span> learning this skill.</p>
+            <button class="btn btn-primary mt-3" onclick="google.script.run.openDashboard()">
+                Return to Dashboard
+            </button>
+        </div>
+        <div id="return-after-quiz" style="display: none;" class="mt-3">
+            <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">
+                Return to Dashboard
+            </button>
+        </div>
 
-                <!-- Add Bootstrap JS bundle -->
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Add Bootstrap JS bundle -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-                <script>
-                    let startTime;
-                    let timeSpent = 0;
-                    let timerInterval;
+        <script>
+            let startTime;
+            let timeSpent = 0;
+            let timerInterval;
 
-                    let quizScore = 0;
-                    let questionsAnswered = 0;
-                    const totalQuestions = 3; // Update this if you add more questions
+            let quizScore = 0;
+            let questionsAnswered = 0;
+            const totalQuestions = 3; // Update this if you add more questions
 
-                    let quizCompleted = false;
+            let quizCompleted = false;
 
-                    // Function to check an answer and update score
-                    function checkAnswer(scenarioId, selectedOption, correctOption) {
-                        const responseDiv = document.getElementById(`response-${scenarioId}`);
-                        const feedbackDiv = document.getElementById(`feedback-${scenarioId}`);
+            // Function to check an answer and update score
+            function checkAnswer(scenarioId, selectedOption, correctOption) {
+                const responseDiv = document.getElementById(`response-${scenarioId}`);
+                const feedbackDiv = document.getElementById(`feedback-${scenarioId}`);
 
-                        // Mark as answered
-                        questionsAnswered++;
+                // Mark as answered
+                questionsAnswered++;
 
-                        // Check if answer is correct
-                        if (selectedOption === correctOption) {
-                            quizScore++;
-                            feedbackDiv.innerHTML = '<div class="alert alert-success">Correct! Great application of the STOP skill.</div>';
-                        } else {
-                            feedbackDiv.innerHTML = '<div class="alert alert-danger">Not quite. Review the correct application above.</div>';
-                        }
+                // Check if answer is correct
+                if (selectedOption === correctOption) {
+                    quizScore++;
+                    feedbackDiv.innerHTML = '<div class="alert alert-success">Correct! Great application of the STOP skill.</div>';
+                } else {
+                    feedbackDiv.innerHTML = '<div class="alert alert-danger">Not quite. Review the correct application above.</div>';
+                }
 
-                        // Show the detailed response
-                        responseDiv.style.display = 'block';
+                // Show the detailed response
+                responseDiv.style.display = 'block';
 
-                        // Update the overall score
-                        updateQuizScore();
+                // Update the overall score
+                updateQuizScore();
 
-                        // Disable all options for this question
-                        const options = document.querySelectorAll(`input[name="scenario-${scenarioId}"]`);
-                        options.forEach(option => {
-                            option.disabled = true;
-                        });
-                    }
+                // Disable all options for this question
+                const options = document.querySelectorAll(`input[name="scenario-${scenarioId}"]`);
+                options.forEach(option => {
+                    option.disabled = true;
+                });
+            }
 
-                    // Function to update overall quiz score
-                    function updateQuizScore() {
-                        const scoreDisplay = document.getElementById('quiz-score');
-                        scoreDisplay.textContent = `${quizScore} / ${questionsAnswered}`;
+            // Function to update overall quiz score
+            function updateQuizScore() {
+                const scoreDisplay = document.getElementById('quiz-score');
+                scoreDisplay.textContent = `${quizScore} / ${questionsAnswered}`;
 
-                        // If all questions answered, show final score section
-                        if (questionsAnswered === totalQuestions) {
-                            document.getElementById('final-score-section').style.display = 'block';
-                            document.getElementById('final-score').textContent = `${quizScore} / ${totalQuestions}`;
+                // If all questions answered, show final score section
+                if (questionsAnswered === totalQuestions) {
+                    document.getElementById('final-score-section').style.display = 'block';
+                    document.getElementById('final-score').textContent = `${quizScore} / ${totalQuestions}`;
 
-                            // Update log data with quiz score
-                            quizCompleted = true;
-                        }
-                    }
+                    // Update log data with quiz score
+                    quizCompleted = true;
+                }
+            }
 
-                    // Function to start the timer when the page loads
-                    function startTimer() {
-                        startTime = new Date();
-                        timerInterval = setInterval(updateTimer, 1000);
-                    }
+            // Function to start the timer when the page loads
+            function startTimer() {
+                startTime = new Date();
+                timerInterval = setInterval(updateTimer, 1000);
+            }
 
-                    // Function to update the timer display
-                    function updateTimer() {
-                        const currentTime = new Date();
-                        timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
+            // Function to update the timer display
+            function updateTimer() {
+                const currentTime = new Date();
+                timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
 
-                        const minutes = Math.floor(timeSpent / 60);
-                        const seconds = timeSpent % 60;
+                const minutes = Math.floor(timeSpent / 60);
+                const seconds = timeSpent % 60;
 
-                        document.getElementById('timer-display').textContent =
-                            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                    }
+                document.getElementById('timer-display').textContent =
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
 
-                    // Update the logSkillPractice function
-                    function logSkillPractice() {
-                        // Stop the timer
-                        clearInterval(timerInterval);
+            // Update the logSkillPractice function
+            function logSkillPractice() {
+                // Stop the timer
+                clearInterval(timerInterval);
 
-                        // Show a loading indicator
-                        const logButton = document.querySelector('.btn-log-practice');
-                        logButton.disabled = true;
-                        logButton.textContent = "Logging...";
+                // Show a loading indicator
+                const logButton = document.querySelector('.btn-log-practice');
+                logButton.disabled = true;
+                logButton.textContent = "Logging...";
 
-                        // Prepare log data with time spent (convert to minutes)
-                        const logData = {
-                            skillType: 'Crisis Survival',
-                            skillName: 'STOP',
-                            distressBefore: 0, // You might want to prompt for this
-                            distressAfter: 0,  // You might want to prompt for this
-                            effectiveness: 3,   // You might want to prompt for this
-                            timeSpent: timeSpent / 60, // Convert seconds to minutes
-                            notes: `Spent ${Math.floor(timeSpent / 60)} min ${timeSpent % 60} sec reading the STOP skill guide`
-                        };
+                // Prepare log data with time spent (convert to minutes)
+                const logData = {
+                    skillType: 'Crisis Survival',
+                    skillName: 'STOP',
+                    distressBefore: 0, // You might want to prompt for this
+                    distressAfter: 0,  // You might want to prompt for this
+                    effectiveness: 3,   // You might want to prompt for this
+                    timeSpent: timeSpent / 60, // Convert seconds to minutes
+                    notes: `Spent ${Math.floor(timeSpent / 60)} min ${timeSpent % 60} sec reading the STOP skill guide`
+                };
 
-                        // Call the server-side function to log the practice
-                        google.script.run
-                            .withSuccessHandler(function (result) {
-                                // Hide the log button and show confirmation
-                                document.getElementById('log-container').style.display = 'none';
-                                document.getElementById('confirmation-message').style.display = 'block';
+                // Call the server-side function to log the practice
+                google.script.run
+                    .withSuccessHandler(function (result) {
+                        // Hide the log button and show confirmation
+                        document.getElementById('log-container').style.display = 'none';
+                        document.getElementById('confirmation-message').style.display = 'block';
 
-                                // Update the confirmation message with time spent
-                                document.getElementById('time-spent').textContent =
-                                    `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
-                            })
-                            .withFailureHandler(function (error) {
-                                // Show error and re-enable button
-                                alert('Error logging skill practice: ' + error);
-                                logButton.disabled = false;
-                                logButton.textContent = "Log STOP Skill Practice";
-                            })
-                            .logSkillWithTime(logData);
-                    }
+                        // Update the confirmation message with time spent
+                        document.getElementById('time-spent').textContent =
+                            `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+                    })
+                    .withFailureHandler(function (error) {
+                        // Show error and re-enable button
+                        alert('Error logging skill practice: ' + error);
+                        logButton.disabled = false;
+                        logButton.textContent = "Log STOP Skill Practice";
+                    })
+                    .logSkillWithTime(logData);
+            }
 
-                    function logQuizResults() {
-                        // Disable the button
-                        const logButton = document.querySelector('.btn-log-quiz');
-                        logButton.disabled = true;
-                        logButton.textContent = "Logging...";
+            function logQuizResults() {
+                // Disable the button
+                const logButton = document.querySelector('.btn-log-quiz');
+                logButton.disabled = true;
+                logButton.textContent = "Logging...";
 
-                        // Stop the timer
-                        clearInterval(timerInterval);
+                // Stop the timer
+                clearInterval(timerInterval);
 
-                        // Prepare log data
-                        const logData = {
-                            skillType: 'Crisis Survival',
-                            skillName: 'STOP',
-                            distressBefore: 0,
-                            distressAfter: 0,
-                            effectiveness: Math.min(5, Math.ceil((quizScore / totalQuestions) * 5)), // Convert score to 1-5 scale
-                            timeSpent: timeSpent / 60, // Convert seconds to minutes
-                            notes: `STOP Skill Quiz: Score ${quizScore}/${totalQuestions}. Time spent: ${Math.floor(timeSpent / 60)}m ${timeSpent % 60}s`
-                        };
+                // Prepare log data
+                const logData = {
+                    skillType: 'Crisis Survival',
+                    skillName: 'STOP',
+                    distressBefore: 0,
+                    distressAfter: 0,
+                    effectiveness: Math.min(5, Math.ceil((quizScore / totalQuestions) * 5)), // Convert score to 1-5 scale
+                    timeSpent: timeSpent / 60, // Convert seconds to minutes
+                    notes: `STOP Skill Quiz: Score ${quizScore}/${totalQuestions}. Time spent: ${Math.floor(timeSpent / 60)}m ${timeSpent % 60}s`
+                };
 
-                        // Call the server-side function to log the practice
-                        google.script.run
-                            .withSuccessHandler(function (result) {
-                                // Update the button
-                                logButton.textContent = "Logged Successfully!";
+                // Call the server-side function to log the practice
+                google.script.run
+                    .withSuccessHandler(function (result) {
+                        // Update the button
+                        logButton.textContent = "Logged Successfully!";
 
-                                // Show a return to dashboard button
-                                document.getElementById('return-after-quiz').style.display = 'block';
-                            })
-                            .withFailureHandler(function (error) {
-                                // Show error and re-enable button
-                                alert('Error logging quiz results: ' + error);
-                                logButton.disabled = false;
-                                logButton.textContent = "Log Quiz Results";
-                            })
-                            .logSkillWithTime(logData);
-                    }
+                        // Show a return to dashboard button
+                        document.getElementById('return-after-quiz').style.display = 'block';
+                    })
+                    .withFailureHandler(function (error) {
+                        // Show error and re-enable button
+                        alert('Error logging quiz results: ' + error);
+                        logButton.disabled = false;
+                        logButton.textContent = "Log Quiz Results";
+                    })
+                    .logSkillWithTime(logData);
+            }
 
-                    // Call startTimer when the page loads
-                    document.addEventListener('DOMContentLoaded', function () {
-                        startTimer();
-                        google.script.run.trackSkillGuideView('STOP');
-                    });
+            // Call startTimer when the page loads
+            document.addEventListener('DOMContentLoaded', function () {
+                startTimer();
+                google.script.run.trackSkillGuideView('STOP');
+            });
 
-                    function toggleResponse(id) {
-                        const element = document.getElementById(id);
-                        if (element.style.display === "block") {
-                            element.style.display = "none";
-                        } else {
-                            element.style.display = "block";
-                        }
-                    }
-
-                    // Add tracking for when this skill guide is viewed
-                    document.addEventListener('DOMContentLoaded', function () {
-                        google.script.run.trackSkillGuideView('STOP');
-                    });
-                </script>
+            function toggleResponse(id) {
+                const element = document.getElementById(id);
+                if (element.style.display === "block") {
+                    element.style.display = "none";
+                } else {
+                    element.style.display = "block";
+                }
+            }
+        </script>
 </body>
 
 </html>
