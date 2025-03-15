@@ -1,1 +1,23 @@
+# Python environment
+venv/**
+**/__pycache__/**
+*.py
+*.pyc
+
+# Development files
+.git/**
+.github/**
+node_modules/**
+package.json
+package-lock.json
 roadmap.md
+effectiveness_by_skill.png
+test_dbt_utils.py
+skills_data.json
+
+# macOS files
+.DS_Store
+
+# Other config files
+.gitignore
+.clasp.json
