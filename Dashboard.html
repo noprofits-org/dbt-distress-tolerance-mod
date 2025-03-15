@@ -1,296 +1,356 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <base target="_top">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>DBT Distress Tolerance Skills Tracker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        .card {
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .card-header {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        .skill-category {
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 10px;
-        }
-        .crisis-survival {
-            background-color: #e6f7ff;
-            border-left: 4px solid #1890ff;
-        }
-        .reality-acceptance {
-            background-color: #f6ffed;
-            border-left: 4px solid #52c41a;
-        }
-        .progress {
-            height: 20px;
-            margin-bottom: 10px;
-        }
-        .stats-box {
-            text-align: center;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #f8f9fa;
-            margin-bottom: 20px;
-        }
-        .stats-number {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1890ff;
-        }
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 2s linear infinite;
-            margin: 20px auto;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .skill-actions { display: flex; gap: 5px; }
-        .btn-learn {
-            background-color: #fff;
-            border-color: #1890ff;
-            color: #1890ff;
-        }
-        .btn-learn-green {
-            background-color: #fff;
-            border-color: #52c41a;
-            color: #52c41a;
-        }
-    </style>
+  <base target="_top">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DBT Distress Tolerance Skills Tracker</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    .card {
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .skill-category {
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .crisis-survival {
+      background-color: #e6f7ff;
+      border-left: 4px solid #1890ff;
+    }
+
+    .reality-acceptance {
+      background-color: #f6ffed;
+      border-left: 4px solid #52c41a;
+    }
+
+    .progress {
+      height: 20px;
+      margin-bottom: 10px;
+    }
+
+    .stats-box {
+      text-align: center;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #f8f9fa;
+      margin-bottom: 20px;
+    }
+
+    .stats-number {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1890ff;
+    }
+
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #3498db;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 2s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .skill-actions {
+      display: flex;
+      gap: 5px;
+    }
+
+    .btn-learn {
+      background-color: #fff;
+      border-color: #1890ff;
+      color: #1890ff;
+    }
+
+    .btn-learn-green {
+      background-color: #fff;
+      border-color: #52c41a;
+      color: #52c41a;
+    }
+  </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1 class="mb-4">DBT Distress Tolerance Skills Dashboard</h1>
-        <div class="row" id="loading">
-            <div class="col-12 text-center">
-                <div class="loader"></div>
-                <p>Loading your data...</p>
-            </div>
-        </div>
-        <div id="dashboard-content" style="display: none;">
-            <div class="row mb-4">
-                <div class="col">
-                    <div class="card">
-                        <div class="card-header">Quick Actions</div>
-                        <div class="card-body">
-                            <button class="btn btn-primary me-2" onclick="openLogForm()">Log New Skills Practice</button>
-                            <button class="btn btn-outline-secondary" onclick="openReports()">View Reports</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mb-4">
-                <div class="col-md-4">
-                    <div class="stats-box">
-                        <div class="stats-number" id="total-practices">0</div>
-                        <div>Total Practices</div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stats-box">
-                        <div class="stats-number" id="avg-effectiveness">0</div>
-                        <div>Avg. Effectiveness (1-5)</div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="stats-box">
-                        <div class="stats-number" id="distress-reduction">0</div>
-                        <div>Avg. Distress Reduction</div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Crisis Survival Skills</div>
-                        <div class="card-body">
-                            <div class="skill-category crisis-survival">
-                                <h5>STOP Skill</h5>
-                                <p>Stop, Take a step back, Observe, Proceed mindfully</p>
-                                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'STOP')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn" onclick="learnSkill('STOP')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category crisis-survival">
-                                <h5>TIP Skills</h5>
-                                <p>Temperature, Intense exercise, Paced breathing, Paired muscle relaxation</p>
-                                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'TIP')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn" onclick="learnSkill('TIP')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category crisis-survival">
-                                <h5>Pros and Cons</h5>
-                                <p>Evaluate pros and cons of acting on crisis urges vs. resisting</p>
-                                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'Pros and Cons')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn" onclick="learnSkill('Pros and Cons')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category crisis-survival">
-                                <h5>Distract with ACCEPTS</h5>
-                                <p>Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations</p>
-                                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'ACCEPTS')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn" onclick="learnSkill('ACCEPTS')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category crisis-survival">
-                                <h5>Self-Soothe</h5>
-                                <p>Using your five senses: Vision, Hearing, Smell, Taste, Touch</p>
-                                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'Self-Soothe')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn" onclick="learnSkill('Self-Soothe')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category crisis-survival">
-                                <h5>IMPROVE the Moment</h5>
-                                <p>Imagery, Meaning, Prayer, Relaxation, One thing, Vacation, Encouragement</p>
-                                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'IMPROVE')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn" onclick="learnSkill('IMPROVE')">Learn Skill</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header">Reality Acceptance Skills</div>
-                        <div class="card-body">
-                            <div class="skill-category reality-acceptance">
-                                <h5>Radical Acceptance</h5>
-                                <p>Complete acceptance of reality as it is</p>
-                                <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Radical Acceptance')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Radical Acceptance')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category reality-acceptance">
-                                <h5>Turning the Mind</h5>
-                                <p>Choosing to accept reality over and over</p>
-                                <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Turning the Mind')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Turning the Mind')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category reality-acceptance">
-                                <h5>Willingness</h5>
-                                <p>Doing what's needed, wholeheartedly</p>
-                                <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Willingness')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Willingness')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category reality-acceptance">
-                                <h5>Half-Smiling and Willing Hands</h5>
-                                <p>Accepting reality with your body</p>
-                                <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Half-Smiling')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Half-Smiling')">Learn Skill</button>
-                            </div>
-                            <div class="skill-category reality-acceptance">
-                                <h5>Mindfulness of Current Thoughts</h5>
-                                <p>Observing thoughts as they come and go</p>
-                                <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Mindfulness of Thoughts')">Log Practice</button>
-                                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Mindfulness of Thoughts')">Learn Skill</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-4">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">Recent Skills Practice</div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Skill Type</th>
-                                            <th>Skill Name</th>
-                                            <th>Distress (Before → After)</th>
-                                            <th>Effectiveness</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="recent-logs"></tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <h1 class="mb-4">DBT Distress Tolerance Skills Dashboard</h1>
+    <div class="row" id="loading">
+      <div class="col-12 text-center">
+        <div class="loader"></div>
+        <p>Loading your data...</p>
+      </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            loadDashboardData();
+    <div id="dashboard-content" style="display: none;">
+      <div class="row mb-4">
+        <div class="col">
+          <div class="card">
+            <div class="card-header">Quick Actions</div>
+            <div class="card-body">
+              <button class="btn btn-primary me-2" onclick="openLogForm()">Log New Skills Practice</button>
+              <button class="btn btn-outline-secondary" onclick="openReports()">View Reports</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <div class="stats-box">
+            <div class="stats-number" id="total-practices">0</div>
+            <div>Total Practices</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-box">
+            <div class="stats-number" id="avg-effectiveness">0</div>
+            <div>Avg. Effectiveness (1-5)</div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stats-box">
+            <div class="stats-number" id="distress-reduction">0</div>
+            <div>Avg. Distress Reduction</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Crisis Survival Skills</div>
+            <div class="card-body">
+              <div class="skill-category crisis-survival">
+                <h5>STOP Skill</h5>
+                <p>Stop, Take a step back, Observe, Proceed mindfully</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'STOP')">Log
+                  Practice</button>
+                <button class="btn btn-sm btn-learn" onclick="learnSkill('STOP')">Learn Skill</button>
+              </div>
+              <div class="skill-category crisis-survival">
+                <h5>TIP Skills</h5>
+                <p>Temperature, Intense exercise, Paced breathing, Paired muscle relaxation</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'TIP')">Log
+                  Practice</button>
+                <button class="btn btn-sm btn-learn" onclick="learnSkill('TIP')">Learn Skill</button>
+              </div>
+              <div class="skill-category crisis-survival">
+                <h5>Pros and Cons</h5>
+                <p>Evaluate pros and cons of acting on crisis urges vs. resisting</p>
+                <button class="btn btn-sm btn-outline-primary"
+                  onclick="logSkill('Crisis Survival', 'Pros and Cons')">Log Practice</button>
+                <button class="btn btn-sm btn-learn" onclick="learnSkill('Pros and Cons')">Learn Skill</button>
+              </div>
+              <div class="skill-category crisis-survival">
+                <h5>Distract with ACCEPTS</h5>
+                <p>Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'ACCEPTS')">Log
+                  Practice</button>
+                <button class="btn btn-sm btn-learn" onclick="learnSkill('ACCEPTS')">Learn Skill</button>
+              </div>
+              <div class="skill-category crisis-survival">
+                <h5>Self-Soothe</h5>
+                <p>Using your five senses: Vision, Hearing, Smell, Taste, Touch</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'Self-Soothe')">Log
+                  Practice</button>
+                <button class="btn btn-sm btn-learn" onclick="learnSkill('Self-Soothe')">Learn Skill</button>
+              </div>
+              <div class="skill-category crisis-survival">
+                <h5>IMPROVE the Moment</h5>
+                <p>Imagery, Meaning, Prayer, Relaxation, One thing, Vacation, Encouragement</p>
+                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'IMPROVE')">Log
+                  Practice</button>
+                <button class="btn btn-sm btn-learn" onclick="learnSkill('IMPROVE')">Learn Skill</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Reality Acceptance Skills</div>
+            <div class="card-body">
+              <div class="skill-category reality-acceptance">
+                <h5>Radical Acceptance</h5>
+                <p>Complete acceptance of reality as it is</p>
+                <button class="btn btn-sm btn-outline-success"
+                  onclick="logSkill('Reality Acceptance', 'Radical Acceptance')">Log Practice</button>
+                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Radical Acceptance')">Learn
+                  Skill</button>
+              </div>
+              <div class="skill-category reality-acceptance">
+                <h5>Turning the Mind</h5>
+                <p>Choosing to accept reality over and over</p>
+                <button class="btn btn-sm btn-outline-success"
+                  onclick="logSkill('Reality Acceptance', 'Turning the Mind')">Log Practice</button>
+                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Turning the Mind')">Learn Skill</button>
+              </div>
+              <div class="skill-category reality-acceptance">
+                <h5>Willingness</h5>
+                <p>Doing what's needed, wholeheartedly</p>
+                <button class="btn btn-sm btn-outline-success"
+                  onclick="logSkill('Reality Acceptance', 'Willingness')">Log Practice</button>
+                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Willingness')">Learn Skill</button>
+              </div>
+              <div class="skill-category reality-acceptance">
+                <h5>Half-Smiling and Willing Hands</h5>
+                <p>Accepting reality with your body</p>
+                <button class="btn btn-sm btn-outline-success"
+                  onclick="logSkill('Reality Acceptance', 'Half-Smiling')">Log Practice</button>
+                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Half-Smiling')">Learn Skill</button>
+              </div>
+              <div class="skill-category reality-acceptance">
+                <h5>Mindfulness of Current Thoughts</h5>
+                <p>Observing thoughts as they come and go</p>
+                <button class="btn btn-sm btn-outline-success"
+                  onclick="logSkill('Reality Acceptance', 'Mindfulness of Thoughts')">Log Practice</button>
+                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Mindfulness of Thoughts')">Learn
+                  Skill</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">Recent Skills Practice</div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Skill Type</th>
+                      <th>Skill Name</th>
+                      <th>Distress (Before → After)</th>
+                      <th>Effectiveness</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-logs"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      loadDashboardData();
+    });
+
+    function loadDashboardData() {
+      google.script.run
+        .withSuccessHandler(updateDashboard)
+        .withFailureHandler(handleError)
+        .getDashboardData();
+    }
+
+    function updateDashboard(data) {
+      document.getElementById('loading').style.display = 'none';
+
+      // Add null check for data
+      if (!data) {
+        document.getElementById('dashboard-content').innerHTML = '<div class="alert alert-info">No data available. Please try refreshing the page or check the spreadsheet configuration.</div>';
+        return;
+      }
+
+      document.getElementById('dashboard-content').style.display = 'block';
+
+      // Set defaults for all data properties if they're undefined
+      const safeData = {
+        totalPractices: data.totalPractices || 0,
+        skillEffectivenessAvg: data.skillEffectivenessAvg || {},
+        avgDistressReduction: data.avgDistressReduction || 0,
+        recentLogs: data.recentLogs || []
+      };
+
+      document.getElementById('total-practices').textContent = safeData.totalPractices;
+
+      let totalEffectiveness = 0;
+      let skillCount = 0;
+      for (const skill in safeData.skillEffectivenessAvg) {
+        totalEffectiveness += safeData.skillEffectivenessAvg[skill];
+        skillCount++;
+      }
+      const avgEffectiveness = skillCount > 0 ? (totalEffectiveness / skillCount).toFixed(1) : '0.0';
+      document.getElementById('avg-effectiveness').textContent = avgEffectiveness;
+      document.getElementById('distress-reduction').textContent = safeData.avgDistressReduction.toFixed(1);
+
+      const recentLogsElement = document.getElementById('recent-logs');
+      recentLogsElement.innerHTML = '';
+
+      if (safeData.recentLogs && safeData.recentLogs.length > 0) {
+        safeData.recentLogs.forEach(log => {
+          try {
+            const row = document.createElement('tr');
+            const date = new Date(log[0]);
+            const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+            row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${log[1] || ''}</td>
+                    <td>${log[2] || ''}</td>
+                    <td>${log[3] || 0} → ${log[4] || 0}</td>
+                    <td>${log[5] || 0}/5</td>
+                `;
+            recentLogsElement.appendChild(row);
+          } catch (error) {
+            console.error('Error processing log entry:', error);
+          }
         });
+      } else {
+        const row = document.createElement('tr');
+        row.innerHTML = '<td colspan="5" class="text-center">No recent practices logged</td>';
+        recentLogsElement.appendChild(row);
+      }
+    }
 
-        function loadDashboardData() {
-            google.script.run
-                .withSuccessHandler(updateDashboard)
-                .withFailureHandler(handleError)
-                .getDashboardData();
-        }
+    function handleError(error) {
+      document.getElementById('loading').style.display = 'none';
+      alert('Error loading dashboard data: ' + error.toString());
+    }
 
-        function updateDashboard(data) {
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('dashboard-content').style.display = 'block';
-            document.getElementById('total-practices').textContent = data.totalPractices;
-            let totalEffectiveness = 0;
-            let skillCount = 0;
-            for (const skill in data.skillEffectivenessAvg) {
-                totalEffectiveness += data.skillEffectivenessAvg[skill];
-                skillCount++;
-            }
-            const avgEffectiveness = skillCount > 0 ? (totalEffectiveness / skillCount).toFixed(1) : '0.0';
-            document.getElementById('avg-effectiveness').textContent = avgEffectiveness;
-            document.getElementById('distress-reduction').textContent = data.avgDistressReduction.toFixed(1);
-            const recentLogsElement = document.getElementById('recent-logs');
-            recentLogsElement.innerHTML = '';
-            if (data.recentLogs && data.recentLogs.length > 0) {
-                data.recentLogs.forEach(log => {
-                    const row = document.createElement('tr');
-                    const date = new Date(log[0]);
-                    const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-                    row.innerHTML = `
-                        <td>${formattedDate}</td>
-                        <td>${log[1]}</td>
-                        <td>${log[2]}</td>
-                        <td>${log[3]} → ${log[4]}</td>
-                        <td>${log[5]}/5</td>
-                    `;
-                    recentLogsElement.appendChild(row);
-                });
-            } else {
-                const row = document.createElement('tr');
-                row.innerHTML = '<td colspan="5" class="text-center">No recent practices logged</td>';
-                recentLogsElement.appendChild(row);
-            }
-        }
+    function openLogForm() {
+      google.script.run.openLogForm();
+    }
 
-        function handleError(error) {
-            document.getElementById('loading').style.display = 'none';
-            alert('Error loading dashboard data: ' + error.toString());
-        }
+    function openReports() {
+      google.script.run.openReports();
+    }
 
-        function openLogForm() {
-            google.script.run.openLogForm();
-        }
+    function logSkill(skillType, skillName) {
+      google.script.run.openLogForm();
+    }
 
-        function openReports() {
-            google.script.run.openReports();
-        }
-
-        function logSkill(skillType, skillName) {
-            google.script.run.openLogForm();
-        }
-
-        function learnSkill(skillName) {
-            google.script.run.openSkillGuide(skillName);
-        }
-    </script>
+    function learnSkill(skillName) {
+      google.script.run.openSkillGuide(skillName);
+    }
+  </script>
 </body>
+
 </html>
