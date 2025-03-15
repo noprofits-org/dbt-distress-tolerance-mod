@@ -2,293 +2,221 @@
 // Main App Script
 
 // Global variables
-const SPREADSHEET_ID = '1pitmKWr-EuZBK9_A7U9bpf7Kdy8TGrzoScvUhbV6jNw'; // Enter your Google Sheet ID here
+const SPREADSHEET_ID = '1pitmKWr-EuZBK9_A7U9bpf7Kdy8TGrzoScvUhbV6jNw'; // Replace with your Google Sheet ID
 const SHEET_NAME_USER_DATA = 'UserData';
 const SHEET_NAME_SKILLS_LOG = 'SkillsLog';
 
-/**
- * Creates the menu items for the spreadsheet.
- */
 function onOpen() {
-  const ui = SpreadsheetApp.getUi();
-  ui.createMenu('DBT Skills Tracker')
-    .addItem('Open Dashboard', 'openDashboard')
-    .addItem('Log New Skills Practice', 'openLogForm')
-    .addItem('View Reports', 'openReports')
-    .addToUi();
+    const ui = SpreadsheetApp.getUi();
+    ui.createMenu('DBT Skills Tracker')
+        .addItem('Open Dashboard', 'openDashboard')
+        .addItem('Log New Skills Practice', 'openLogForm')
+        .addItem('View Reports', 'openReports')
+        .addToUi();
 }
 
-/**
- * Opens the main dashboard web app.
- */
 function openDashboard() {
-  const html = HtmlService.createHtmlOutputFromFile('Dashboard')
-    .setWidth(800)
-    .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, 'DBT Distress Tolerance Skills Dashboard');
+    const html = HtmlService.createHtmlOutputFromFile('Dashboard')
+        .setWidth(800)
+        .setHeight(600);
+    SpreadsheetApp.getUi().showModalDialog(html, 'DBT Distress Tolerance Skills Dashboard');
 }
 
-/**
- * Opens the form to log new skills practice.
- */
 function openLogForm() {
-  const html = HtmlService.createHtmlOutputFromFile('LogForm')
-    .setWidth(600)
-    .setHeight(700);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Log Skills Practice');
+    const html = HtmlService.createHtmlOutputFromFile('LogForm')
+        .setWidth(600)
+        .setHeight(700);
+    SpreadsheetApp.getUi().showModalDialog(html, 'Log Skills Practice');
 }
 
-/**
- * Opens the reports page.
- */
 function openReports() {
-  const html = HtmlService.createHtmlOutputFromFile('Reports')
-    .setWidth(800)
-    .setHeight(600);
-  SpreadsheetApp.getUi().showModalDialog(html, 'Skills Practice Reports');
+    const html = HtmlService.createHtmlOutputFromFile('Reports')
+        .setWidth(800)
+        .setHeight(600);
+    SpreadsheetApp.getUi().showModalDialog(html, 'Skills Practice Reports');
 }
 
-/**
- * Gets all skill logs for the user.
- */
 function getSkillLogs() {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-  const data = sheet.getDataRange().getValues();
-
-  // Remove header row
-  data.shift();
-
-  return data;
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
+    const data = sheet.getDataRange().getValues();
+    data.shift(); // Remove header row
+    return data;
 }
 
-/**
- * Saves a new skill practice log.
- */
 function saveSkillLog(logData) {
-  try {
-    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-
-    // Format: [timestamp, skillType, skillName, distressBefore, distressAfter, effectiveness, notes]
-    const row = [
-      new Date(),
-      logData.skillType,
-      logData.skillName,
-      parseInt(logData.distressBefore, 10),
-      parseInt(logData.distressAfter, 10),
-      parseInt(logData.effectiveness, 10),
-      logData.notes
-    ];
-
-    sheet.appendRow(row);
-    return { success: true, message: 'Skill practice logged successfully!' };
-  } catch (error) {
-    return { success: false, message: 'Error logging skill practice: ' + error.toString() };
-  }
-}
-
-/**
- * Logs a skill practice with time tracking and quiz score.
- */
-function logSkillWithTime(logData) {
-  try {
-    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-
-    // Format: [timestamp, skillType, skillName, distressBefore, distressAfter, effectiveness, timeSpent, quizScore, notes]
-    const row = [
-      new Date(),
-      logData.skillType,
-      logData.skillName,
-      parseInt(logData.distressBefore, 10) || 0,
-      parseInt(logData.distressAfter, 10) || 0,
-      parseInt(logData.effectiveness, 10) || 3,
-      parseFloat(logData.timeSpent) || 0,  // Time spent in minutes
-      logData.quizScore !== undefined ? logData.quizScore : "",  // Quiz score (empty if not applicable)
-      logData.notes || ''
-    ];
-
-    sheet.appendRow(row);
-    return { success: true, message: 'Skill practice logged successfully!' };
-  } catch (error) {
-    return { success: false, message: 'Error logging skill practice: ' + error.toString() };
-  }
-}
-
-/**
- * Gets data for the dashboard summary.
- */
-function getDashboardData() {
-  const logs = getSkillLogs();
-
-  // Calculate summary statistics
-  const totalPractices = logs.length;
-
-  // Group practices by skill type
-  const skillTypeCount = {};
-  logs.forEach(log => {
-    const skillType = log[1]; // skillType is in column 1
-    skillTypeCount[skillType] = (skillTypeCount[skillType] || 0) + 1;
-  });
-
-  // Calculate average effectiveness by skill
-  const skillEffectiveness = {};
-  const skillCounts = {};
-
-  logs.forEach(log => {
-    const skillName = log[2]; // skillName is in column 2
-    const effectiveness = log[5]; // effectiveness is in column 5
-
-    if (!skillEffectiveness[skillName]) {
-      skillEffectiveness[skillName] = 0;
-      skillCounts[skillName] = 0;
+    try {
+        initializeSpreadsheet();
+        const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+        const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
+        const row = [
+            new Date(),
+            logData.skillType,
+            logData.skillName,
+            parseInt(logData.distressBefore, 10),
+            parseInt(logData.distressAfter, 10),
+            parseInt(logData.effectiveness, 10),
+            '', // TimeSpent
+            '', // QuizScore
+            logData.notes || ''
+        ];
+        sheet.appendRow(row);
+        return { success: true, message: 'Skill practice logged successfully!' };
+    } catch (error) {
+        return { success: false, message: 'Error logging skill practice: ' + error.toString() };
     }
-
-    skillEffectiveness[skillName] += effectiveness;
-    skillCounts[skillName]++;
-  });
-
-  // Calculate averages
-  const skillEffectivenessAvg = {};
-  Object.keys(skillEffectiveness).forEach(skill => {
-    skillEffectivenessAvg[skill] = skillEffectiveness[skill] / skillCounts[skill];
-  });
-
-  // Calculate average distress reduction
-  let totalDistressReduction = 0;
-  logs.forEach(log => {
-    const distressBefore = log[3]; // distressBefore is in column 3
-    const distressAfter = log[4]; // distressAfter is in column 4
-    totalDistressReduction += (distressBefore - distressAfter);
-  });
-
-  const avgDistressReduction = totalPractices > 0 ? totalDistressReduction / totalPractices : 0;
-
-  // Get recent logs (last 5)
-  const recentLogs = logs.slice(-5).reverse();
-
-  return {
-    totalPractices,
-    skillTypeCount,
-    skillEffectivenessAvg,
-    avgDistressReduction,
-    recentLogs
-  };
 }
 
-/**
- * Initializes the spreadsheet with necessary sheets and headers if they don't exist.
- */
+function logSkillWithTime(logData) {
+    try {
+        initializeSpreadsheet();
+        const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+        const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
+        const row = [
+            new Date(),                     // A: Timestamp
+            logData.skillType,             // B: SkillType
+            logData.skillName,             // C: SkillName
+            parseInt(logData.distressBefore, 10) || 0, // D: DistressBefore
+            parseInt(logData.distressAfter, 10) || 0,  // E: DistressAfter
+            parseInt(logData.effectiveness, 10) || 3,  // F: Effectiveness
+            parseFloat(logData.timeSpent) || 0,        // G: TimeSpent / min
+            logData.quizScore || '',                   // H: QuizScore
+            logData.notes || ''                        // I: Notes
+        ];
+        sheet.appendRow(row);
+        return { success: true, message: 'Skill practice logged successfully!' };
+    } catch (error) {
+        return { success: false, message: 'Error logging skill practice: ' + error.toString() };
+    }
+}
+
+function getDashboardData() {
+    const logs = getSkillLogs();
+    const totalPractices = logs.length;
+    const skillTypeCount = {};
+    logs.forEach(log => {
+        const skillType = log[1];
+        skillTypeCount[skillType] = (skillTypeCount[skillType] || 0) + 1;
+    });
+    const skillEffectiveness = {};
+    const skillCounts = {};
+    logs.forEach(log => {
+        const skillName = log[2];
+        const effectiveness = log[5];
+        if (!skillEffectiveness[skillName]) {
+            skillEffectiveness[skillName] = 0;
+            skillCounts[skillName] = 0;
+        }
+        skillEffectiveness[skillName] += effectiveness;
+        skillCounts[skillName]++;
+    });
+    const skillEffectivenessAvg = {};
+    Object.keys(skillEffectiveness).forEach(skill => {
+        skillEffectivenessAvg[skill] = skillEffectiveness[skill] / skillCounts[skill];
+    });
+    let totalDistressReduction = 0;
+    logs.forEach(log => {
+        const distressBefore = log[3];
+        const distressAfter = log[4];
+        totalDistressReduction += (distressBefore - distressAfter);
+    });
+    const avgDistressReduction = totalPractices > 0 ? totalDistressReduction / totalPractices : 0;
+    const recentLogs = logs.slice(-5).reverse();
+    return {
+        totalPractices,
+        skillTypeCount,
+        skillEffectivenessAvg,
+        avgDistressReduction,
+        recentLogs
+    };
+}
+
 function initializeSpreadsheet() {
-  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-
-  // Check if UserData sheet exists, create if not
-  let userDataSheet = ss.getSheetByName(SHEET_NAME_USER_DATA);
-  if (!userDataSheet) {
-    userDataSheet = ss.insertSheet(SHEET_NAME_USER_DATA);
-    userDataSheet.appendRow(['UserID', 'Name', 'Email', 'DateJoined']);
-  }
-
-  // Check if SkillsLog sheet exists, create if not
-  let skillsLogSheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-  if (!skillsLogSheet) {
-    skillsLogSheet = ss.insertSheet(SHEET_NAME_SKILLS_LOG);
-    skillsLogSheet.appendRow([
-      'Timestamp',
-      'SkillType',
-      'SkillName',
-      'DistressBefore',
-      'DistressAfter',
-      'Effectiveness',
-      'TimeSpent / min',
-      'QuizScore',
-      'Notes'
-    ]);
-  }
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    let skillsLogSheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
+    if (!skillsLogSheet) {
+        skillsLogSheet = ss.insertSheet(SHEET_NAME_SKILLS_LOG);
+    }
+    const expectedHeaders = [
+        'Timestamp',
+        'SkillType',
+        'SkillName',
+        'DistressBefore',
+        'DistressAfter',
+        'Effectiveness',
+        'TimeSpent / min',
+        'QuizScore',
+        'Notes'
+    ];
+    const currentHeaders = skillsLogSheet.getRange(1, 1, 1, 9).getValues()[0];
+    if (!arraysEqual(currentHeaders, expectedHeaders)) {
+        skillsLogSheet.getRange(1, 1, 1, 9).setValues([expectedHeaders]);
+    }
 }
 
-/**
- * Serves the web app.
- */
+function arraysEqual(a, b) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+}
+
 function doGet() {
-  return HtmlService.createHtmlOutputFromFile('Dashboard')
-    .setTitle('DBT Distress Tolerance Skills Tracker');
+    return HtmlService.createHtmlOutputFromFile('Dashboard')
+        .setTitle('DBT Distress Tolerance Skills Tracker');
 }
 
 function manualInitialize() {
-  initializeSpreadsheet();
+    initializeSpreadsheet();
 }
 
-/**
- * Opens a skill guide HTML page.
- * @param {string} skillName - The name of the skill (used to determine which guide to open)
- */
 function openSkillGuide(skillName) {
-  // Map skill names to their corresponding HTML files
-  const skillGuideMap = {
-    'STOP': 'STOP',
-    'TIP': 'TIP',
-    'Pros and Cons': 'ProsAndCons',
-    'ACCEPTS': 'ACCEPTS',
-    'Self-Soothe': 'SelfSooth',
-    'IMPROVE': 'IMPROVE',
-    'Radical Acceptance': 'RadicalAcceptance',
-    'Turning the Mind': 'TurningTheMind',
-    'Willingness': 'Willingness',
-    'Half-Smiling': 'HalfSmiling',
-    'Mindfulness of Thoughts': 'MindfulnessOfThoughts'
-  };
-
-  // Get the HTML file name for the skill
-  const htmlFileName = skillGuideMap[skillName] || 'Dashboard';
-
-  try {
-    // Create and display the HTML output with templating
-    const template = HtmlService.createTemplateFromFile(htmlFileName);
-    
-    // Evaluate the template and display it
-    const html = template.evaluate()
-      .setWidth(800)
-      .setHeight(600);
-      
-    SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
-  } catch (error) {
-    // Fallback to direct HTML if template processing fails
-    Logger.log('Error loading template: ' + error.toString());
-    const html = HtmlService.createHtmlOutputFromFile(htmlFileName)
-      .setWidth(800)
-      .setHeight(600);
-      
-    SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
-  }
-}
-
-// Helper function to include other HTML files in templates
-function include(filename) {
-  return HtmlService.createHtmlOutputFromFile(filename).getContent();
-}
-
-/**
- * Tracks when a skill guide is viewed by the user.
- * @param {string} skillName - The name of the skill guide being viewed
- */
-function trackSkillGuideView(skillName) {
-  try {
-    // Get the spreadsheet and create a Skills Guide Views sheet if it doesn't exist
-    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    let viewsSheet = ss.getSheetByName('SkillGuideViews');
-
-    if (!viewsSheet) {
-      viewsSheet = ss.insertSheet('SkillGuideViews');
-      viewsSheet.appendRow(['Timestamp', 'SkillName']);
+    const skillGuideMap = {
+        'STOP': 'STOP',
+        'TIP': 'TIP',
+        'Pros and Cons': 'ProsAndCons',
+        'ACCEPTS': 'ACCEPTS',
+        'Self-Soothe': 'SelfSooth',
+        'IMPROVE': 'IMPROVE',
+        'Radical Acceptance': 'RadicalAcceptance',
+        'Turning the Mind': 'TurningTheMind',
+        'Willingness': 'Willingness',
+        'Half-Smiling': 'HalfSmiling',
+        'Mindfulness of Thoughts': 'MindfulnessOfThoughts'
+    };
+    const htmlFileName = skillGuideMap[skillName] || 'Dashboard';
+    try {
+        const template = HtmlService.createTemplateFromFile(htmlFileName);
+        const html = template.evaluate()
+            .setWidth(800)
+            .setHeight(600);
+        SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
+    } catch (error) {
+        Logger.log('Error loading template: ' + error.toString());
+        const html = HtmlService.createHtmlOutputFromFile(htmlFileName)
+            .setWidth(800)
+            .setHeight(600);
+        SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
     }
+}
 
-    // Log the view
-    viewsSheet.appendRow([new Date(), skillName]);
-    return { success: true };
-  } catch (error) {
-    Logger.log('Error tracking skill guide view: ' + error.toString());
-    return { success: false, error: error.toString() };
-  }
+function include(filename) {
+    return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
+
+function trackSkillGuideView(skillName) {
+    try {
+        const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+        let viewsSheet = ss.getSheetByName('SkillGuideViews');
+        if (!viewsSheet) {
+            viewsSheet = ss.insertSheet('SkillGuideViews');
+            viewsSheet.appendRow(['Timestamp', 'SkillName']);
+        }
+        viewsSheet.appendRow([new Date(), skillName]);
+        return { success: true };
+    } catch (error) {
+        Logger.log('Error tracking skill guide view: ' + error.toString());
+        return { success: false, error: error.toString() };
+    }
 }
