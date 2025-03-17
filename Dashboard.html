@@ -39,11 +39,6 @@
       border-left: 4px solid #52c41a;
     }
 
-    .progress {
-      height: 20px;
-      margin-bottom: 10px;
-    }
-
     .stats-box {
       text-align: center;
       padding: 15px;
@@ -94,19 +89,69 @@
       border-color: #52c41a;
       color: #52c41a;
     }
+
+    .coming-soon-badge {
+      background-color: #faad14;
+      color: white;
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 10px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .error-container {
+      background-color: #fff2f0;
+      border: 1px solid #ffccc7;
+      border-radius: 5px;
+      padding: 20px;
+      margin: 20px auto;
+      max-width: 600px;
+    }
+
+    .retry-button {
+      margin-top: 15px;
+    }
+
+    .connection-status {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      padding: 5px 10px;
+      border-radius: 15px;
+      background-color: #f0f8ff;
+      font-size: 12px;
+      z-index: 1000;
+    }
   </style>
 </head>
 
 <body>
+  <div class="connection-status" id="connection-status">Connection: Ready</div>
+
   <div class="container">
     <h1 class="mb-4">DBT Distress Tolerance Skills Dashboard</h1>
+
+    <!-- Loading Indicator -->
     <div class="row" id="loading">
       <div class="col-12 text-center">
         <div class="loader"></div>
         <p>Loading your data...</p>
       </div>
     </div>
+
+    <!-- Error Container -->
+    <div id="error-container" style="display: none;" class="error-container">
+      <h3 class="text-danger">Error Loading Dashboard</h3>
+      <p id="error-message">An error occurred while loading your data.</p>
+      <div class="text-center">
+        <button class="btn btn-primary retry-button" onclick="retryLoadingData()">Try Again</button>
+      </div>
+    </div>
+
+    <!-- Dashboard Content -->
     <div id="dashboard-content" style="display: none;">
+      <!-- Quick Actions -->
       <div class="row mb-4">
         <div class="col">
           <div class="card">
@@ -114,10 +159,13 @@
             <div class="card-body">
               <button class="btn btn-primary me-2" onclick="openLogForm()">Log New Skills Practice</button>
               <button class="btn btn-outline-secondary" onclick="openReports()">View Reports</button>
+              <button class="btn btn-outline-info ms-2" onclick="reinitializeApp()">Re-Initialize App</button>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Statistics -->
       <div class="row mb-4">
         <div class="col-md-4">
           <div class="stats-box">
@@ -138,7 +186,10 @@
           </div>
         </div>
       </div>
+
+      <!-- Skills Lists -->
       <div class="row">
+        <!-- Crisis Survival Skills -->
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">Crisis Survival Skills</div>
@@ -146,48 +197,60 @@
               <div class="skill-category crisis-survival">
                 <h5>STOP Skill</h5>
                 <p>Stop, Take a step back, Observe, Proceed mindfully</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'STOP')">Log
-                  Practice</button>
-                <button class="btn btn-sm btn-learn" onclick="learnSkill('STOP')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'STOP')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn" onclick="learnSkill('STOP')">Learn Skill</button>
+                </div>
               </div>
+
               <div class="skill-category crisis-survival">
                 <h5>TIP Skills</h5>
                 <p>Temperature, Intense exercise, Paced breathing, Paired muscle relaxation</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'TIP')">Log
-                  Practice</button>
-                <button class="btn btn-sm btn-learn" onclick="learnSkill('TIP')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'TIP')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn" onclick="learnSkill('TIP')">Learn Skill</button>
+                </div>
               </div>
+
               <div class="skill-category crisis-survival">
                 <h5>Pros and Cons</h5>
                 <p>Evaluate pros and cons of acting on crisis urges vs. resisting</p>
-                <button class="btn btn-sm btn-outline-primary"
-                  onclick="logSkill('Crisis Survival', 'Pros and Cons')">Log Practice</button>
-                <button class="btn btn-sm btn-learn" onclick="learnSkill('Pros and Cons')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'Pros and Cons')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn" onclick="learnSkill('Pros and Cons')">Learn Skill <span class="coming-soon-badge" id="badge-pros-and-cons">Coming Soon</span></button>
+                </div>
               </div>
+
               <div class="skill-category crisis-survival">
                 <h5>Distract with ACCEPTS</h5>
                 <p>Activities, Contributing, Comparisons, Emotions, Pushing away, Thoughts, Sensations</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'ACCEPTS')">Log
-                  Practice</button>
-                <button class="btn btn-sm btn-learn" onclick="learnSkill('ACCEPTS')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'ACCEPTS')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn" onclick="learnSkill('ACCEPTS')">Learn Skill</button>
+                </div>
               </div>
+
               <div class="skill-category crisis-survival">
                 <h5>Self-Soothe</h5>
                 <p>Using your five senses: Vision, Hearing, Smell, Taste, Touch</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'Self-Soothe')">Log
-                  Practice</button>
-                <button class="btn btn-sm btn-learn" onclick="learnSkill('Self-Soothe')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'Self-Soothe')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn" onclick="learnSkill('Self-Soothe')">Learn Skill <span class="coming-soon-badge" id="badge-self-soothe">Coming Soon</span></button>
+                </div>
               </div>
+
               <div class="skill-category crisis-survival">
                 <h5>IMPROVE the Moment</h5>
                 <p>Imagery, Meaning, Prayer, Relaxation, One thing, Vacation, Encouragement</p>
-                <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'IMPROVE')">Log
-                  Practice</button>
-                <button class="btn btn-sm btn-learn" onclick="learnSkill('IMPROVE')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-primary" onclick="logSkill('Crisis Survival', 'IMPROVE')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn" onclick="learnSkill('IMPROVE')">Learn Skill <span class="coming-soon-badge" id="badge-improve">Coming Soon</span></button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <!-- Reality Acceptance Skills -->
         <div class="col-md-6">
           <div class="card">
             <div class="card-header">Reality Acceptance Skills</div>
@@ -195,44 +258,53 @@
               <div class="skill-category reality-acceptance">
                 <h5>Radical Acceptance</h5>
                 <p>Complete acceptance of reality as it is</p>
-                <button class="btn btn-sm btn-outline-success"
-                  onclick="logSkill('Reality Acceptance', 'Radical Acceptance')">Log Practice</button>
-                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Radical Acceptance')">Learn
-                  Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Radical Acceptance')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Radical Acceptance')">Learn Skill <span class="coming-soon-badge" id="badge-radical-acceptance">Coming Soon</span></button>
+                </div>
               </div>
+
               <div class="skill-category reality-acceptance">
                 <h5>Turning the Mind</h5>
                 <p>Choosing to accept reality over and over</p>
-                <button class="btn btn-sm btn-outline-success"
-                  onclick="logSkill('Reality Acceptance', 'Turning the Mind')">Log Practice</button>
-                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Turning the Mind')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Turning the Mind')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Turning the Mind')">Learn Skill <span class="coming-soon-badge" id="badge-turning-the-mind">Coming Soon</span></button>
+                </div>
               </div>
+
               <div class="skill-category reality-acceptance">
                 <h5>Willingness</h5>
                 <p>Doing what's needed, wholeheartedly</p>
-                <button class="btn btn-sm btn-outline-success"
-                  onclick="logSkill('Reality Acceptance', 'Willingness')">Log Practice</button>
-                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Willingness')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Willingness')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Willingness')">Learn Skill <span class="coming-soon-badge" id="badge-willingness">Coming Soon</span></button>
+                </div>
               </div>
+
               <div class="skill-category reality-acceptance">
                 <h5>Half-Smiling and Willing Hands</h5>
                 <p>Accepting reality with your body</p>
-                <button class="btn btn-sm btn-outline-success"
-                  onclick="logSkill('Reality Acceptance', 'Half-Smiling')">Log Practice</button>
-                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Half-Smiling')">Learn Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Half-Smiling')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Half-Smiling')">Learn Skill <span class="coming-soon-badge" id="badge-half-smiling">Coming Soon</span></button>
+                </div>
               </div>
+
               <div class="skill-category reality-acceptance">
                 <h5>Mindfulness of Current Thoughts</h5>
                 <p>Observing thoughts as they come and go</p>
-                <button class="btn btn-sm btn-outline-success"
-                  onclick="logSkill('Reality Acceptance', 'Mindfulness of Thoughts')">Log Practice</button>
-                <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Mindfulness of Thoughts')">Learn
-                  Skill</button>
+                <div class="skill-actions">
+                  <button class="btn btn-sm btn-outline-success" onclick="logSkill('Reality Acceptance', 'Mindfulness of Thoughts')">Log Practice</button>
+                  <button class="btn btn-sm btn-learn-green" onclick="learnSkill('Mindfulness of Thoughts')">Learn Skill <span class="coming-soon-badge" id="badge-mindfulness-of-thoughts">Coming Soon</span></button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- Recent Logs -->
       <div class="row mt-4">
         <div class="col-12">
           <div class="card">
@@ -249,7 +321,9 @@
                       <th>Effectiveness</th>
                     </tr>
                   </thead>
-                  <tbody id="recent-logs"></tbody>
+                  <tbody id="recent-logs">
+                    <!-- Will be populated with data -->
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -258,98 +332,251 @@
       </div>
     </div>
   </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      loadDashboardData();
-    });
+    // Track connection and retry attempts
+let retryCount = 0;
+const MAX_RETRIES = 3;
+let loadingTimeout;
+let availableSkillGuides = {};
 
-    function loadDashboardData() {
-      google.script.run
-        .withSuccessHandler(updateDashboard)
-        .withFailureHandler(handleError)
-        .getDashboardData();
+// When page loads
+document.addEventListener('DOMContentLoaded', function() {
+  updateConnectionStatus('Connecting...');
+  loadDashboardData();
+  
+  // Set timeout for loading
+  loadingTimeout = setTimeout(function() {
+    if (document.getElementById('loading').style.display !== 'none') {
+      handleLoadTimeout();
     }
+  }, 10000); // 10 second timeout
+});
 
-    function updateDashboard(data) {
-      document.getElementById('loading').style.display = 'none';
+// Load dashboard data
+function loadDashboardData() {
+  updateConnectionStatus('Loading data...');
+  google.script.run
+    .withSuccessHandler(updateDashboard)
+    .withFailureHandler(handleError)
+    .getDashboardData();
+}
 
-      // Add null check for data
-      if (!data) {
-        document.getElementById('dashboard-content').innerHTML = '<div class="alert alert-info">No data available. Please try refreshing the page or check the spreadsheet configuration.</div>';
-        return;
-      }
-
-      document.getElementById('dashboard-content').style.display = 'block';
-
-      // Set defaults for all data properties if they're undefined
-      const safeData = {
-        totalPractices: data.totalPractices || 0,
-        skillEffectivenessAvg: data.skillEffectivenessAvg || {},
-        avgDistressReduction: data.avgDistressReduction || 0,
-        recentLogs: data.recentLogs || []
-      };
-
-      document.getElementById('total-practices').textContent = safeData.totalPractices;
-
-      let totalEffectiveness = 0;
-      let skillCount = 0;
-      for (const skill in safeData.skillEffectivenessAvg) {
-        totalEffectiveness += safeData.skillEffectivenessAvg[skill];
-        skillCount++;
-      }
-      const avgEffectiveness = skillCount > 0 ? (totalEffectiveness / skillCount).toFixed(1) : '0.0';
-      document.getElementById('avg-effectiveness').textContent = avgEffectiveness;
-      document.getElementById('distress-reduction').textContent = safeData.avgDistressReduction.toFixed(1);
-
-      const recentLogsElement = document.getElementById('recent-logs');
-      recentLogsElement.innerHTML = '';
-
-      if (safeData.recentLogs && safeData.recentLogs.length > 0) {
-        safeData.recentLogs.forEach(log => {
-          try {
-            const row = document.createElement('tr');
-            const date = new Date(log[0]);
-            const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-            row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td>${log[1] || ''}</td>
-                    <td>${log[2] || ''}</td>
-                    <td>${log[3] || 0} → ${log[4] || 0}</td>
-                    <td>${log[5] || 0}/5</td>
-                `;
-            recentLogsElement.appendChild(row);
-          } catch (error) {
-            console.error('Error processing log entry:', error);
-          }
-        });
-      } else {
+// Update dashboard with data
+function updateDashboard(data) {
+  clearTimeout(loadingTimeout);
+  updateConnectionStatus('Connected');
+  document.getElementById('loading').style.display = 'none';
+  
+  // Check if data is valid
+  if (!data) {
+    handleError({ message: 'No data received from server. Please try again.' });
+    return;
+  }
+  
+  document.getElementById('dashboard-content').style.display = 'block';
+  
+  // Set defaults for all data properties
+  const safeData = {
+    totalPractices: data.totalPractices || 0,
+    skillEffectivenessAvg: data.skillEffectivenessAvg || {},
+    avgDistressReduction: data.avgDistressReduction || 0,
+    recentLogs: data.recentLogs || [],
+    skillGuideStatus: data.skillGuideStatus || {}
+  };
+  
+  // Update statistics
+  document.getElementById('total-practices').textContent = safeData.totalPractices;
+  
+  // Calculate average effectiveness
+  let totalEffectiveness = 0;
+  let skillCount = 0;
+  for (const skill in safeData.skillEffectivenessAvg) {
+    totalEffectiveness += safeData.skillEffectivenessAvg[skill];
+    skillCount++;
+  }
+  const avgEffectiveness = skillCount > 0 ? (totalEffectiveness / skillCount).toFixed(1) : '0.0';
+  document.getElementById('avg-effectiveness').textContent = avgEffectiveness;
+  document.getElementById('distress-reduction').textContent = safeData.avgDistressReduction.toFixed(1);
+  
+  // Update recent logs table
+  const recentLogsElement = document.getElementById('recent-logs');
+  recentLogsElement.innerHTML = '';
+  
+  if (safeData.recentLogs && safeData.recentLogs.length > 0) {
+    safeData.recentLogs.forEach(log => {
+      try {
         const row = document.createElement('tr');
-        row.innerHTML = '<td colspan="5" class="text-center">No recent practices logged</td>';
+        const date = new Date(log[0]);
+        const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+        row.innerHTML = `
+          <td>${formattedDate}</td>
+          <td>${log[1] || ''}</td>
+          <td>${log[2] || ''}</td>
+          <td>${log[3] || 0} → ${log[4] || 0}</td>
+          <td>${log[5] || 0}/5</td>
+        `;
         recentLogsElement.appendChild(row);
+      } catch (error) {
+        console.error('Error processing log entry:', error);
+      }
+    });
+  } else {
+    const row = document.createElement('tr');
+    row.innerHTML = '<td colspan="5" class="text-center">No recent practices logged</td>';
+    recentLogsElement.appendChild(row);
+  }
+  
+  // Update skill guide availability badges
+  availableSkillGuides = safeData.skillGuideStatus || {};
+  updateSkillGuideBadges();
+}
+
+// Update skill guide availability badges
+function updateSkillGuideBadges() {
+  const skillGuides = [
+    'Pros and Cons', 'Self-Soothe', 'IMPROVE',
+    'Radical Acceptance', 'Turning the Mind', 'Willingness',
+    'Half-Smiling', 'Mindfulness of Thoughts'
+  ];
+  
+  skillGuides.forEach(skill => {
+    const badgeId = 'badge-' + skill.toLowerCase().replace(/ /g, '-').replace(/\./g, '-');
+    const badge = document.getElementById(badgeId);
+    if (badge) {
+      if (availableSkillGuides[skill]) {
+        badge.style.display = 'none';
+      } else {
+        badge.style.display = 'inline';
       }
     }
+  });
+}
 
-    function handleError(error) {
-      document.getElementById('loading').style.display = 'none';
-      alert('Error loading dashboard data: ' + error.toString());
-    }
+// Handle errors
+function handleError(error) {
+  clearTimeout(loadingTimeout);
+  updateConnectionStatus('Error');
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('dashboard-content').style.display = 'none';
+  
+  const errorContainer = document.getElementById('error-container');
+  const errorMessage = document.getElementById('error-message');
+  
+  errorContainer.style.display = 'block';
+  errorMessage.textContent = (error.message || error.toString()) + 
+    (retryCount > 0 ? ` (Attempt ${retryCount + 1} of ${MAX_RETRIES + 1})` : '');
+  
+  console.error('Dashboard error:', error);
+}
 
-    function openLogForm() {
-      google.script.run.openLogForm();
-    }
+// Handle loading timeout
+function handleLoadTimeout() {
+  handleError({ message: 'Connection timed out. The server took too long to respond.' });
+}
 
-    function openReports() {
-      google.script.run.openReports();
-    }
+// Retry loading data
+function retryLoadingData() {
+  if (retryCount >= MAX_RETRIES) {
+    handleError({ message: `Failed after ${MAX_RETRIES + 1} attempts. Please try again later or contact support.` });
+    return;
+  }
+  
+  retryCount++;
+  document.getElementById('error-container').style.display = 'none';
+  document.getElementById('loading').style.display = 'block';
+  loadDashboardData();
+}
 
-    function logSkill(skillType, skillName) {
-      google.script.run.openLogForm();
-    }
+// Update connection status indicator
+function updateConnectionStatus(status) {
+  const statusElement = document.getElementById('connection-status');
+  statusElement.textContent = `Connection: ${status}`;
+  
+  // Update styles based on status
+  if (status === 'Connected') {
+    statusElement.style.backgroundColor = '#f6ffed';
+    statusElement.style.color = '#52c41a';
+  } else if (status === 'Error') {
+    statusElement.style.backgroundColor = '#fff2f0';
+    statusElement.style.color = '#ff4d4f';
+  } else {
+    statusElement.style.backgroundColor = '#f0f8ff';
+    statusElement.style.color = '#1890ff';
+  }
+}
 
-    function learnSkill(skillName) {
-      google.script.run.openSkillGuide(skillName);
-    }
+// Open various dialogs
+function openLogForm() {
+  updateConnectionStatus('Opening log form...');
+  google.script.run
+    .withSuccessHandler(function() {
+      updateConnectionStatus('Connected');
+    })
+    .withFailureHandler(function(error) {
+      updateConnectionStatus('Error');
+      alert('Error opening log form: ' + error.toString());
+    })
+    .openLogForm();
+}
+
+function openReports() {
+  updateConnectionStatus('Opening reports...');
+  google.script.run
+    .withSuccessHandler(function() {
+      updateConnectionStatus('Connected');
+    })
+    .withFailureHandler(function(error) {
+      updateConnectionStatus('Error');
+      alert('Error opening reports: ' + error.toString());
+    })
+    .openReports();
+}
+
+function logSkill(skillType, skillName) {
+  updateConnectionStatus('Opening log form...');
+  google.script.run
+    .withSuccessHandler(function() {
+      updateConnectionStatus('Connected');
+    })
+    .withFailureHandler(function(error) {
+      updateConnectionStatus('Error');
+      alert('Error opening log form: ' + error.toString());
+    })
+    .openLogForm();
+}
+
+function learnSkill(skillName) {
+  updateConnectionStatus('Opening skill guide...');
+  google.script.run
+    .withSuccessHandler(function() {
+      updateConnectionStatus('Connected');
+    })
+    .withFailureHandler(function(error) {
+      updateConnectionStatus('Error');
+      alert('Error opening skill guide: ' + error.toString());
+    })
+    .openSkillGuide(skillName);
+}
+
+function reinitializeApp() {
+  if (confirm('Are you sure you want to re-initialize the app? This will reset any missing sheets but won\'t delete your data.')) {
+    updateConnectionStatus('Initializing...');
+    google.script.run
+      .withSuccessHandler(function() {
+        updateConnectionStatus('Reloading...');
+        setTimeout(function() {
+          window.location.reload();
+        }, 1000);
+      })
+      .withFailureHandler(function(error) {
+        updateConnectionStatus('Error');
+        alert('Error initializing app: ' + error.toString());
+      })
+      .manualInitialize();
+  }
+}
   </script>
 </body>
 
