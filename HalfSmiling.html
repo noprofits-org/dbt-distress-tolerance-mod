@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <base target="_top">
   <meta charset="utf-8">
@@ -12,7 +13,7 @@
       padding: 20px;
       background-color: #f8f9fa;
     }
-    
+
     .placeholder-card {
       background-color: white;
       border-radius: 5px;
@@ -22,19 +23,19 @@
       text-align: center;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
-    
+
     .coming-soon {
       color: #1890ff;
       font-size: 24px;
       margin-bottom: 20px;
     }
-    
+
     .skill-icon {
       font-size: 64px;
       margin-bottom: 20px;
       color: #1890ff;
     }
-    
+
     .skill-description {
       margin: 20px 0;
       text-align: left;
@@ -42,7 +43,7 @@
       background-color: #f9f9f9;
       border-radius: 5px;
     }
-    
+
     .timer {
       font-size: 12px;
       color: #666;
@@ -52,19 +53,21 @@
     }
   </style>
 </head>
+
 <body>
   <div class="timer">Time spent: <span id="timer-display">00:00</span></div>
-  
+
   <div class="container">
     <div class="placeholder-card">
       <div class="skill-icon">📝</div>
-      <h2>SKILL_NAME_HERE</h2>
+      <h2>Half Smiling</h2>
       <p class="coming-soon">Coming Soon!</p>
-      
+
       <div class="skill-description">
         <h5>What is this DBT skill?</h5>
-        <p>This is a placeholder description for the skill. The interactive guide for this skill is currently under development.</p>
-        
+        <p>This is a placeholder description for the skill. The interactive guide for this skill is currently under
+          development.</p>
+
         <h5>When to use this skill:</h5>
         <ul>
           <li>When you're experiencing difficult emotions</li>
@@ -72,54 +75,120 @@
           <li>When other strategies aren't working effectively</li>
         </ul>
       </div>
-      
-      <p>We're currently developing an interactive guide for this skill. In the meantime, you can log your practice of this skill using the dashboard.</p>
-      
+
+      <p>We're currently developing an interactive guide for this skill. In the meantime, you can log your practice of
+        this skill using the dashboard.</p>
+
       <div class="mt-4">
         <button class="btn btn-primary" onclick="logSkillPractice()">Log Practice</button>
         <button class="btn btn-secondary ms-2" onclick="returnToDashboard()">Return to Dashboard</button>
       </div>
     </div>
   </div>
-  
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     let startTime;
     let timerInterval;
-    
+
     // Start timer when page loads
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       startTimer();
-      google.script.run.trackSkillGuideView('SKILL_NAME_HERE');
+      google.script.run.trackSkillGuideView('Half Smiling');
     });
-    
+
     function startTimer() {
       startTime = new Date();
       timerInterval = setInterval(updateTimer, 1000);
     }
-    
+
     function updateTimer() {
       const currentTime = new Date();
       const timeSpent = Math.floor((currentTime - startTime) / 1000); // time in seconds
       const minutes = Math.floor(timeSpent / 60);
       const seconds = timeSpent % 60;
-      document.getElementById('timer-display').textContent = 
+      document.getElementById('timer-display').textContent =
         `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
-    
+
     function stopTimer() {
       clearInterval(timerInterval);
     }
-    
+
     function logSkillPractice() {
       stopTimer();
       google.script.run.openLogForm();
     }
-    
+
     function returnToDashboard() {
       stopTimer();
       google.script.run.openDashboard();
     }
+
+    function logSessionWithQuiz() {
+      clearInterval(timerInterval);
+      const logButton = document.querySelector('.btn-log-session');
+      logButton.disabled = true;
+      logButton.textContent = "Logging...";
+
+      const userNotes = document.getElementById('user-notes').value;
+      let notesText = `${skillInfo.name} Skill Quiz: Score ${quizScore}/${skillInfo.totalQuestions}. `;
+      if (userNotes) notesText += `User notes: ${userNotes}`;
+
+      const logData = {
+        skillType: skillInfo.type,
+        skillName: skillInfo.name,
+        distressBefore: 0,
+        distressAfter: 0,
+        effectiveness: Math.min(5, Math.ceil((quizScore / skillInfo.totalQuestions) * 5)),
+        timeSpent: timeSpent / 60, // Convert to minutes
+        quizScore: `${quizScore}/${skillInfo.totalQuestions}`,
+        notes: notesText
+      };
+
+      google.script.run
+        .withSuccessHandler(function (result) {
+          try {
+            logButton.textContent = "Logged Successfully!";
+            document.getElementById('return-after-quiz').style.display = 'block';
+            document.getElementById('confirmation-message').style.display = 'block';
+            document.getElementById('time-spent').textContent = `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+          } catch (error) {
+            console.error("Error in success handler:", error);
+            alert("Your skill practice was logged, but there was an error updating the display.");
+          }
+        })
+        .withFailureHandler(function (error) {
+          try {
+            console.error("Error logging session:", error);
+            alert('Error logging session: ' + error);
+            logButton.disabled = false;
+            logButton.textContent = "Complete Practice Session";
+          } catch (handlingError) {
+            console.error("Error handling failure:", handlingError);
+            alert("An unexpected error occurred. Please try again.");
+            logButton.disabled = false;
+          }
+        })
+        .logSkillWithTime(logData);
+    }
+
+    function logSkillWithTime(skillName, timeSpent, quizScore) {
+      const logData = {
+        skillName: skillName,
+        timeSpent: parseFloat(timeSpent) || 0,
+        quizScore: quizScore || ''
+      };
+      google.script.run
+        .withSuccessHandler(result => {
+          alert(result);
+        })
+        .withFailureHandler(error => {
+          alert('Error logging session: ' + error.message);
+        })
+        .logSkillWithTime(logData);
+    }
   </script>
 </body>
+
 </html>

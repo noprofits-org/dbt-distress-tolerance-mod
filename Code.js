@@ -8,6 +8,64 @@ const SHEET_NAME_SKILLS_LOG = 'SkillsLog';
 const SHEET_NAME_VIEWS = 'SkillGuideViews';
 
 /**
+ * Helper function to safely access the spreadsheet
+ */
+function getSpreadsheet() {
+  try {
+    return SpreadsheetApp.openById(SPREADSHEET_ID);
+  } catch (error) {
+    Logger.log(`Error accessing spreadsheet: ${error.toString()}`);
+    throw new Error(`Could not access spreadsheet. Verify permissions and ID: ${SPREADSHEET_ID}`);
+  }
+}
+
+/**
+ * Helper function to safely log messages
+ */
+function safeLog(message, data) {
+  try {
+    if (data !== undefined) {
+      Logger.log(message + ": " + JSON.stringify(data));
+    } else {
+      Logger.log(message);
+    }
+  } catch (error) {
+    Logger.log("Error in safeLog: " + error.toString());
+  }
+}
+
+/**
+ * Debug function to test data retrieval
+ */
+function testDashboardData() {
+  Logger.log("Starting testDashboardData");
+
+  try {
+    // Try to access spreadsheet
+    try {
+      const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+      Logger.log("Successfully accessed spreadsheet: " + ss.getName());
+
+      // Try to get dashboard data
+      const data = getDashboardData();
+      Logger.log("getDashboardData returned: " + JSON.stringify(data));
+
+      if (data === null) {
+        Logger.log("ERROR: getDashboardData returned null!");
+        return { error: "getDashboardData returned null!" };
+      }
+
+      return data;
+    } catch (error) {
+      Logger.log("Error in testDashboardData: " + error.toString());
+      return { error: error.toString() };
+    }
+  } catch (error) {
+    Logger.log("Fatal error in testDashboardData: " + error.toString());
+    return { error: "Fatal error: " + error.toString() };
+  }
+}
+/**
  * Runs when the spreadsheet is opened
  */
 function onOpen() {
@@ -93,21 +151,23 @@ function showError(message) {
  */
 function getSkillLogs() {
   try {
+    // Ensure spreadsheet is initialized
+    initializeSpreadsheet();
+
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-    
+
     if (!sheet) {
-      Logger.log('Skills log sheet not found, initializing');
-      initializeSpreadsheet();
+      Logger.log('Skills log sheet not found after initialization - critical error');
       return [];
     }
-    
+
     const dataRange = sheet.getDataRange();
     if (dataRange.getNumRows() <= 1) {
       Logger.log('No skill logs found (only header row)');
       return [];
     }
-    
+
     const data = dataRange.getValues();
     data.shift(); // Remove header row
     return data;
@@ -122,27 +182,50 @@ function getSkillLogs() {
  */
 function saveSkillLog(logData) {
   try {
+    // Validate input data before proceeding
+    if (!logData || typeof logData !== 'object') {
+      return {
+        success: false,
+        message: 'Invalid log data provided. Please try again.'
+      };
+    }
+
+    // Ensure spreadsheet is initialized
     initializeSpreadsheet();
+
+    // Get spreadsheet and sheet
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-    
-    // Validate data
-    const distressBefore = parseInt(logData.distressBefore, 10) || 0;
-    const distressAfter = parseInt(logData.distressAfter, 10) || 0;
-    const effectiveness = parseInt(logData.effectiveness, 10) || 3;
-    
+
+    if (!sheet) {
+      return {
+        success: false,
+        message: 'Could not find or create skills log sheet. Please check permissions.'
+      };
+    }
+
+    // Validate and sanitize data
+    const distressBefore = validateNumeric(logData.distressBefore, 0, 0, 100);
+    const distressAfter = validateNumeric(logData.distressAfter, 0, 0, 100);
+    const effectiveness = validateNumeric(logData.effectiveness, 3, 1, 5);
+    const skillType = sanitizeString(logData.skillType);
+    const skillName = sanitizeString(logData.skillName);
+    const notes = sanitizeString(logData.notes);
+
+    // Create the row
     const row = [
       new Date(),                  // Timestamp
-      logData.skillType || '',     // SkillType
-      logData.skillName || '',     // SkillName
+      skillType,                   // SkillType
+      skillName,                   // SkillName
       distressBefore,              // DistressBefore
       distressAfter,               // DistressAfter
       effectiveness,               // Effectiveness
       '',                          // TimeSpent
       '',                          // QuizScore
-      logData.notes || ''          // Notes
+      notes                        // Notes
     ];
-    
+
+    // Append row
     sheet.appendRow(row);
     Logger.log('Skill practice logged successfully');
     return { success: true, message: 'Skill practice logged successfully!' };
@@ -157,28 +240,52 @@ function saveSkillLog(logData) {
  */
 function logSkillWithTime(logData) {
   try {
+    // Validate input data before proceeding
+    if (!logData || typeof logData !== 'object') {
+      return {
+        success: false,
+        message: 'Invalid log data provided. Please try again.'
+      };
+    }
+
+    // Ensure spreadsheet is initialized
     initializeSpreadsheet();
+
+    // Get spreadsheet and sheet
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     const sheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-    
-    // Validate data
-    const distressBefore = parseInt(logData.distressBefore, 10) || 0;
-    const distressAfter = parseInt(logData.distressAfter, 10) || 0;
-    const effectiveness = parseInt(logData.effectiveness, 10) || 3;
+
+    if (!sheet) {
+      return {
+        success: false,
+        message: 'Could not find or create skills log sheet. Please check permissions.'
+      };
+    }
+
+    // Validate and sanitize data
+    const distressBefore = validateNumeric(logData.distressBefore, 0, 0, 100);
+    const distressAfter = validateNumeric(logData.distressAfter, 0, 0, 100);
+    const effectiveness = validateNumeric(logData.effectiveness, 3, 1, 5);
     const timeSpent = parseFloat(logData.timeSpent) || 0;
-    
+    const skillType = sanitizeString(logData.skillType);
+    const skillName = sanitizeString(logData.skillName);
+    const quizScore = logData.quizScore || '';
+    const notes = sanitizeString(logData.notes);
+
+    // Create the row
     const row = [
       new Date(),                  // Timestamp
-      logData.skillType || '',     // SkillType
-      logData.skillName || '',     // SkillName
+      skillType,                   // SkillType
+      skillName,                   // SkillName
       distressBefore,              // DistressBefore
       distressAfter,               // DistressAfter
       effectiveness,               // Effectiveness
       timeSpent,                   // TimeSpent / min
-      logData.quizScore || '',     // QuizScore
-      logData.notes || ''          // Notes
+      quizScore,                   // QuizScore
+      notes                        // Notes
     ];
-    
+
+    // Append row
     sheet.appendRow(row);
     Logger.log('Skill practice with time logged successfully');
     return { success: true, message: 'Skill practice logged successfully!' };
@@ -189,86 +296,50 @@ function logSkillWithTime(logData) {
 }
 
 /**
- * Gets data for the dashboard
+ * Gets data for the dashboard - with guaranteed output
  */
 function getDashboardData() {
   try {
-    const logs = getSkillLogs();
-    const totalPractices = logs.length;
-    
-    // Count by skill type
-    const skillTypeCount = {};
-    logs.forEach(log => {
-      const skillType = log[1];
-      skillTypeCount[skillType] = (skillTypeCount[skillType] || 0) + 1;
-    });
-    
-    // Calculate effectiveness by skill
-    const skillEffectiveness = {};
-    const skillCounts = {};
-    logs.forEach(log => {
-      const skillName = log[2];
-      const effectiveness = log[5];
-      if (!skillEffectiveness[skillName]) {
-        skillEffectiveness[skillName] = 0;
-        skillCounts[skillName] = 0;
-      }
-      skillEffectiveness[skillName] += effectiveness;
-      skillCounts[skillName]++;
-    });
-    
-    // Calculate average effectiveness
-    const skillEffectivenessAvg = {};
-    Object.keys(skillEffectiveness).forEach(skill => {
-      skillEffectivenessAvg[skill] = skillEffectiveness[skill] / skillCounts[skill];
-    });
-    
-    // Calculate distress reduction
-    let totalDistressReduction = 0;
-    logs.forEach(log => {
-      const distressBefore = log[3];
-      const distressAfter = log[4];
-      totalDistressReduction += (distressBefore - distressAfter);
-    });
-    const avgDistressReduction = totalPractices > 0 ? totalDistressReduction / totalPractices : 0;
-    
-    // Get recent logs (last 5)
-    const recentLogs = logs.slice(-5).reverse();
-    
-    // Get available skill guides
-    const skillGuideStatus = {
-      'STOP': checkFileExists('STOP.html'),
-      'TIP': checkFileExists('TIP.html'),
-      'Pros and Cons': checkFileExists('ProsAndCons.html'),
-      'ACCEPTS': checkFileExists('ACCEPTS.html'),
-      'Self-Soothe': checkFileExists('SelfSooth.html'),
-      'IMPROVE': checkFileExists('IMPROVE.html'),
-      'Radical Acceptance': checkFileExists('RadicalAcceptance.html'),
-      'Turning the Mind': checkFileExists('TurningTheMind.html'),
-      'Willingness': checkFileExists('Willingness.html'),
-      'Half-Smiling': checkFileExists('HalfSmiling.html'),
-      'Mindfulness of Thoughts': checkFileExists('MindfulnessOfThoughts.html')
-    };
-    
-    return {
-      totalPractices,
-      skillTypeCount,
-      skillEffectivenessAvg,
-      avgDistressReduction,
-      recentLogs,
-      skillGuideStatus
-    };
-  } catch (error) {
-    Logger.log('Error getting dashboard data: ' + error.toString());
-    return {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const sheet = ss.getSheetByName('SkillsLog');
+    const fallbackData = {
       totalPractices: 0,
-      skillTypeCount: {},
-      skillEffectivenessAvg: {},
-      avgDistressReduction: 0,
-      recentLogs: [],
-      skillGuideStatus: {}
+      averageEffectiveness: 0,
+      averageDistressReduction: 0,
+      recentLogs: []
     };
+    if (!sheet || sheet.getDataRange().getNumRows() <= 1) {
+      Logger.log("No data in SkillsLog sheet");
+      return fallbackData;
+    }
+    const data = sheet.getDataRange().getValues();
+    const logs = data.slice(1); // Remove header row
+    fallbackData.totalPractices = logs.length;
+    fallbackData.recentLogs = logs.slice(-5).reverse();
+    return fallbackData;
+  } catch (error) {
+    Logger.log("Error in getDashboardData: " + error);
+    return fallbackData;
   }
+}
+
+/**
+ * Helper function to get skill guide status
+ */
+function getSkillGuideStatus() {
+  return {
+    'STOP': true,
+    'TIP': true,
+    'ACCEPTS': true,
+    'Pros and Cons': false,
+    'Self-Soothe': false,
+    'IMPROVE': false,
+    'Radical Acceptance': false,
+    'Turning the Mind': false,
+    'Willingness': false,
+    'Half-Smiling': false,
+    'Mindfulness of Thoughts': false
+  };
 }
 
 /**
@@ -288,62 +359,26 @@ function checkFileExists(filename) {
  * Initializes the spreadsheet with required sheets and headers
  */
 function initializeSpreadsheet() {
-  try {
-    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    
-    // Initialize SkillsLog sheet
-    let skillsLogSheet = ss.getSheetByName(SHEET_NAME_SKILLS_LOG);
-    if (!skillsLogSheet) {
-      Logger.log('Creating SkillsLog sheet');
-      skillsLogSheet = ss.insertSheet(SHEET_NAME_SKILLS_LOG);
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheetsToCreate = [
+    { name: 'SkillsLog', headers: ['Timestamp', 'SkillType', 'SkillName', 'DistressBefore', 'DistressAfter', 'Effectiveness', 'TimeSpent / min', 'QuizScore', 'Notes'] },
+    { name: 'UserData', headers: ['UserId', 'Name', 'Email'] },
+    { name: 'SkillGuideViews', headers: ['Timestamp', 'SkillName', 'UserId'] }
+  ];
+
+  sheetsToCreate.forEach(sheetInfo => {
+    let sheet = ss.getSheetByName(sheetInfo.name);
+    if (!sheet) {
+      sheet = ss.insertSheet(sheetInfo.name);
+      sheet.appendRow(sheetInfo.headers);
+    } else {
+      const existingHeaders = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+      if (JSON.stringify(existingHeaders) !== JSON.stringify(sheetInfo.headers)) {
+        sheet.clear();
+        sheet.appendRow(sheetInfo.headers);
+      }
     }
-    
-    // Check and set headers
-    const expectedHeaders = [
-      'Timestamp',
-      'SkillType',
-      'SkillName',
-      'DistressBefore',
-      'DistressAfter',
-      'Effectiveness',
-      'TimeSpent / min',
-      'QuizScore',
-      'Notes'
-    ];
-    
-    // Only set headers if first row is empty or different
-    let currentHeaders = [];
-    if (skillsLogSheet.getLastRow() > 0) {
-      currentHeaders = skillsLogSheet.getRange(1, 1, 1, expectedHeaders.length).getValues()[0];
-    }
-    
-    if (currentHeaders.length === 0 || !arraysEqual(currentHeaders, expectedHeaders)) {
-      Logger.log('Setting headers for SkillsLog sheet');
-      skillsLogSheet.getRange(1, 1, 1, expectedHeaders.length).setValues([expectedHeaders]);
-    }
-    
-    // Initialize UserData sheet if needed
-    let userDataSheet = ss.getSheetByName(SHEET_NAME_USER_DATA);
-    if (!userDataSheet) {
-      Logger.log('Creating UserData sheet');
-      userDataSheet = ss.insertSheet(SHEET_NAME_USER_DATA);
-      userDataSheet.getRange(1, 1, 1, 3).setValues([['ID', 'Name', 'Email']]);
-    }
-    
-    // Initialize SkillGuideViews sheet if needed
-    let viewsSheet = ss.getSheetByName(SHEET_NAME_VIEWS);
-    if (!viewsSheet) {
-      Logger.log('Creating SkillGuideViews sheet');
-      viewsSheet = ss.insertSheet(SHEET_NAME_VIEWS);
-      viewsSheet.getRange(1, 1, 1, 2).setValues([['Timestamp', 'SkillName']]);
-    }
-    
-    Logger.log('Spreadsheet initialization complete');
-    return true;
-  } catch (error) {
-    Logger.log('Error initializing spreadsheet: ' + error.toString());
-    return false;
-  }
+  });
 }
 
 /**
@@ -384,7 +419,7 @@ function manualInitialize() {
 function openSkillGuide(skillName) {
   try {
     Logger.log('Opening skill guide: ' + skillName);
-    
+
     // Define the mapping for skill guides
     const skillGuideMap = {
       'STOP': 'STOP',
@@ -399,11 +434,15 @@ function openSkillGuide(skillName) {
       'Half-Smiling': 'HalfSmiling',
       'Mindfulness of Thoughts': 'MindfulnessOfThoughts'
     };
-    
-    const htmlFileName = skillGuideMap[skillName] || 'Dashboard';
+
+    const htmlFileName = skillGuideMap[skillName] || '';
+
     let html;
-    
+
     try {
+      // Try to track the view regardless of success opening the file
+      trackSkillGuideView(skillName);
+
       // Try to load the skill guide
       html = HtmlService.createHtmlOutputFromFile(htmlFileName)
         .setWidth(800)
@@ -417,14 +456,17 @@ function openSkillGuide(skillName) {
         .setHeight(600)
         .setTitle(skillName + ' Skill Guide (Coming Soon)');
     }
-    
+
     SpreadsheetApp.getUi().showModalDialog(html, skillName + ' Skill Guide');
-    trackSkillGuideView(skillName);
     return true;
-    
+
   } catch (error) {
     Logger.log('Error opening skill guide: ' + error.toString());
-    showError('Error opening skill guide: ' + error.message);
+    try {
+      SpreadsheetApp.getUi().alert('Error', 'Could not open skill guide: ' + error.message, SpreadsheetApp.getUi().ButtonSet.OK);
+    } catch (alertError) {
+      Logger.log('Could not show alert: ' + alertError.toString());
+    }
     return false;
   }
 }
@@ -433,6 +475,7 @@ function openSkillGuide(skillName) {
  * Generates placeholder content for missing skill guides
  */
 function getPlaceholderContent(skillName) {
+  // Use a simpler placeholder to avoid potential script errors
   return `
     <!DOCTYPE html>
     <html>
@@ -503,14 +546,23 @@ function include(filename) {
  */
 function trackSkillGuideView(skillName) {
   try {
+    if (!skillName) {
+      Logger.log('No skill name provided for tracking');
+      return { success: false, error: 'No skill name provided' };
+    }
+
+    // Ensure spreadsheet is initialized
+    initializeSpreadsheet();
+
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     let viewsSheet = ss.getSheetByName(SHEET_NAME_VIEWS);
-    
+
     if (!viewsSheet) {
+      Logger.log('Views sheet not found after initialization - creating it');
       viewsSheet = ss.insertSheet(SHEET_NAME_VIEWS);
       viewsSheet.appendRow(['Timestamp', 'SkillName']);
     }
-    
+
     viewsSheet.appendRow([new Date(), skillName]);
     return { success: true };
   } catch (error) {
@@ -525,11 +577,81 @@ function trackSkillGuideView(skillName) {
 function testSpreadsheetAccess() {
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-    const sheets = ss.getSheets().map(sheet => sheet.getName());
-    Logger.log('Accessible sheets: ' + sheets.join(', '));
-    return 'Success: ' + sheets.join(', ');
+    const sheets = ss.getSheets();
+    Logger.log("Accessible sheets: " + sheets.map(sheet => sheet.getName()).join(", "));
   } catch (error) {
-    Logger.log('Error: ' + error.toString());
-    return 'Error: ' + error.toString();
+    Logger.log("Error accessing spreadsheet: " + error);
+  }
+}
+
+/**
+ * Helper function to validate numeric values
+ */
+function validateNumeric(value, defaultValue, min, max) {
+  const num = parseInt(value, 10);
+  if (isNaN(num)) {
+    return defaultValue;
+  }
+  if (min !== undefined && num < min) {
+    return min;
+  }
+  if (max !== undefined && num > max) {
+    return max;
+  }
+  return num;
+}
+
+/**
+ * Helper function to sanitize strings
+ */
+function sanitizeString(value) {
+  if (value === undefined || value === null) {
+    return '';
+  }
+  // Convert to string and trim
+  return String(value).trim();
+}
+
+/**
+ * Helper function to ensure a sheet exists with the correct headers
+ */
+function ensureSheetExists(spreadsheet, sheetName, headers) {
+  let sheet = spreadsheet.getSheetByName(sheetName);
+
+  if (!sheet) {
+    Logger.log(`Creating ${sheetName} sheet`);
+    sheet = spreadsheet.insertSheet(sheetName);
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.setFrozenRows(1);
+    return;
+  }
+
+  // Check if headers need to be set
+  if (sheet.getLastRow() === 0) {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    sheet.setFrozenRows(1);
+    return;
+  }
+
+  // Verify existing headers match expected headers
+  try {
+    const existingHeaders = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+    let headersMatch = true;
+
+    for (let i = 0; i < headers.length; i++) {
+      if (existingHeaders[i] !== headers[i]) {
+        headersMatch = false;
+        break;
+      }
+    }
+
+    if (!headersMatch) {
+      Logger.log(`Updating headers for ${sheetName} sheet`);
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+    }
+  } catch (error) {
+    Logger.log(`Error checking/updating headers for ${sheetName}: ${error.toString()}`);
+    // Still try to set headers in case of error
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
   }
 }

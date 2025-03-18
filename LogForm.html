@@ -225,43 +225,43 @@
 
   <script>
     let selectedRating = 0;
-    
+
     // Initialize form
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Set up range slider value displays
       const distressBeforeSlider = document.getElementById('distress-before');
       const distressAfterSlider = document.getElementById('distress-after');
-      
-      distressBeforeSlider.addEventListener('input', function() {
+
+      distressBeforeSlider.addEventListener('input', function () {
         document.getElementById('distress-before-value').textContent = this.value;
       });
-      
-      distressAfterSlider.addEventListener('input', function() {
+
+      distressAfterSlider.addEventListener('input', function () {
         document.getElementById('distress-after-value').textContent = this.value;
       });
-      
+
       // Set up form submission
-      document.getElementById('skills-log-form').addEventListener('submit', function(e) {
+      document.getElementById('skills-log-form').addEventListener('submit', function (e) {
         e.preventDefault();
-        
+
         if (validateForm()) {
           saveSkillLog();
         }
       });
     });
-    
+
     function updateSkillOptions() {
       const skillType = document.getElementById('skill-type').value;
       const skillNameSelect = document.getElementById('skill-name');
-      
+
       console.log("Updating skill options for type:", skillType);
-      
+
       // Clear existing options
       skillNameSelect.innerHTML = '<option value="" selected disabled>Select a skill</option>';
-      
+
       // Hide all skill details
       hideAllSkillDetails();
-      
+
       // Populate based on skill type
       if (skillType === 'Crisis Survival') {
         addOption(skillNameSelect, 'STOP', 'STOP Skill');
@@ -278,20 +278,20 @@
         addOption(skillNameSelect, 'Mindfulness of Thoughts', 'Mindfulness of Current Thoughts');
       }
     }
-    
+
     function addOption(selectElement, value, text) {
       const option = document.createElement('option');
       option.value = value;
       option.textContent = text;
       selectElement.appendChild(option);
     }
-    
+
     function showSkillDetails() {
       const skillName = document.getElementById('skill-name').value;
-      
+
       // Hide all skill details first
       hideAllSkillDetails();
-      
+
       // Show the selected skill details
       if (skillName === 'STOP') {
         document.getElementById('stop-details').style.display = 'block';
@@ -317,18 +317,18 @@
         document.getElementById('mindfulness-thoughts-details').style.display = 'block';
       }
     }
-    
+
     function hideAllSkillDetails() {
       const detailsDivs = document.querySelectorAll('.skill-details');
       detailsDivs.forEach(div => {
         div.style.display = 'none';
       });
     }
-    
+
     function selectRating(rating) {
       selectedRating = rating;
       document.getElementById('effectiveness').value = rating;
-      
+
       // Update UI to show selected rating
       const ratingButtons = document.querySelectorAll('.rating-btn');
       ratingButtons.forEach(btn => {
@@ -339,66 +339,55 @@
         }
       });
     }
-    
+
     function validateForm() {
       const skillType = document.getElementById('skill-type').value;
       const skillName = document.getElementById('skill-name').value;
       const effectiveness = document.getElementById('effectiveness').value;
-      
-      if (!skillType || !skillName) {
-        alert('Please select both skill type and skill name.');
+      const distressBefore = document.getElementById('distress-before').value;
+      const distressAfter = document.getElementById('distress-after').value;
+
+      if (!skillType || !skillName || !effectiveness || distressBefore === '' || distressAfter === '') {
+        alert('Please complete all required fields: Skill Type, Skill Name, Distress Levels, and Effectiveness.');
         return false;
       }
-      
-      if (!effectiveness) {
-        alert('Please rate the effectiveness of the skill.');
-        return false;
-      }
-      
       return true;
     }
-    
+
     function saveSkillLog() {
+      if (!validateForm()) return;
+
       const logData = {
         skillType: document.getElementById('skill-type').value,
         skillName: document.getElementById('skill-name').value,
-        distressBefore: document.getElementById('distress-before').value,
-        distressAfter: document.getElementById('distress-after').value,
-        effectiveness: selectedRating,
+        distressBefore: parseInt(document.getElementById('distress-before').value),
+        distressAfter: parseInt(document.getElementById('distress-after').value),
+        effectiveness: parseInt(document.getElementById('effectiveness').value),
         notes: document.getElementById('notes').value
       };
-      
-      // Disable form while saving
+
       const submitButton = document.querySelector('.btn-submit');
       submitButton.disabled = true;
       submitButton.textContent = 'Saving...';
-      
+
+      const timeout = setTimeout(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Save Skills Log';
+        alert('Save timed out. Please check your connection and try again.');
+      }, 10000); // 10-second timeout
+
       google.script.run
-        .withSuccessHandler(function(result) {
+        .withSuccessHandler(result => {
+          clearTimeout(timeout);
           submitButton.disabled = false;
           submitButton.textContent = 'Save Skills Log';
-          
-          if (result.success) {
-            document.getElementById('success-message').style.display = 'block';
-            document.getElementById('error-message').style.display = 'none';
-            
-            // Reset form after successful submission
-            setTimeout(function() {
-              google.script.run.openDashboard();
-            }, 1500);
-          } else {
-            document.getElementById('error-message').textContent = result.message;
-            document.getElementById('error-message').style.display = 'block';
-            document.getElementById('success-message').style.display = 'none';
-          }
+          alert(result);
         })
-        .withFailureHandler(function(error) {
+        .withFailureHandler(error => {
+          clearTimeout(timeout);
           submitButton.disabled = false;
           submitButton.textContent = 'Save Skills Log';
-          
-          document.getElementById('error-message').textContent = 'Error: ' + error.toString();
-          document.getElementById('error-message').style.display = 'block';
-          document.getElementById('success-message').style.display = 'none';
+          alert('Error saving skills log: ' + error.message);
         })
         .saveSkillLog(logData);
     }

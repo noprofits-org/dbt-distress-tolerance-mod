@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <base target="_top">
   <meta charset="utf-8">
@@ -8,26 +9,30 @@
   <!-- Add Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Add Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 20px;
     }
+
     .card {
       margin-bottom: 20px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+
     .card-header {
       background-color: #f8f9fa;
       font-weight: bold;
     }
+
     .chart-container {
       position: relative;
       margin: auto;
       height: 300px;
       width: 100%;
     }
+
     .loader {
       border: 5px solid #f3f3f3;
       border-top: 5px solid #3498db;
@@ -37,53 +42,69 @@
       animation: spin 2s linear infinite;
       margin: 20px auto;
     }
+
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
+
     .tab-content {
       padding: 20px 0;
     }
+
     .nav-tabs .nav-link {
       font-weight: 500;
     }
+
     .nav-tabs .nav-link.active {
       background-color: #f8f9fa;
       border-bottom-color: #f8f9fa;
     }
+
     .table-responsive {
       max-height: 400px;
       overflow-y: auto;
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <h2 class="mb-4">Skills Practice Reports</h2>
-    
+
     <div class="row" id="loading">
       <div class="col-12 text-center">
         <div class="loader"></div>
         <p>Loading your data...</p>
       </div>
     </div>
-    
+
     <div id="reports-content" style="display: none;">
       <ul class="nav nav-tabs" id="reportTabs" role="tablist">
         <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
+          <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" data-bs-target="#overview"
+            type="button" role="tab" aria-controls="overview" aria-selected="true">Overview</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="crisis-survival-tab" data-bs-toggle="tab" data-bs-target="#crisis-survival" type="button" role="tab" aria-controls="crisis-survival" aria-selected="false">Crisis Survival</button>
+          <button class="nav-link" id="crisis-survival-tab" data-bs-toggle="tab" data-bs-target="#crisis-survival"
+            type="button" role="tab" aria-controls="crisis-survival" aria-selected="false">Crisis Survival</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="reality-acceptance-tab" data-bs-toggle="tab" data-bs-target="#reality-acceptance" type="button" role="tab" aria-controls="reality-acceptance" aria-selected="false">Reality Acceptance</button>
+          <button class="nav-link" id="reality-acceptance-tab" data-bs-toggle="tab" data-bs-target="#reality-acceptance"
+            type="button" role="tab" aria-controls="reality-acceptance" aria-selected="false">Reality
+            Acceptance</button>
         </li>
         <li class="nav-item" role="presentation">
-          <button class="nav-link" id="all-logs-tab" data-bs-toggle="tab" data-bs-target="#all-logs" type="button" role="tab" aria-controls="all-logs" aria-selected="false">All Logs</button>
+          <button class="nav-link" id="all-logs-tab" data-bs-toggle="tab" data-bs-target="#all-logs" type="button"
+            role="tab" aria-controls="all-logs" aria-selected="false">All Logs</button>
         </li>
       </ul>
-      
+
       <div class="tab-content" id="reportTabsContent">
         <!-- Overview Tab -->
         <div class="tab-pane fade show active" id="overview" role="tabpanel" aria-labelledby="overview-tab">
@@ -98,7 +119,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">Effectiveness By Skill Type</div>
@@ -110,7 +131,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="row mt-3">
             <div class="col-md-6">
               <div class="card">
@@ -122,7 +143,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">Practice Frequency</div>
@@ -135,7 +156,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Crisis Survival Tab -->
         <div class="tab-pane fade" id="crisis-survival" role="tabpanel" aria-labelledby="crisis-survival-tab">
           <div class="row">
@@ -149,7 +170,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">Crisis Survival Effectiveness</div>
@@ -161,7 +182,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="row mt-3">
             <div class="col-12">
               <div class="card">
@@ -190,7 +211,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- Reality Acceptance Tab -->
         <div class="tab-pane fade" id="reality-acceptance" role="tabpanel" aria-labelledby="reality-acceptance-tab">
           <div class="row">
@@ -204,7 +225,7 @@
                 </div>
               </div>
             </div>
-            
+
             <div class="col-md-6">
               <div class="card">
                 <div class="card-header">Reality Acceptance Effectiveness</div>
@@ -216,7 +237,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="row mt-3">
             <div class="col-12">
               <div class="card">
@@ -245,7 +266,7 @@
             </div>
           </div>
         </div>
-        
+
         <!-- All Logs Tab -->
         <div class="tab-pane fade" id="all-logs" role="tabpanel" aria-labelledby="all-logs-tab">
           <div class="card">
@@ -279,16 +300,16 @@
           </div>
         </div>
       </div>
-      
+
       <div class="text-center mt-4">
         <button class="btn btn-secondary" onclick="google.script.run.openDashboard()">Back to Dashboard</button>
       </div>
     </div>
   </div>
-  
+
   <!-- Add Bootstrap JS bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-  
+
   <script>
     // Chart instances
     let skillsDistributionChart;
@@ -299,29 +320,29 @@
     let crisisSurvivalEffectivenessChart;
     let realityAcceptanceUsageChart;
     let realityAcceptanceEffectivenessChart;
-    
+
     // When the page loads, get logs data
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       loadSkillsData();
     });
-    
+
     function loadSkillsData() {
       google.script.run
         .withSuccessHandler(processData)
         .withFailureHandler(handleError)
         .getSkillLogs();
     }
-    
+
     function processData(data) {
       // Hide loading indicator and show content
       document.getElementById('loading').style.display = 'none';
       document.getElementById('reports-content').style.display = 'block';
-      
+
       if (!data || data.length === 0) {
         document.getElementById('reports-content').innerHTML = '<div class="alert alert-info">No skills practice data available yet. Start logging your skills practice to see reports.</div>';
         return;
       }
-      
+
       // Process data for charts and tables
       const allLogs = data.map(log => {
         return {
@@ -334,19 +355,19 @@
           notes: log[6] || ''
         };
       });
-      
+
       // Sort logs by date (newest first)
       allLogs.sort((a, b) => b.timestamp - a.timestamp);
-      
+
       // Filter logs by skill type
       const crisisSurvivalLogs = allLogs.filter(log => log.skillType === 'Crisis Survival');
       const realityAcceptanceLogs = allLogs.filter(log => log.skillType === 'Reality Acceptance');
-      
+
       // Populate tables
       populateAllLogsTable(allLogs);
       populateCrisisSurvivalTable(crisisSurvivalLogs);
       populateRealityAcceptanceTable(realityAcceptanceLogs);
-      
+
       // Create charts
       createSkillsDistributionChart(allLogs);
       createEffectivenessChart(allLogs);
@@ -355,15 +376,15 @@
       createCrisisSurvivalCharts(crisisSurvivalLogs);
       createRealityAcceptanceCharts(realityAcceptanceLogs);
     }
-    
+
     function populateAllLogsTable(logs) {
       const tbody = document.querySelector('#all-logs-table tbody');
       tbody.innerHTML = '';
-      
+
       logs.forEach(log => {
         const row = document.createElement('tr');
         const distressChange = log.distressBefore - log.distressAfter;
-        
+
         row.innerHTML = `
           <td>${formatDate(log.timestamp)}</td>
           <td>${log.skillType}</td>
@@ -374,19 +395,19 @@
           <td>${log.effectiveness}/5</td>
           <td>${log.notes}</td>
         `;
-        
+
         tbody.appendChild(row);
       });
     }
-    
+
     function populateCrisisSurvivalTable(logs) {
       const tbody = document.querySelector('#crisis-survival-table tbody');
       tbody.innerHTML = '';
-      
+
       logs.forEach(log => {
         const row = document.createElement('tr');
         const distressChange = log.distressBefore - log.distressAfter;
-        
+
         row.innerHTML = `
           <td>${formatDate(log.timestamp)}</td>
           <td>${log.skillName}</td>
@@ -396,19 +417,19 @@
           <td>${log.effectiveness}/5</td>
           <td>${log.notes}</td>
         `;
-        
+
         tbody.appendChild(row);
       });
     }
-    
+
     function populateRealityAcceptanceTable(logs) {
       const tbody = document.querySelector('#reality-acceptance-table tbody');
       tbody.innerHTML = '';
-      
+
       logs.forEach(log => {
         const row = document.createElement('tr');
         const distressChange = log.distressBefore - log.distressAfter;
-        
+
         row.innerHTML = `
           <td>${formatDate(log.timestamp)}</td>
           <td>${log.skillName}</td>
@@ -418,20 +439,20 @@
           <td>${log.effectiveness}/5</td>
           <td>${log.notes}</td>
         `;
-        
+
         tbody.appendChild(row);
       });
     }
-    
+
     function createSkillsDistributionChart(logs) {
       // Count occurrences of each skill
       const skillCounts = {};
       logs.forEach(log => {
         skillCounts[log.skillName] = (skillCounts[log.skillName] || 0) + 1;
       });
-      
+
       const ctx = document.getElementById('skills-distribution-chart').getContext('2d');
-      
+
       skillsDistributionChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -458,22 +479,22 @@
         }
       });
     }
-    
+
     function createEffectivenessChart(logs) {
       // Calculate average effectiveness by skill type
       const crisisSurvivalLogs = logs.filter(log => log.skillType === 'Crisis Survival');
       const realityAcceptanceLogs = logs.filter(log => log.skillType === 'Reality Acceptance');
-      
-      const crisisEffectiveness = crisisSurvivalLogs.length > 0 
-        ? crisisSurvivalLogs.reduce((sum, log) => sum + log.effectiveness, 0) / crisisSurvivalLogs.length 
+
+      const crisisEffectiveness = crisisSurvivalLogs.length > 0
+        ? crisisSurvivalLogs.reduce((sum, log) => sum + log.effectiveness, 0) / crisisSurvivalLogs.length
         : 0;
-        
-      const realityEffectiveness = realityAcceptanceLogs.length > 0 
-        ? realityAcceptanceLogs.reduce((sum, log) => sum + log.effectiveness, 0) / realityAcceptanceLogs.length 
+
+      const realityEffectiveness = realityAcceptanceLogs.length > 0
+        ? realityAcceptanceLogs.reduce((sum, log) => sum + log.effectiveness, 0) / realityAcceptanceLogs.length
         : 0;
-      
+
       const ctx = document.getElementById('effectiveness-chart').getContext('2d');
-      
+
       effectivenessChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -499,15 +520,15 @@
         }
       });
     }
-    
+
     function createDistressReductionChart(logs) {
       // Group logs by week for timeline
       const weeklyData = {};
-      
+
       logs.forEach(log => {
         const weekStart = getWeekStart(log.timestamp);
         const weekKey = weekStart.toISOString().split('T')[0];
-        
+
         if (!weeklyData[weekKey]) {
           weeklyData[weekKey] = {
             totalBefore: 0,
@@ -515,27 +536,27 @@
             count: 0
           };
         }
-        
+
         weeklyData[weekKey].totalBefore += log.distressBefore;
         weeklyData[weekKey].totalAfter += log.distressAfter;
         weeklyData[weekKey].count += 1;
       });
-      
+
       // Sort weeks chronologically
       const sortedWeeks = Object.keys(weeklyData).sort();
-      
+
       // Calculate average distress before and after for each week
       const beforeData = [];
       const afterData = [];
-      
+
       sortedWeeks.forEach(week => {
         const weekData = weeklyData[week];
         beforeData.push(weekData.totalBefore / weekData.count);
         afterData.push(weekData.totalAfter / weekData.count);
       });
-      
+
       const ctx = document.getElementById('distress-reduction-chart').getContext('2d');
-      
+
       distressReductionChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -573,19 +594,19 @@
         }
       });
     }
-    
+
     function createFrequencyChart(logs) {
       // Count practice frequency by day of week
       const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
       const dayCounts = [0, 0, 0, 0, 0, 0, 0];
-      
+
       logs.forEach(log => {
         const dayOfWeek = log.timestamp.getDay();
         dayCounts[dayOfWeek]++;
       });
-      
+
       const ctx = document.getElementById('frequency-chart').getContext('2d');
-      
+
       frequencyChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -610,14 +631,14 @@
         }
       });
     }
-    
+
     function createCrisisSurvivalCharts(logs) {
       // Usage chart for crisis survival skills
       const skillCounts = {};
       logs.forEach(log => {
         skillCounts[log.skillName] = (skillCounts[log.skillName] || 0) + 1;
       });
-      
+
       const ctx1 = document.getElementById('crisis-survival-usage-chart').getContext('2d');
       crisisSurvivalUsageChart = new Chart(ctx1, {
         type: 'pie',
@@ -635,11 +656,11 @@
           maintainAspectRatio: false
         }
       });
-      
+
       // Effectiveness chart for crisis survival skills
       const skillEffectiveness = {};
       const skillCount = {};
-      
+
       logs.forEach(log => {
         if (!skillEffectiveness[log.skillName]) {
           skillEffectiveness[log.skillName] = 0;
@@ -648,7 +669,7 @@
         skillEffectiveness[log.skillName] += log.effectiveness;
         skillCount[log.skillName]++;
       });
-      
+
       const avgEffectiveness = [];
       for (const skill in skillEffectiveness) {
         avgEffectiveness.push({
@@ -656,10 +677,10 @@
           effectiveness: skillEffectiveness[skill] / skillCount[skill]
         });
       }
-      
+
       // Sort by effectiveness
       avgEffectiveness.sort((a, b) => b.effectiveness - a.effectiveness);
-      
+
       const ctx2 = document.getElementById('crisis-survival-effectiveness-chart').getContext('2d');
       crisisSurvivalEffectivenessChart = new Chart(ctx2, {
         type: 'bar',
@@ -684,14 +705,14 @@
         }
       });
     }
-    
+
     function createRealityAcceptanceCharts(logs) {
       // Usage chart for reality acceptance skills
       const skillCounts = {};
       logs.forEach(log => {
         skillCounts[log.skillName] = (skillCounts[log.skillName] || 0) + 1;
       });
-      
+
       const ctx1 = document.getElementById('reality-acceptance-usage-chart').getContext('2d');
       realityAcceptanceUsageChart = new Chart(ctx1, {
         type: 'pie',
@@ -709,11 +730,11 @@
           maintainAspectRatio: false
         }
       });
-      
+
       // Effectiveness chart for reality acceptance skills
       const skillEffectiveness = {};
       const skillCount = {};
-      
+
       logs.forEach(log => {
         if (!skillEffectiveness[log.skillName]) {
           skillEffectiveness[log.skillName] = 0;
@@ -722,7 +743,7 @@
         skillEffectiveness[log.skillName] += log.effectiveness;
         skillCount[log.skillName]++;
       });
-      
+
       const avgEffectiveness = [];
       for (const skill in skillEffectiveness) {
         avgEffectiveness.push({
@@ -730,10 +751,10 @@
           effectiveness: skillEffectiveness[skill] / skillCount[skill]
         });
       }
-      
+
       // Sort by effectiveness
       avgEffectiveness.sort((a, b) => b.effectiveness - a.effectiveness);
-      
+
       const ctx2 = document.getElementById('reality-acceptance-effectiveness-chart').getContext('2d');
       realityAcceptanceEffectivenessChart = new Chart(ctx2, {
         type: 'bar',
@@ -758,7 +779,7 @@
         }
       });
     }
-    
+
     function handleError(error) {
       document.getElementById('loading').style.display = 'none';
       document.getElementById('reports-content').innerHTML = `
@@ -770,30 +791,30 @@
         </div>
       `;
     }
-    
+
     function exportToCSV() {
       google.script.run
-        .withSuccessHandler(function(url) {
+        .withSuccessHandler(function (url) {
           const link = document.createElement('a');
           link.href = url;
           link.target = '_blank';
           link.click();
         })
-        .withFailureHandler(function(error) {
+        .withFailureHandler(function (error) {
           alert('Error exporting data: ' + error.toString());
         })
         .exportLogsToCSV();
     }
-    
+
     // Helper functions
     function formatDate(date) {
       return new Date(date).toLocaleString();
     }
-    
+
     function formatShortDate(date) {
       return `${date.getMonth() + 1}/${date.getDate()}`;
     }
-    
+
     function getWeekStart(date) {
       const d = new Date(date);
       const day = d.getDay();
@@ -802,4 +823,5 @@
     }
   </script>
 </body>
+
 </html>

@@ -462,7 +462,6 @@
                 quizCompleted = true;
             }
         }
-
         function logSessionWithQuiz() {
             clearInterval(timerInterval);
             const logButton = document.querySelector('.btn-log-session');
@@ -486,15 +485,43 @@
 
             google.script.run
                 .withSuccessHandler(function (result) {
-                    logButton.textContent = "Logged Successfully!";
-                    document.getElementById('return-after-quiz').style.display = 'block';
-                    document.getElementById('confirmation-message').style.display = 'block';
-                    document.getElementById('time-spent').textContent = `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+                    try {
+                        logButton.textContent = "Logged Successfully!";
+                        document.getElementById('return-after-quiz').style.display = 'block';
+                        document.getElementById('confirmation-message').style.display = 'block';
+                        document.getElementById('time-spent').textContent = `${Math.floor(timeSpent / 60)} minutes and ${timeSpent % 60} seconds`;
+                    } catch (error) {
+                        console.error("Error in success handler:", error);
+                        alert("Your skill practice was logged, but there was an error updating the display.");
+                    }
                 })
                 .withFailureHandler(function (error) {
-                    alert('Error logging session: ' + error);
-                    logButton.disabled = false;
-                    logButton.textContent = "Complete Practice Session";
+                    try {
+                        console.error("Error logging session:", error);
+                        alert('Error logging session: ' + error);
+                        logButton.disabled = false;
+                        logButton.textContent = "Complete Practice Session";
+                    } catch (handlingError) {
+                        console.error("Error handling failure:", handlingError);
+                        alert("An unexpected error occurred. Please try again.");
+                        logButton.disabled = false;
+                    }
+                })
+                .logSkillWithTime(logData);
+        }
+
+        function logSkillWithTime(skillName, timeSpent, quizScore) {
+            const logData = {
+                skillName: skillName,
+                timeSpent: parseFloat(timeSpent) || 0,
+                quizScore: quizScore || ''
+            };
+            google.script.run
+                .withSuccessHandler(result => {
+                    alert(result);
+                })
+                .withFailureHandler(error => {
+                    alert('Error logging session: ' + error.message);
                 })
                 .logSkillWithTime(logData);
         }
